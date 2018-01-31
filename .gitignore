@@ -31,3 +31,5 @@ xcuserdata/
 
 #Carthage
 Carthage/Build
+Carthage/Checkouts
+
