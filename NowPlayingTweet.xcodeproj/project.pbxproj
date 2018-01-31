@@ -13,6 +13,8 @@
 		3D5520D92022322300AAF108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D72022322300AAF108 /* Main.storyboard */; };
 		3D5520E52022322500AAF108 /* NowPlayingTweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520E42022322500AAF108 /* NowPlayingTweetTests.swift */; };
 		3D5520F02022322500AAF108 /* NowPlayingTweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */; };
+		3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
+		3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3D55210520223BBC00AAF108 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +62,7 @@
 		3D5520EB2022322500AAF108 /* NowPlayingTweetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NowPlayingTweetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingTweetUITests.swift; sourceTree = "<group>"; };
 		3D5520F12022322500AAF108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D55210120223B8000AAF108 /* SwifterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifterMac.framework; path = Carthage/Build/Mac/SwifterMac.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +98,7 @@
 				3D5520E32022322500AAF108 /* NowPlayingTweetTests */,
 				3D5520EE2022322500AAF108 /* NowPlayingTweetUITests */,
 				3D5520CF2022322100AAF108 /* Products */,
+				3D5520FD20223B6900AAF108 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +143,14 @@
 			path = NowPlayingTweetUITests;
 			sourceTree = "<group>";
 		};
+		3D5520FD20223B6900AAF108 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3D55210120223B8000AAF108 /* SwifterMac.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,6 +161,7 @@
 				3D5520CA2022322100AAF108 /* Sources */,
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
+				3D55210520223BBC00AAF108 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -419,6 +447,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
@@ -435,6 +467,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
