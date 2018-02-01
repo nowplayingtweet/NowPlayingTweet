@@ -318,17 +318,17 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
                         <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
+                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" explicitItemIdentifier="General" label="General" paletteLabel="General" tag="-1" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
                                     <connections>
-                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="yhD-sa-FpG"/>
+                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="UeY-eC-oZp"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" label="Accounts" paletteLabel="Accounts" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
+                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Accounts" label="Accounts" paletteLabel="Accounts" tag="-1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
                                     <connections>
                                         <action selector="switchViewController:" target="B8D-0N-5wS" id="4vd-2D-Rsj"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="5B4AAB14-6413-45AB-8147-6014CBB1751A" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
+                                <toolbarItem implicitItemIdentifier="5B4AAB14-6413-45AB-8147-6014CBB1751A" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="-1" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
                                     <connections>
                                         <action selector="switchViewController:" target="B8D-0N-5wS" id="eDe-Sa-cbW"/>
                                     </connections>
@@ -454,13 +454,16 @@
                                     <action selector="resetFormat:" target="XfG-lQ-9wD" id="Qfr-q5-z37"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vop-Ag-0s8">
+                            <button identifier="AutoTweet" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vop-Ag-0s8">
                                 <rect key="frame" x="176" y="132" width="128" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Auto Tweet" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="vfi-OS-XWH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="switchState:" target="XfG-lQ-9wD" id="eaC-rm-7S7"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UxF-y8-lcO">
                                 <rect key="frame" x="176" y="155" width="128" height="18"/>
@@ -469,11 +472,16 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="switchState:" target="XfG-lQ-9wD" id="Wc1-RU-RKg"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="autoTweet" destination="Vop-Ag-0s8" id="3Hz-Ku-Xwr"/>
                         <outlet property="tweetFormat" destination="xRM-H5-ADp" id="mkE-hy-6I7"/>
+                        <outlet property="tweetWithImage" destination="UxF-y8-lcO" id="Mtq-aa-60d"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

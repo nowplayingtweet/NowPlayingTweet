@@ -12,27 +12,21 @@ class PreferencesWindowController: NSWindowController {
     @IBOutlet weak var generalToolbarItem: NSToolbarItem!
     @IBOutlet weak var accountsToolbarItem: NSToolbarItem!
     @IBOutlet weak var advancedToolbarItem: NSToolbarItem!
-    
-    private enum PrefViewController: Int {
-        case generalViewController
-        case accountsViewController
-        case advancedViewController
-    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
     }
 
     @IBAction func switchViewController(_ sender: NSToolbarItem) {
-        let selectItem: PrefViewController = PrefViewController(rawValue: sender.tag)!
-        
-        switch selectItem {
-        case .generalViewController:
-            replaceViewController("GeneralViewController")
-        case .accountsViewController:
-            replaceViewController("AccountsViewController")
-        case .advancedViewController:
-            replaceViewController("AdvancedViewController")
+        switch sender.itemIdentifier.rawValue {
+        case "General":
+            self.replaceViewController("GeneralViewController")
+        case "Accounts":
+            self.replaceViewController("AccountsViewController")
+        case "Advanced":
+            self.replaceViewController("AdvancedViewController")
+        default:
+            break
         }
     }
 
