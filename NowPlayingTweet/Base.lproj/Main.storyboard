@@ -697,7 +697,7 @@
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
                         <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
@@ -738,20 +738,109 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="81" y="449"/>
+            <point key="canvasLocation" x="75" y="370"/>
         </scene>
-        <!--Preferences View Controller-->
+        <!--Accounts-->
+        <scene sceneID="f4J-kw-96r">
+            <objects>
+                <viewController title="Accounts" storyboardIdentifier="AccountsViewController" id="eLk-Pt-GjP" customClass="AccountsViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ymK-C2-fHY">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LtB-dW-wqu">
+                                <rect key="frame" x="159" y="135" width="133" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Accounts" id="605-vd-ueG">
+                                    <font key="font" metaFont="system" size="24"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="205" y="855"/>
+        </scene>
+        <!--Advanced-->
+        <scene sceneID="Scy-Sz-n3s">
+            <objects>
+                <viewController title="Advanced" storyboardIdentifier="AdvancedViewController" id="XEl-xh-gkm" sceneMemberID="viewController">
+                    <view key="view" id="o7T-Eo-SQQ">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3d-yt-BhP">
+                                <rect key="frame" x="156" y="135" width="139" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Advanced" id="Rau-w5-omc">
+                                    <font key="font" metaFont="system" size="24"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="695" y="855"/>
+        </scene>
+        <!--General-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="PreferencesViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
-                    <customView key="view" id="TNo-Ab-XiW" userLabel="View">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
+                <viewController title="General" storyboardIdentifier="GeneralViewController" id="XfG-lQ-9wD" customClass="GeneralViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="XC2-Zc-a2S">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="218"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLG-g5-yox">
+                                <rect key="frame" x="178" y="154" width="153" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" completes="NO" numberOfVisibleItems="5" id="uZl-hs-XD5">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <objectValues>
+                                        <string>#NowPlaying {Title} {AlbumName}</string>
+                                        <string>Item 2</string>
+                                        <string>Item 3</string>
+                                    </objectValues>
+                                </comboBoxCell>
+                            </comboBox>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wNg-Sc-qSS">
+                                <rect key="frame" x="18" y="158" width="154" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet format:" id="FcB-aN-OHa">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vop-Ag-0s8">
+                                <rect key="frame" x="126" y="109" width="204" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Auto Tweet" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="vfi-OS-XWH">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UxF-y8-lcO">
+                                <rect key="frame" x="126" y="131" width="204" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Tweet with Image" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Gp5-vJ-e0h">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                    </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="60" y="869"/>
+            <point key="canvasLocation" x="-269" y="814"/>
         </scene>
     </scenes>
     <resources>
