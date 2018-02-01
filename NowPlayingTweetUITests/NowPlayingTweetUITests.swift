@@ -1,10 +1,9 @@
-//
-//  NowPlayingTweetUITests.swift
-//  NowPlayingTweetUITests
-//
-//  Created by kPherox on 2018/02/01.
-//  Copyright © 2018 kPherox. All rights reserved.
-//
+/**
+ *  NowPlayingTweetUITests.swift
+ *  NowPlayingTweet
+ *
+ *  © 2018 kPherox.
+ **/
 
 import XCTest
 

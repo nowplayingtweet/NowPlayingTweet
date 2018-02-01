@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
-		3D5520D42022322200AAF108 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* ViewController.swift */; };
+		3D5520D42022322200AAF108 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* PreferencesViewController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
 		3D5520D92022322300AAF108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D72022322300AAF108 /* Main.storyboard */; };
 		3D5520E52022322500AAF108 /* NowPlayingTweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520E42022322500AAF108 /* NowPlayingTweetTests.swift */; };
 		3D5520F02022322500AAF108 /* NowPlayingTweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */; };
 		3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
 		3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +52,7 @@
 /* Begin PBXFileReference section */
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3D5520D32022322200AAF108 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3D5520D32022322200AAF108 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		3D5520D52022322200AAF108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D5520D82022322300AAF108 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3D5520DA2022322300AAF108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 		3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingTweetUITests.swift; sourceTree = "<group>"; };
 		3D5520F12022322500AAF108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D55210120223B8000AAF108 /* SwifterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifterMac.framework; path = Carthage/Build/Mac/SwifterMac.framework; sourceTree = "<group>"; };
+		3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
-				3D5520D32022322200AAF108 /* ViewController.swift */,
+				3D5520D32022322200AAF108 /* PreferencesViewController.swift */,
+				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
@@ -285,7 +288,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5520D42022322200AAF108 /* ViewController.swift in Sources */,
+				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,
+				3D5520D42022322200AAF108 /* PreferencesViewController.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

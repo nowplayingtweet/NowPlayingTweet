@@ -1,14 +1,13 @@
-//
-//  ViewController.swift
-//  NowPlayingTweet
-//
-//  Created by kPherox on 2018/02/01.
-//  Copyright © 2018 kPherox. All rights reserved.
-//
+/**
+ *  PreferencesViewController.swift
+ *  NowPlayingTweet
+ *
+ *  © 2018 kPherox.
+**/
 
 import Cocoa
 
-class ViewController: NSViewController {
+class PreferencesViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -689,41 +689,76 @@
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--Window Controller-->
+        <!--Preferences Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController id="B8D-0N-5wS" userLabel="Preferences Window Controller" customClass="PreferencesWindowController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
+                                    <connections>
+                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="yhD-sa-FpG"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" label="Accounts" paletteLabel="Accounts" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
+                                    <connections>
+                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="4vd-2D-Rsj"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="5B4AAB14-6413-45AB-8147-6014CBB1751A" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
+                                    <connections>
+                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="eDe-Sa-cbW"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="2a0-Yf-w91"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="S68-t4-Zxc"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="phY-Ab-qK6"/>
+                                <toolbarItem reference="4yk-tb-cuL"/>
+                                <toolbarItem reference="032-pi-eDJ"/>
+                                <toolbarItem reference="S68-t4-Zxc"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="accountsToolbarItem" destination="4yk-tb-cuL" id="5xl-dm-7N4"/>
+                        <outlet property="advancedToolbarItem" destination="032-pi-eDJ" id="dQX-By-Pdn"/>
+                        <outlet property="generalToolbarItem" destination="phY-Ab-qK6" id="df9-i4-4VS"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-230" y="389"/>
+            <point key="canvasLocation" x="81" y="449"/>
         </scene>
-        <!--View Controller-->
+        <!--Preferences View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
+                <viewController id="XfG-lQ-9wD" customClass="PreferencesViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                    <customView key="view" id="TNo-Ab-XiW" userLabel="View">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="349" y="389"/>
+            <point key="canvasLocation" x="60" y="869"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="NSUser" width="32" height="32"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="m9I-X6-D3p"/>
     </inferredMetricsTieBreakers>
