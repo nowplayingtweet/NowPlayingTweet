@@ -13,7 +13,7 @@ class PreferencesWindowController: NSWindowController {
     @IBOutlet weak var accountsToolbarItem: NSToolbarItem!
     @IBOutlet weak var advancedToolbarItem: NSToolbarItem!
     
-    enum PrefViewController: Int {
+    private enum PrefViewController: Int {
         case generalViewController
         case accountsViewController
         case advancedViewController
@@ -25,7 +25,6 @@ class PreferencesWindowController: NSWindowController {
 
     @IBAction func switchViewController(_ sender: NSToolbarItem) {
         let selectItem: PrefViewController = PrefViewController(rawValue: sender.tag)!
-        print(selectItem)
         
         switch selectItem {
         case .generalViewController:
@@ -37,7 +36,7 @@ class PreferencesWindowController: NSWindowController {
         }
     }
 
-    func replaceViewController(_ identifier: String) {
+    private func replaceViewController(_ identifier: String) {
         let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
 
         if let viewController = (storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: identifier)) as? NSViewController) {
