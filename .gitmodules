@@ -1,0 +1,3 @@
+[submodule "Modules/SwiftScripting"]
+	path = Modules/SwiftScripting
+	url = https://github.com/tingraldi/SwiftScripting
