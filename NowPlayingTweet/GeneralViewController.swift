@@ -26,8 +26,8 @@ class GeneralViewController: NSViewController {
 
         // Do any additional setup after loading the view.
         self.userDefaults.register(defaults: self.defaultSettings)
-        self.tweetWithImage.state = change(toState: "TweetWithImage")
-        self.autoTweet.state = change(toState: "AutoTweet")
+        self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
+        self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
         self.updateTweetFormatLabel()
     }
 
@@ -49,20 +49,7 @@ class GeneralViewController: NSViewController {
     }
 
     @IBAction func switchState(_ sender: NSButton) {
-        var bool = true
-        switch sender.state {
-        case .on:
-            bool = true
-        case .off:
-            bool = false
-        default:
-            break
-        }
-        self.userDefaults.set(bool, forKey: (sender.identifier?.rawValue)!)
-    }
-
-    private func change(toState: String) -> NSControl.StateValue {
-        return self.userDefaults.bool(forKey: toState) ? .on : .off
+        self.userDefaults.set(sender.stateToBool(), forKey: (sender.identifier?.rawValue)!)
     }
 
     private func updateTweetFormatLabel() {
