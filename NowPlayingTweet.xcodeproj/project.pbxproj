@@ -27,6 +27,9 @@
 		3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DD88B26202450D9000F7818 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B25202450D9000F7818 /* NSButton++.swift */; };
 		3DD88B282024974C000F7818 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B272024974C000F7818 /* Notification+Name.swift */; };
+		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
+		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
+		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,9 @@
 		3DD88B2120244F40000F7818 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
 		3DD88B25202450D9000F7818 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
 		3DD88B272024974C000F7818 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
+		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
+		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
+		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,11 +149,14 @@
 			isa = PBXGroup;
 			children = (
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
+				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
 				3D5520D32022322200AAF108 /* GeneralViewController.swift */,
 				3D55211220235B6200AAF108 /* FormatCustomizeViewController.swift */,
 				3D552110202329E900AAF108 /* AccountsViewController.swift */,
-				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
 				3D552129202442A200AAF108 /* TwitterAccount.swift */,
+				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
+				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
+				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
 				3DD88B25202450D9000F7818 /* NSButton++.swift */,
 				3DD88B272024974C000F7818 /* Notification+Name.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
@@ -325,10 +334,13 @@
 				3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */,
 				3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */,
+				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
+				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
 				3DD88B282024974C000F7818 /* Notification+Name.swift in Sources */,
 				3D55211420235B6200AAF108 /* FormatCustomizeViewController.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSButton++.swift in Sources */,
+				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

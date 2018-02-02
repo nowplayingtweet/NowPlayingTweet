@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import AppKit
 import SwifterMac
 import KeychainAccess
 
@@ -15,14 +16,14 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
 
     private var consumerKey: String = "lT580cWIob4JiEmydWrz3Lr3c"
     private var consumerSecret: String = "tQbaxDRMSNebagQaa9RXtjQ9SskoNiwo8bBadP2y6aggFesDik"
+
     private var oauthToken: String?
     private var oauthSecret: String?
+
     private var userID: String?
     private var screenName: String?
 
     let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet")
-
-    let notificationCenter: NotificationCenter = NotificationCenter.default
 
     private let failureHandler: Swifter.FailureHandler = { error in
         NSLog(error.localizedDescription)
@@ -56,10 +57,11 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
             self.keychain["accountToken"] = self.oauthToken
             self.keychain["accountSecret"] = self.oauthSecret
 
-            self.notificationCenter.post(name: .login, object: nil)
+            let notificationCenter: NotificationCenter = NotificationCenter.default
+            notificationCenter.post(name: .login, object: nil)
         }
 
-        self.swifter?.authorizeForceLogin(with: URL(string: "nowplayingtweet://success")!, success: authHandler, failure: self.failureHandler)
+        self.swifter?.authorizeForceLogin(with: URL(string: "npt://success")!, success: authHandler, failure: self.failureHandler)
     }
 
     func logout() {
@@ -73,15 +75,17 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
         self.swifter = Swifter(consumerKey: self.consumerKey, consumerSecret: self.consumerSecret)
     }
 
-    func getScreenName() -> String? {
-        return "@\((self.screenName)!)"
+    func tweet(text: String, with artwork: NSImage? = nil) {
+        if artwork == nil {
+            self.swifter?.postTweet(status: text)
+            return
+        }
+        let image = artwork?.toData(from: .jpeg)
+        self.swifter?.postTweet(status: text, media: image!)
     }
 
-    @objc func notify(notification: Notification) {
-        let info = notification.userInfo as! [String:String]
-        
-        print(info["title"]!)
-        print(info["account name"]!)
+    func getScreenName() -> String? {
+        return "@\((self.screenName)!)"
     }
 
 }

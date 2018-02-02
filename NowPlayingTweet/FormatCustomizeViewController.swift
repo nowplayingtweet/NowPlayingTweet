@@ -17,7 +17,7 @@ class FormatCustomizeViewController: NSViewController {
     }
 
     override func viewWillAppear() {
-        self.tweetFormat.stringValue = (self.representedObject as! GeneralViewController).userDefaults.string(forKey: "TweetFormat")!
+        self.tweetFormat.stringValue = ((self.representedObject as! GeneralViewController).userDefaults?.string(forKey: "TweetFormat"))!
     }
 
     override func viewWillDisappear() {

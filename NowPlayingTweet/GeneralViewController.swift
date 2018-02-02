@@ -12,22 +12,18 @@ class GeneralViewController: NSViewController {
     @IBOutlet weak var tweetFormat: NSTextField!
     @IBOutlet weak var tweetWithImage: NSButton!
     @IBOutlet weak var autoTweet: NSButton!
-    
-    let userDefaults: UserDefaults = UserDefaults.standard
-    
-    let defaultSettings: [String : Any] = [
-        "TweetFormat": "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
-        "TweetWithImage": true,
-        "AutoTweet": true,
-    ]
+
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    var userDefaults: UserDefaults?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.userDefaults = appDelegate.userDefaults
+
         // Do any additional setup after loading the view.
-        self.userDefaults.register(defaults: self.defaultSettings)
-        self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
-        self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
+        self.tweetWithImage.set(state: (self.userDefaults?.bool(forKey: "TweetWithImage"))!)
+        self.autoTweet.set(state: (self.userDefaults?.bool(forKey: "AutoTweet"))!)
         self.updateTweetFormatLabel()
     }
 
@@ -35,24 +31,35 @@ class GeneralViewController: NSViewController {
         let subViewController = segue.destinationController as! FormatCustomizeViewController
         subViewController.representedObject = self
     }
-    
+
     func change(format: String) {
-        self.userDefaults.set(format, forKey: "TweetFormat")
-        self.userDefaults.synchronize()
+        self.userDefaults?.set(format, forKey: "TweetFormat")
+        self.userDefaults?.synchronize()
         self.updateTweetFormatLabel()
     }
 
     @IBAction func resetFormat(_ sender: NSButton) {
-        self.userDefaults.removeObject(forKey: "TweetFormat")
-        self.userDefaults.synchronize()
+        self.userDefaults?.removeObject(forKey: "TweetFormat")
+        self.userDefaults?.synchronize()
         self.updateTweetFormatLabel()
     }
 
-    @IBAction func switchState(_ sender: NSButton) {
-        self.userDefaults.set(sender.stateToBool(), forKey: (sender.identifier?.rawValue)!)
+    @IBAction func switchWithImage(_ sender: NSButton) {
+        self.userDefaults?.set(sender.stateToBool(), forKey: "TweetWithImage")
+    }
+
+    @IBAction func switchAutoTweet(_ sender: NSButton) {
+        let notificationObserver: NotificationObserver = NotificationObserver()
+        if sender.stateToBool() {
+            notificationObserver.addObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo, selector: #selector(AppDelegate.handleNowPlaying(_:)))
+        } else {
+            notificationObserver.removeObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo)
+        }
+        self.userDefaults?.set(sender.stateToBool(), forKey: "AutoTweet")
     }
 
     private func updateTweetFormatLabel() {
-        self.tweetFormat.stringValue = self.userDefaults.string(forKey: "TweetFormat")!
+        self.tweetFormat.stringValue = (self.userDefaults?.string(forKey: "TweetFormat"))!
     }
+
 }

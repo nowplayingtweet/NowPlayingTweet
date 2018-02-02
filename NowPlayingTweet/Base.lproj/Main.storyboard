@@ -488,7 +488,7 @@
                                     <action selector="resetFormat:" target="XfG-lQ-9wD" id="Qfr-q5-z37"/>
                                 </connections>
                             </button>
-                            <button identifier="AutoTweet" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vop-Ag-0s8">
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vop-Ag-0s8">
                                 <rect key="frame" x="176" y="132" width="128" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Auto Tweet" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="vfi-OS-XWH">
@@ -496,7 +496,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="switchState:" target="XfG-lQ-9wD" id="eaC-rm-7S7"/>
+                                    <action selector="switchAutoTweet:" target="XfG-lQ-9wD" id="XE0-FH-TAf"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UxF-y8-lcO">
@@ -507,7 +507,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="switchState:" target="XfG-lQ-9wD" id="Wc1-RU-RKg"/>
+                                    <action selector="switchWithImage:" target="XfG-lQ-9wD" id="541-xc-Uzd"/>
                                 </connections>
                             </button>
                         </subviews>

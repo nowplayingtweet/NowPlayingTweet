@@ -15,7 +15,7 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
     
-    let twitterAccount = (NSApplication.shared.delegate as! AppDelegate).twitterAccount
+    let twitterAccount: TwitterAccount = (NSApplication.shared.delegate as! AppDelegate).twitterAccount
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
         self.twitterAccount.login()
         self.addButton.disable()
         self.removeButton.enable()
-        
+
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { _ in
