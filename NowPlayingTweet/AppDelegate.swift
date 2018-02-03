@@ -17,9 +17,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
     let userDefaults: UserDefaults = UserDefaults.standard
-    
+
     let twitterAccount: TwitterAccount = TwitterAccount()
-    
+
     var playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -82,33 +82,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func createTweetText() -> String {
         var format = self.userDefaults.string(forKey: "TweetFormat")!
 
-        while true {
-            if let range = format.range(of: "{{Title}}") {
-                format.replaceSubrange(range, with: (self.playerInfo.title)!)
-                continue
-            }
+        let convertDictionary: [String : String] = [
+            "{{Title}}" : self.playerInfo.title!,
+            "{{Artist}}" : self.playerInfo.artist!,
+            "{{Album}}" : self.playerInfo.album!,
+            "{{AlbumArtist}}" : self.playerInfo.albumArtist!,
+            "{{BitRate}}" : String(self.playerInfo.bitRate!),
+        ]
 
-            if let range = format.range(of: "{{Artist}}") {
-                format.replaceSubrange(range, with: (self.playerInfo.artist)!)
-                continue
+        for (from,to) in convertDictionary {
+            while let range = format.range(of: from) {
+                format.replaceSubrange(range, with: to)
             }
-
-            if let range = format.range(of: "{{Album}}") {
-                format.replaceSubrange(range, with: (self.playerInfo.album)!)
-                continue
-            }
-
-            if let range = format.range(of: "{{AlbumArtist}}") {
-                format.replaceSubrange(range, with: (self.playerInfo.albumArtist)!)
-                continue
-            }
-
-            if let range = format.range(of: "{{BitRate}}") {
-                format.replaceSubrange(range, with: String((self.playerInfo.bitRate)!))
-                continue
-            }
-
-            break
         }
 
         return format

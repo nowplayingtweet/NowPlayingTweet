@@ -31,7 +31,7 @@ class PreferencesWindowController: NSWindowController {
     }
 
     private func replaceViewController(_ identifier: String) {
-        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+        let storyboard: NSStoryboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
 
         if let viewController = (storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: identifier)) as? NSViewController) {
             let windowFrame = self.window?.frame
@@ -46,4 +46,5 @@ class PreferencesWindowController: NSWindowController {
             return
         }
     }
+
 }
