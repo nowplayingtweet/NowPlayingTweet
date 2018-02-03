@@ -7,7 +7,6 @@
 
 import Cocoa
 import SwifterMac
-import ScriptingUtilities
 import iTunesScripting
 
 @NSApplicationMain
@@ -21,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let twitterAccount: TwitterAccount = TwitterAccount()
     
-    var playerInfo: iTunesPlayerInfo?
+    var playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -36,8 +35,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ]
         self.userDefaults.register(defaults: defaultSettings)
 
-        self.statusItem.title = "NPT"
-        self.statusItem.highlightMode = true
+        if let button = self.statusItem.button {
+            button.title = "NPT"
+        }
         self.statusItem.menu = self.menu
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
@@ -61,23 +61,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        self.playerInfo = self.getPlayerInfo()
         self.postTweet()
     }
 
-    func getPlayerInfo() -> iTunesPlayerInfo {
-        let iTunes: iTunesApplication = ScriptingUtilities.application(name: "iTunes") as! iTunesApplication
-        //let iTunes = ScriptingUtilities.application(bundleIdentifier: "com.apple.iTunes") as! iTunesApplication
-
-        let currentTrack: iTunesTrack = iTunes.currentTrack!
-
-        return iTunesPlayerInfo(currentTrack)
+    @IBAction func tweetNowPlaying(_ sender: Any) {
+        self.postTweet()
     }
 
     func postTweet() {
+        self.playerInfo.updateTrack()
+
         let tweetText = self.createTweetText()
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo?.artwork)
+            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo.artwork)
         } else {
             self.twitterAccount.tweet(text: tweetText)
         }
@@ -88,27 +84,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         while true {
             if let range = format.range(of: "{{Title}}") {
-                format.replaceSubrange(range, with: (self.playerInfo?.title)!)
+                format.replaceSubrange(range, with: (self.playerInfo.title)!)
                 continue
             }
 
             if let range = format.range(of: "{{Artist}}") {
-                format.replaceSubrange(range, with: (self.playerInfo?.artist)!)
+                format.replaceSubrange(range, with: (self.playerInfo.artist)!)
                 continue
             }
 
             if let range = format.range(of: "{{Album}}") {
-                format.replaceSubrange(range, with: (self.playerInfo?.album)!)
+                format.replaceSubrange(range, with: (self.playerInfo.album)!)
                 continue
             }
 
             if let range = format.range(of: "{{AlbumArtist}}") {
-                format.replaceSubrange(range, with: (self.playerInfo?.albumArtist)!)
+                format.replaceSubrange(range, with: (self.playerInfo.albumArtist)!)
                 continue
             }
 
             if let range = format.range(of: "{{BitRate}}") {
-                format.replaceSubrange(range, with: String((self.playerInfo?.bitRate)!))
+                format.replaceSubrange(range, with: String((self.playerInfo.bitRate)!))
                 continue
             }
 

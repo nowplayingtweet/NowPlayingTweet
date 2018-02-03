@@ -17,6 +17,13 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
+                        <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="tweetNowPlaying:" target="Voe-Tx-rLC" id="Kbe-PC-B7r"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="gVa-7w-528"/>
                         <menuItem title="Preferences…" id="QpU-gc-T1D">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
