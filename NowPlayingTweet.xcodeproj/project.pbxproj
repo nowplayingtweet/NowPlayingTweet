@@ -269,6 +269,11 @@
 					3D5520CD2022322100AAF108 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 					3D5520DF2022322500AAF108 = {
 						CreatedOnToolsVersion = 9.2;
@@ -504,6 +509,7 @@
 				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,6 +522,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -526,6 +533,7 @@
 				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -538,6 +546,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
