@@ -10,7 +10,7 @@ This software include:
 
 Copyright (c) 2014 Matt Donnelly.
 
-Released under the MIT License. [LICENSE](https://raw.githubusercontent.com/kPherox/Swifter//master/LICENSE)
+Released under the MIT License. [LICENSE](https://raw.githubusercontent.com/kPherox/Swifter/master/LICENSE)
 
 
 **KeychainAccess**
