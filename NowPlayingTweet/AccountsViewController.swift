@@ -22,10 +22,11 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
 
         // Do view setup here.
 
-        if self.twitterAccount.loginCheck() {
+        if self.twitterAccount.isLogin {
             self.addButton.disable()
             self.removeButton.enable()
-            self.accountName.stringValue = self.twitterAccount.getScreenName()!
+            self.set(screenName: self.twitterAccount.getScreenName())
+            self.set(avater: self.twitterAccount.getAvaterURL())
         }
     }
 
@@ -37,7 +38,8 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { _ in
-            self.accountName.stringValue = self.twitterAccount.getScreenName()!
+            self.set(screenName: self.twitterAccount.getScreenName())
+            self.set(avater: self.twitterAccount.getAvaterURL())
             notificationCenter.removeObserver(observer)
         })
     }
@@ -47,7 +49,28 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
         self.addButton.enable()
         self.removeButton.disable()
 
+        self.set(avater: nil)
+        self.set(screenName: nil)
+    }
+
+    func set(screenName string: String?) {
+        if string != nil {
+            self.accountName.stringValue = "@\(string!)"
+            return
+        }
+        
         self.accountName.stringValue = "Account Name"
+    }
+
+    func set(avater url: URL?) {
+        if url != nil {
+            self.accountAvater.fetchImage(url: url!)
+            self.accountAvater.isEnabled = true
+            return
+        }
+
+        self.accountAvater.isEnabled = false
+        self.accountAvater.image = NSImage.init(named: .user)
     }
 
 }
