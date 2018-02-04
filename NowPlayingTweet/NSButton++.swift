@@ -14,21 +14,4 @@ extension NSButton {
         self.state = state ? .on : .off
     }
 
-    func stateToBool() -> Bool {
-        if self.state == .off {
-            return false
-        }
-
-        // Is state on/mixed
-        return true
-    }
-
-    func enable() {
-        self.isEnabled = true
-    }
-
-    func disable() {
-        self.isEnabled = false
-    }
-
 }

@@ -1,6 +1,12 @@
 # Change Log
 
-## version 0.1.0
+## version 0.2
+### Pre-Release
+- Add to set avater image.
+- Add label for support format.
+- Add manual tweet.
+
+## version 0.1
 ### Pre-Release
 Initial release.
 - Support Twitter login.

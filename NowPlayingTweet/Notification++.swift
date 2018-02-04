@@ -1,5 +1,5 @@
 /**
- *  Notification+Name.swift
+ *  Notification++.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.

@@ -9,33 +9,36 @@ import Cocoa
 
 class GeneralViewController: NSViewController {
 
-    @IBOutlet weak var tweetFormat: NSTextField!
-    @IBOutlet weak var tweetWithImage: NSButton!
-    @IBOutlet weak var autoTweet: NSButton!
-
+    @IBOutlet weak var tweetFormatView: NSScrollView!
+    @IBOutlet var tweetFormat: NSTextView!
+    @IBOutlet weak var editButton: NSButton!
+    
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
     var userDefaults: UserDefaults?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Do any additional setup after loading the view.
+
         self.userDefaults = appDelegate.userDefaults
 
-        // Do any additional setup after loading the view.
-        self.tweetWithImage.set(state: (self.userDefaults?.bool(forKey: "TweetWithImage"))!)
-        self.autoTweet.set(state: (self.userDefaults?.bool(forKey: "AutoTweet"))!)
         self.updateTweetFormatLabel()
     }
 
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        let subViewController = segue.destinationController as! FormatCustomizeViewController
-        subViewController.representedObject = self
-    }
+    @IBAction func editFormat(_ sender: NSButton) {
+        let isEditable = self.tweetFormat.isEditable
 
-    func change(format: String) {
-        self.userDefaults?.set(format, forKey: "TweetFormat")
-        self.userDefaults?.synchronize()
-        self.updateTweetFormatLabel()
+        if isEditable {
+            self.change(format: self.tweetFormat.string)
+            self.updateTweetFormatLabel()
+        }
+
+        self.editButton.keyEquivalent = isEditable ? "" : "\r"
+        self.tweetFormatView.borderType = isEditable ? .noBorder : .bezelBorder
+        self.tweetFormat.textColor = isEditable ? .labelColor : .textColor
+        self.tweetFormat.drawsBackground = isEditable ? false : true
+        self.tweetFormat.isEditable = isEditable ? false : true
     }
 
     @IBAction func resetFormat(_ sender: NSButton) {
@@ -44,22 +47,13 @@ class GeneralViewController: NSViewController {
         self.updateTweetFormatLabel()
     }
 
-    @IBAction func switchWithImage(_ sender: NSButton) {
-        self.userDefaults?.set(sender.stateToBool(), forKey: "TweetWithImage")
-    }
-
-    @IBAction func switchAutoTweet(_ sender: NSButton) {
-        let notificationObserver: NotificationObserver = NotificationObserver()
-        if sender.stateToBool() {
-            notificationObserver.addObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo, selector: #selector(AppDelegate.handleNowPlaying(_:)))
-        } else {
-            notificationObserver.removeObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo)
-        }
-        self.userDefaults?.set(sender.stateToBool(), forKey: "AutoTweet")
+    func change(format: String) {
+        self.userDefaults?.set(format, forKey: "TweetFormat")
+        self.userDefaults?.synchronize()
     }
 
     private func updateTweetFormatLabel() {
-        self.tweetFormat.stringValue = (self.userDefaults?.string(forKey: "TweetFormat"))!
+        self.tweetFormat.string = (self.userDefaults?.string(forKey: "TweetFormat"))!
     }
 
 }
