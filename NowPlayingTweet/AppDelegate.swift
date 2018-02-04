@@ -36,7 +36,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.userDefaults.register(defaults: defaultSettings)
 
         if let button = self.statusItem.button {
-            button.title = "NPT"
+            let image = NSImage(named: NSImage.Name("StatusBarItem"))
+            image?.isTemplate = true
+            button.image = image
         }
         self.statusItem.menu = self.menu
 

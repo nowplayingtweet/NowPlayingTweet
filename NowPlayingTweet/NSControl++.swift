@@ -19,3 +19,16 @@ extension NSControl {
     }
 
 }
+
+extension NSControl.StateValue {
+    
+    func toBool() -> Bool {
+        if self == .off {
+            return false
+        }
+        
+        // Is state on/mixed
+        return true
+    }
+    
+}

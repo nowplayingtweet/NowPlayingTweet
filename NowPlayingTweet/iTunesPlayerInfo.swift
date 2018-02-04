@@ -6,7 +6,6 @@
 **/
 
 import Foundation
-import AppKit
 import iTunesScripting
 import ScriptingUtilities
 

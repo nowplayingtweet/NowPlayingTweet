@@ -3,7 +3,7 @@
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
- **/
+**/
 
 import Foundation
 import AppKit
