@@ -17,7 +17,6 @@
 		3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */; };
 		3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountsViewController.swift */; };
-		3D55211420235B6200AAF108 /* FormatCustomizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55211220235B6200AAF108 /* FormatCustomizeViewController.swift */; };
 		3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; };
 		3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -25,13 +24,16 @@
 		3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552129202442A200AAF108 /* TwitterAccount.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
+		3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */; };
 		3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
 		3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B25202450D9000F7818 /* NSControl++.swift */; };
-		3DD88B282024974C000F7818 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B272024974C000F7818 /* Notification+Name.swift */; };
+		3DD88B282024974C000F7818 /* Notification++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B272024974C000F7818 /* Notification++.swift */; };
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
+		3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */; };
+		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,18 +87,20 @@
 		3D55210120223B8000AAF108 /* SwifterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifterMac.framework; path = Carthage/Build/Mac/SwifterMac.framework; sourceTree = "<group>"; };
 		3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		3D552110202329E900AAF108 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
-		3D55211220235B6200AAF108 /* FormatCustomizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatCustomizeViewController.swift; sourceTree = "<group>"; };
 		3D55211920243BE500AAF108 /* iTunesScripting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesScripting.framework; path = Modules/SwiftScripting/Frameworks/Build/iTunesScripting.framework; sourceTree = "<group>"; };
 		3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingUtilities.framework; path = Modules/SwiftScripting/Frameworks/Build/ScriptingUtilities.framework; sourceTree = "<group>"; };
 		3D552129202442A200AAF108 /* TwitterAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccount.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
+		3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
 		3DD88B2120244F40000F7818 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
 		3DD88B25202450D9000F7818 /* NSControl++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl++.swift"; sourceTree = "<group>"; };
-		3DD88B272024974C000F7818 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
+		3DD88B272024974C000F7818 /* Notification++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++.swift"; sourceTree = "<group>"; };
 		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
+		3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSToolbarItem++.swift"; sourceTree = "<group>"; };
+		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,16 +159,18 @@
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
 				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
 				3D5520D32022322200AAF108 /* GeneralViewController.swift */,
-				3D55211220235B6200AAF108 /* FormatCustomizeViewController.swift */,
 				3D552110202329E900AAF108 /* AccountsViewController.swift */,
+				3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */,
 				3D552129202442A200AAF108 /* TwitterAccount.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
-				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
-				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
+				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DD88B25202450D9000F7818 /* NSControl++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
-				3DD88B272024974C000F7818 /* Notification+Name.swift */,
+				3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */,
+				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
+				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
+				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
@@ -346,14 +352,16 @@
 				3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
+				3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
-				3DD88B282024974C000F7818 /* Notification+Name.swift in Sources */,
-				3D55211420235B6200AAF108 /* FormatCustomizeViewController.swift in Sources */,
+				3DD88B282024974C000F7818 /* Notification++.swift in Sources */,
+				3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
+				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
