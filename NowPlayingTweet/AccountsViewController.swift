@@ -59,21 +59,23 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
     func set(screenName string: String?) {
         if string != nil {
             self.accountName.stringValue = "@\(string!)"
+            self.accountName.textColor = NSColor.labelColor
             return
         }
-        
+
         self.accountName.stringValue = "Account Name"
+        self.accountName.textColor = NSColor.disabledControlTextColor
     }
 
     func set(avater url: URL?) {
         if url != nil {
             self.accountAvater.fetchImage(url: url!)
-            self.accountAvater.isEnabled = true
+            self.accountAvater.enable()
             return
         }
 
-        self.accountAvater.isEnabled = false
         self.accountAvater.image = NSImage.init(named: .user)
+        self.accountAvater.disable()
     }
 
 }
