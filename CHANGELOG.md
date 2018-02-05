@@ -1,5 +1,10 @@
 # Change Log
 
+## version 0.2.1
+### Pre-Release
+- Change default setting.
+- Fix statusbar icon name.
+
 ## version 0.2
 ### Pre-Release
 - Add to set avater image.
