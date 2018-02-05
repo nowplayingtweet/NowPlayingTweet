@@ -31,12 +31,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaultSettings: [String : Any] = [
             "TweetFormat": "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
             "TweetWithImage": true,
-            "AutoTweet": true,
+            "AutoTweet": false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
 
         if let button = self.statusItem.button {
-            let image = NSImage(named: NSImage.Name("StatusBarItem"))
+            let image = NSImage(named: NSImage.Name("StatusBarIcon"))
             image?.isTemplate = true
             button.image = image
         }
