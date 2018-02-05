@@ -19,24 +19,28 @@ class AdvancedViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
 
-        self.userDefaults = appDelegate.userDefaults
+        self.userDefaults = self.appDelegate.userDefaults
 
         self.tweetWithImage.set(state: (self.userDefaults?.bool(forKey: "TweetWithImage"))!)
         self.autoTweet.set(state: (self.userDefaults?.bool(forKey: "AutoTweet"))!)
     }
 
-    @IBAction func switchWithImage(_ sender: NSButton) {
-        self.userDefaults?.set(sender.state.toBool(), forKey: "TweetWithImage")
+    @IBAction func switchSetting(_ sender: NSButton) {
+        let identifier: String = (sender.identifier?.rawValue)!
+        if identifier == "AutoTweet" {
+            self.notificationObserver(state: sender.state.toBool())
+        }
+        self.userDefaults?.set(sender.state.toBool(), forKey: identifier)
+        self.userDefaults?.synchronize()
     }
 
-    @IBAction func switchAutoTweet(_ sender: NSButton) {
+    private func notificationObserver(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
-        if sender.state.toBool() {
-            notificationObserver.addObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo, selector: #selector(AppDelegate.handleNowPlaying(_:)))
+        if state {
+            notificationObserver.addObserver(true, self.appDelegate, name: .iTunesPlayerInfo, selector: #selector(self.appDelegate.handleNowPlaying(_:)))
         } else {
-            notificationObserver.removeObserver(true, (NSApplication.shared.delegate as! AppDelegate), name: .iTunesPlayerInfo)
+            notificationObserver.removeObserver(true, self.appDelegate, name: .iTunesPlayerInfo)
         }
-        self.userDefaults?.set(sender.state.toBool(), forKey: "AutoTweet")
     }
 
 }
