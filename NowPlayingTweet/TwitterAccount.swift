@@ -89,7 +89,7 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
             try? self.keychain.set(accountToken, key: self.userID!)
         }
 
-        self.swifter?.authorizeForceLogin(with: URL(string: "npt://success")!, success: authHandler, failure: self.failureHandler)
+        self.swifter?.authorize(with: URL(string: "npt://success")!, forceLogin: true, success: authHandler, failure: self.failureHandler)
     }
 
     func logout() {
