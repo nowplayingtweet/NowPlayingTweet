@@ -35,12 +35,12 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
 
     @IBAction func addAccount(_ sender: NSButton) {
         self.twitterAccount?.login()
-        self.addButton.disable()
-        self.removeButton.enable()
 
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { _ in
+            self.addButton.disable()
+            self.removeButton.enable()
             self.set(screenName: self.twitterAccount?.getScreenName())
             self.set(avater: self.twitterAccount?.getAvaterURL())
             notificationCenter.removeObserver(observer)
