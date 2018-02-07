@@ -22,6 +22,7 @@
 		3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; };
 		3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552129202442A200AAF108 /* TwitterAccount.swift */; };
+		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
 		3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */; };
@@ -90,6 +91,7 @@
 		3D55211920243BE500AAF108 /* iTunesScripting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesScripting.framework; path = Modules/SwiftScripting/Frameworks/Build/iTunesScripting.framework; sourceTree = "<group>"; };
 		3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingUtilities.framework; path = Modules/SwiftScripting/Frameworks/Build/ScriptingUtilities.framework; sourceTree = "<group>"; };
 		3D552129202442A200AAF108 /* TwitterAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccount.swift; sourceTree = "<group>"; };
+		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
 		3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				3D552129202442A200AAF108 /* TwitterAccount.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
+				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DD88B25202450D9000F7818 /* NSControl++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
@@ -352,6 +355,7 @@
 				3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
+				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
@@ -521,7 +525,7 @@
 				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,7 +549,7 @@
 				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = CH8HD88FJ3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

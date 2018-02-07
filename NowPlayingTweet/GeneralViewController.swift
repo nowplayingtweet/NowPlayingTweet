@@ -21,24 +21,25 @@ class GeneralViewController: NSViewController {
 
         // Do any additional setup after loading the view.
 
-        self.userDefaults = appDelegate.userDefaults
+        self.userDefaults = self.appDelegate.userDefaults
 
         self.updateTweetFormatLabel()
     }
 
     @IBAction func editFormat(_ sender: NSButton) {
         let isEditable = self.tweetFormat.isEditable
-
-        if isEditable {
-            self.change(format: self.tweetFormat.string)
-            self.updateTweetFormatLabel()
-        }
-
+        
         self.editButton.keyEquivalent = isEditable ? "" : "\r"
         self.tweetFormatView.borderType = isEditable ? .noBorder : .bezelBorder
         self.tweetFormat.textColor = isEditable ? .labelColor : .textColor
         self.tweetFormat.drawsBackground = isEditable ? false : true
-        self.tweetFormat.isEditable = isEditable ? false : true
+
+        if isEditable {
+            self.change(format: self.tweetFormat.string)
+            self.tweetFormat.isSelectable = false
+        } else {
+            self.tweetFormat.isEditable = true
+        }
     }
 
     @IBAction func resetFormat(_ sender: NSButton) {
@@ -50,6 +51,7 @@ class GeneralViewController: NSViewController {
     func change(format: String) {
         self.userDefaults?.set(format, forKey: "TweetFormat")
         self.userDefaults?.synchronize()
+        self.updateTweetFormatLabel()
     }
 
     private func updateTweetFormatLabel() {

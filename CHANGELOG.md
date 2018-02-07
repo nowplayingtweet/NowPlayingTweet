@@ -1,5 +1,9 @@
 # Change Log
 
+## version 0.2.2
+### Pre-Release
+- Add error alert.
+
 ## version 0.2.1
 ### Pre-Release
 - Change default setting.

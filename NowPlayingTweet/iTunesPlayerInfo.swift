@@ -34,15 +34,10 @@ class iTunesPlayerInfo {
         self.updateTrack()
     }
 
-    init(_ itunesTrack: iTunesTrack) {
-        self.convert(from: itunesTrack)
-    }
-
     func updateTrack() {
-        if let currentTrack = self.iTunes.currentTrack {
-            self.convert(from: currentTrack)
-        } else {
-            self.existTrack = false
+        self.existTrack = (self.iTunes.currentTrack?.exists!())!
+        if self.existTrack {
+            self.convert(from: self.iTunes.currentTrack!)
         }
     }
 
@@ -61,8 +56,6 @@ class iTunesPlayerInfo {
         self.albumArtist = itunesTrack.albumArtist
         
         self.bitRate = itunesTrack.bitRate
-
-        self.existTrack = true
     }
 
 }

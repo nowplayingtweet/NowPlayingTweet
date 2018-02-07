@@ -35,12 +35,12 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
 
     @IBAction func addAccount(_ sender: NSButton) {
         self.twitterAccount?.login()
-        self.addButton.disable()
-        self.removeButton.enable()
 
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { _ in
+            self.addButton.disable()
+            self.removeButton.enable()
             self.set(screenName: self.twitterAccount?.getScreenName())
             self.set(avater: self.twitterAccount?.getAvaterURL())
             notificationCenter.removeObserver(observer)
@@ -57,25 +57,18 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
     }
 
     func set(screenName string: String?) {
-        if string != nil {
-            self.accountName.stringValue = "@\(string!)"
-            self.accountName.textColor = NSColor.labelColor
-            return
-        }
-
-        self.accountName.stringValue = "Account Name"
-        self.accountName.textColor = NSColor.disabledControlTextColor
+        self.accountName.stringValue = string != nil ? "@\(string!)" : "Account Name"
+        self.accountName.textColor = string != nil ? .labelColor : .disabledControlTextColor
     }
 
     func set(avater url: URL?) {
         if url != nil {
             self.accountAvater.fetchImage(url: url!)
             self.accountAvater.enable()
-            return
+        } else {
+            self.accountAvater.image = NSImage(named: .user)
+            self.accountAvater.disable()
         }
-
-        self.accountAvater.image = NSImage.init(named: .user)
-        self.accountAvater.disable()
     }
 
 }

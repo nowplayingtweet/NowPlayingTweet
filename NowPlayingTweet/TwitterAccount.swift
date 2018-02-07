@@ -30,7 +30,8 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
     private let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
     private let failureHandler: Swifter.FailureHandler = { error in
-        NSLog(error.localizedDescription)
+        let err = error as! SwifterError
+        NSLog(err.localizedDescription)
     }
 
     override init() {
@@ -100,13 +101,13 @@ class TwitterAccount: NSObject, NSUserNotificationCenterDelegate {
         self.swifter = Swifter(consumerKey: self.consumerKey, consumerSecret: self.consumerSecret)
     }
 
-    func tweet(text: String, with artwork: NSImage? = nil) {
+    func tweet(text: String, with artwork: NSImage? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
         if artwork == nil {
-            self.swifter?.postTweet(status: text)
+            self.swifter?.postTweet(status: text, success: success, failure: failure ?? self.failureHandler)
             return
         }
         let image = artwork?.toData(from: .jpeg)
-        self.swifter?.postTweet(status: text, media: image!)
+        self.swifter?.postTweet(status: text, media: image!, success: success, failure: failure ?? self.failureHandler)
     }
 
     func getScreenName() -> String? {

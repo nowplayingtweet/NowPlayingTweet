@@ -31,12 +31,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaultSettings: [String : Any] = [
             "TweetFormat": "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
             "TweetWithImage": true,
-            "AutoTweet": true,
+            "AutoTweet": false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
 
         if let button = self.statusItem.button {
-            let image = NSImage(named: NSImage.Name("StatusBarItem"))
+            let image = NSImage(named: NSImage.Name("StatusBarIcon"))
             image?.isTemplate = true
             button.image = image
         }
@@ -63,21 +63,69 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        self.postTweet()
+        try! self.postTweet()
     }
 
     @IBAction func tweetNowPlaying(_ sender: Any) {
-        self.postTweet()
+        let tweetFailureHandler: Swifter.FailureHandler = { error in
+            let err = error as! SwifterError
+
+            let errMsg = err.message.components(separatedBy: ", ")
+            let errRes = errMsg[1].components(separatedBy: ": ")
+
+            let resData = errRes[1].data(using: .utf8, allowLossyConversion: false)!
+            let jsonData = try! JSONSerialization.jsonObject(with: resData, options: .mutableContainers)
+            let json = JSON(jsonData)
+
+            let jsonErrors: [JSON] = json.object!["errors"]!.array!
+
+            var msg: String = ""
+            for jsonError in jsonErrors {
+                msg.append(jsonError.object!["message"]!.string!)
+                msg.append("\r")
+            }
+
+            let alert = NSAlert()
+            alert.messageText = "Tweet failed!"
+            alert.informativeText = msg
+            alert.runModal()
+        }
+
+        do {
+            try self.postTweet(failure: tweetFailureHandler)
+        } catch NPTError.NotExistTrack {
+            let alert = NSAlert()
+            alert.messageText = "Can't tweet!"
+            alert.informativeText = "Not exist music."
+            alert.runModal()
+        } catch NPTError.NotLogin {
+            let alert = NSAlert()
+            alert.messageText = "Not logged in!"
+            alert.informativeText = "Please login in Preferences -> Accounts."
+            alert.runModal()
+        } catch let error {
+            let alert = NSAlert(error: error)
+            alert.runModal()
+        }
     }
 
-    func postTweet() {
+    func postTweet(failure: Swifter.FailureHandler? = nil) throws {
         self.playerInfo.updateTrack()
 
+        guard self.playerInfo.existTrack else {
+            throw NPTError.NotExistTrack
+        }
+
+        guard self.twitterAccount.isLogin else {
+            throw NPTError.NotLogin
+        }
+
         let tweetText = self.createTweetText()
+
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo.artwork)
+            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
         } else {
-            self.twitterAccount.tweet(text: tweetText)
+            self.twitterAccount.tweet(text: tweetText, failure: failure)
         }
     }
 
