@@ -25,6 +25,7 @@
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */; };
+		3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountListView.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
 		3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */; };
@@ -96,6 +97,7 @@
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccounts.swift; sourceTree = "<group>"; };
+		3DAA09AF202C969D00C6F449 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
 		3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				3D5520D32022322200AAF108 /* GeneralViewController.swift */,
 				3D552110202329E900AAF108 /* AccountsViewController.swift */,
 				3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */,
+				3DAA09AF202C969D00C6F449 /* AccountListView.swift */,
 				3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */,
 				3D552129202442A200AAF108 /* TwitterAccount.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
@@ -361,6 +364,7 @@
 				3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
+				3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* TwitterAccounts.swift in Sources */,

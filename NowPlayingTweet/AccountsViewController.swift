@@ -8,7 +8,7 @@
 import Cocoa
 import SwifterMac
 
-class AccountsViewController: NSViewController, NSTableViewDataSource {
+class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet weak var accountAvater: NSImageView!
     @IBOutlet weak var accountName: NSTextField!
@@ -17,29 +17,30 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
 
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
 
-    var twitterAccounts: TwitterAccounts?
+    var twitterAccounts: TwitterAccounts {
+        get {
+            return self.appDelegate.twitterAccounts
+        }
+    }
     var selected: TwitterAccount?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-
-        self.twitterAccounts = self.appDelegate.twitterAccounts
-
-        guard self.twitterAccounts!.existAccount else {
+        guard self.twitterAccounts.existAccount else {
             return
         }
 
-        let twitterAccount = self.twitterAccounts?.accounts.first?.value
+        self.selected = self.twitterAccounts.accounts.first?.value
         self.addButton.disable()
         self.removeButton.enable()
-        self.set(screenName: twitterAccount?.screenName)
-        self.set(avater: twitterAccount?.avaterUrl)
+        self.set(screenName: self.selected?.screenName)
+        self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
     @IBAction func addAccount(_ sender: NSButton) {
-        self.twitterAccounts?.login()
+        self.twitterAccounts.login()
 
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
@@ -48,17 +49,17 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
             self.removeButton.enable()
             self.selected = notification.userInfo!["account"] as? TwitterAccount
             self.set(screenName: self.selected?.screenName)
-            self.set(avater: self.selected?.avaterUrl)
+            self.set(avaterUrl: self.selected?.avaterUrl)
             notificationCenter.removeObserver(observer)
         })
     }
 
     @IBAction func removeAccount(_ sender: NSButton) {
-        self.twitterAccounts?.logout(account: self.selected!)
+        self.twitterAccounts.logout(account: self.selected!)
         self.addButton.enable()
         self.removeButton.disable()
 
-        self.set(avater: nil)
+        self.set(avaterUrl: nil)
         self.set(screenName: nil)
     }
 
@@ -67,7 +68,7 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
         self.accountName.textColor = string != nil ? .labelColor : .disabledControlTextColor
     }
 
-    func set(avater url: URL?) {
+    func set(avaterUrl url: URL?) {
         if url != nil {
             self.accountAvater.fetchImage(url: url!)
             self.accountAvater.enable()
@@ -75,6 +76,31 @@ class AccountsViewController: NSViewController, NSTableViewDataSource {
             self.accountAvater.image = NSImage(named: .user)
             self.accountAvater.disable()
         }
+    }
+
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        guard self.twitterAccounts.existAccount else {
+            return 0
+        }
+        let accountCount = self.twitterAccounts.accounts.count
+        return accountCount
+    }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
+
+        let userID = self.twitterAccounts.keys[row]
+        let twitterAccount: TwitterAccount = self.twitterAccounts.accounts[userID]!
+
+        cellView.textField!.stringValue = twitterAccount.screenName
+        cellView.imageView?.image = NSImage(named: .user)
+        cellView.imageView?.fetchImage(url: twitterAccount.avaterUrl)
+
+        return cellView
+    }
+
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return CGFloat(35)
     }
 
 }

@@ -20,6 +20,7 @@ class TwitterAccounts {
     let notificationCenter: NotificationCenter = NotificationCenter.default
 
     var accounts: [String : TwitterAccount] = [:]
+    var keys: [String] = []
 
     var current: TwitterAccount? {
         get {
@@ -115,6 +116,7 @@ class TwitterAccounts {
                                          screenName: screenName!,
                                          avaterUrl: avaterUrl!)
             self.accounts[userID] = account
+            self.keys = self.accounts.keys.sorted()
 
             if notificationName != nil {
                 self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])
