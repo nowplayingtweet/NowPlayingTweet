@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    let twitterAccount: TwitterAccount = TwitterAccount()
+    let twitterAccounts: TwitterAccounts = TwitterAccounts()
 
     var playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
@@ -109,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func postTweet(failure: Swifter.FailureHandler? = nil) throws {
-        guard self.twitterAccount.isLogin else {
+        guard self.twitterAccounts.existAccount else {
             throw NPTError.NotLogin
         }
 
@@ -122,9 +122,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let tweetText = self.createTweetText()
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
+            self.twitterAccounts.current?.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
         } else {
-            self.twitterAccount.tweet(text: tweetText, failure: failure)
+            self.twitterAccounts.current?.tweet(text: tweetText, failure: failure)
         }
     }
 
