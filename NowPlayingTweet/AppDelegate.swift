@@ -85,23 +85,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 msg.append("\r")
             }
 
-            let alert = NSAlert()
-            alert.messageText = "Tweet failed!"
-            alert.informativeText = msg
+            let alert = NSAlert(message: "Tweet failed!",
+                                informative: msg,
+                                style: .warning)
             alert.runModal()
         }
 
         do {
             try self.postTweet(failure: tweetFailureHandler)
-        } catch NPTError.NotExistTrack {
-            let alert = NSAlert()
-            alert.messageText = "Can't tweet!"
-            alert.informativeText = "Not exist music."
-            alert.runModal()
         } catch NPTError.NotLogin {
-            let alert = NSAlert()
-            alert.messageText = "Not logged in!"
-            alert.informativeText = "Please login in Preferences -> Accounts."
+            let alert = NSAlert(message: "Not logged in!",
+                                informative: "Please login in Preferences -> Accounts.",
+                                style: .warning)
+            alert.runModal()
+        } catch NPTError.NotExistTrack {
+            let alert = NSAlert(message: "Not exist music.",
+                                style: .informational)
             alert.runModal()
         } catch let error {
             let alert = NSAlert(error: error)
@@ -110,14 +109,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func postTweet(failure: Swifter.FailureHandler? = nil) throws {
+        guard self.twitterAccount.isLogin else {
+            throw NPTError.NotLogin
+        }
+
         self.playerInfo.updateTrack()
 
         guard self.playerInfo.existTrack else {
             throw NPTError.NotExistTrack
-        }
-
-        guard self.twitterAccount.isLogin else {
-            throw NPTError.NotLogin
         }
 
         let tweetText = self.createTweetText()
