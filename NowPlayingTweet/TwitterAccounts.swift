@@ -63,6 +63,14 @@ class TwitterAccounts {
             numOfAccounts -= 1
             if numOfAccounts == 0 {
                 self.notificationCenter.post(name: .alreadyAccounts, object: nil)
+
+                let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
+                if !self.list.keys.contains(currentUserID!) {
+                    let userID = self.listKeys.first
+                    self.userDefaults.set(userID, forKey: "CurrentAccount")
+                    self.userDefaults.synchronize()
+                }
+
                 self.notificationCenter.removeObserver(observer)
             }
         })
@@ -151,12 +159,6 @@ class TwitterAccounts {
                                          screenName: screenName!,
                                          avaterUrl: avaterUrl!)
             self.list[userID] = account
-
-            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
-            if !self.list.keys.contains(currentUserID!) {
-                self.userDefaults.set(userID, forKey: "CurrentAccount")
-                self.userDefaults.synchronize()
-            }
 
             if notificationName != nil {
                 self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])

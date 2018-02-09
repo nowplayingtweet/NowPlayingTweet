@@ -40,8 +40,10 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         self.set(name: self.selected?.name)
         self.set(screenName: self.selected?.screenName)
         self.set(avaterUrl: self.selected?.avaterUrl)
-        let index: IndexSet = IndexSet(integer: self.twitterAccounts.listKeys.index(of: (self.selected?.userID)!)!)
-        self.accountList.selectRowIndexes(index, byExtendingSelection: true)
+        let userID = self.selected?.userID
+        let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+        let index = IndexSet(integer: numberOfAccounts)
+        self.accountList.selectRowIndexes(index, byExtendingSelection: false)
     }
 
     @IBAction func addAccount(_ sender: NSButton) {
@@ -52,9 +54,18 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
             self.removeButton.enable()
             self.selected = notification.userInfo!["account"] as? TwitterAccount
+
+            self.accountList.reloadData()
+
+            let userID = self.selected?.userID
+            let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+            let index = IndexSet(integer: numberOfAccounts)
+            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+
             self.set(name: self.selected?.name)
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
+
             notificationCenter.removeObserver(observer)
         })
     }
@@ -62,8 +73,16 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     @IBAction func removeAccount(_ sender: NSButton) {
         self.twitterAccounts.logout(account: self.selected!)
 
+        self.accountList.reloadData()
+
         if self.twitterAccounts.existAccount {
             self.selected = self.twitterAccounts.current
+
+            let userID = self.selected?.userID
+            let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+            let index = IndexSet(integer: numberOfAccounts)
+            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+
             self.set(name: self.selected?.name)
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
