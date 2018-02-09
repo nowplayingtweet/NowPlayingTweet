@@ -10,6 +10,10 @@
             <objects>
                 <menu title="NowPlayingTweet" systemMenu="apple" id="MHr-w1-nK8">
                     <items>
+                        <menuItem title="Current Account" image="NSUser" hidden="YES" enabled="NO" id="n9w-bL-8rt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" hidden="YES" id="pCa-oZ-K4p"/>
                         <menuItem title="About NowPlayingTweet" id="uIe-gP-Lt8">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
@@ -41,6 +45,8 @@
                 </menu>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="NowPlayingTweet" customModuleProvider="target">
                     <connections>
+                        <outlet property="currentAccount" destination="n9w-bL-8rt" id="t4X-oy-1Df"/>
+                        <outlet property="currentSeparator" destination="pCa-oZ-K4p" id="cBy-jS-lUy"/>
                         <outlet property="menu" destination="MHr-w1-nK8" id="ZPJ-5F-mFY"/>
                     </connections>
                 </customObject>
@@ -396,7 +402,7 @@
                                     <rect key="frame" x="1" y="1" width="148" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH" customClass="AccountsListView" customModule="NowPlayingTweet" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH" customClass="AccountsListView" customModule="NowPlayingTweet" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="148" height="258"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="0.0" height="2"/>
@@ -492,6 +498,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="accountList" destination="Nsg-BV-1xH" id="0Ug-aL-vRt"/>
                         <outlet property="addButton" destination="8tm-JS-S9U" id="Rtv-RQ-Tld"/>
                         <outlet property="avater" destination="Bkt-C4-jwP" id="uWf-aU-Tqe"/>
                         <outlet property="name" destination="dyC-FG-YZu" id="rwX-XP-zHZ"/>

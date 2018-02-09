@@ -27,6 +27,7 @@
 		3DAA09AE202C47EE00C6F449 /* TwitterAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */; };
 		3DAA09B0202C969D00C6F449 /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountsListView.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
+		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
 		3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */; };
@@ -100,6 +101,7 @@
 		3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccounts.swift; sourceTree = "<group>"; };
 		3DAA09AF202C969D00C6F449 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
+		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
 		3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
@@ -179,13 +181,14 @@
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
 				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
-				3DD88B25202450D9000F7818 /* NSControl++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
-				3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */,
+				3DD88B25202450D9000F7818 /* NSControl++.swift */,
 				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
 				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
 				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
+				3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */,
 				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
+				3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
@@ -362,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */,
 				3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */,
 				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,
 				3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */,

@@ -13,6 +13,8 @@ import iTunesScripting
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var menu: NSMenu!
+    @IBOutlet weak var currentAccount: NSMenuItem!
+    @IBOutlet weak var currentSeparator: NSMenuItem!
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -29,9 +31,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(self.handleEvent(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
         
         let defaultSettings: [String : Any] = [
-            "TweetFormat": "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
-            "TweetWithImage": true,
-            "AutoTweet": false,
+            "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
+            "TweetWithImage" : true,
+            "AutoTweet" : false,
+            "CurrentAccount" : "0",
             ]
         self.userDefaults.register(defaults: defaultSettings)
 
@@ -46,6 +49,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let notificationObserver: NotificationObserver = NotificationObserver()
             notificationObserver.addObserver(true, self, name: .iTunesPlayerInfo, selector: #selector(AppDelegate.handleNowPlaying(_:)))
         }
+
+        let notificationCenter: NotificationCenter = NotificationCenter.default
+        var observer: NSObjectProtocol!
+        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
+            if self.twitterAccounts.existAccount {
+                self.currentAccount.title = self.twitterAccounts.current!.name
+                self.currentAccount.fetchImage(url: self.twitterAccounts.current!.avaterUrl,
+                                               rounded: true)
+                self.currentAccount.isHidden = false
+                self.currentSeparator.isHidden = false
+            }
+            notificationCenter.removeObserver(observer)
+        })
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -115,7 +131,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.playerInfo.updateTrack()
 
-        guard self.playerInfo.existTrack else {
+        if !self.playerInfo.existTrack {
             throw NPTError.NotExistTrack
         }
 

@@ -19,6 +19,8 @@ class TwitterAccounts {
 
     let notificationCenter: NotificationCenter = NotificationCenter.default
 
+    var userDefaults: UserDefaults = UserDefaults.standard
+
     var list: [String : TwitterAccount] = [:]
     var listKeys: [String] {
         get {
@@ -34,7 +36,16 @@ class TwitterAccounts {
 
     var current: TwitterAccount? {
         get {
-            return self.existAccount ? self.list.first?.value : nil
+            if !self.existAccount {
+                return nil
+            }
+            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
+            if self.list.keys.contains(currentUserID!) {
+                return self.list[currentUserID!]
+            } else {
+                let userID = self.listKeys.first
+                return self.list[userID!]
+            }
         }
     }
 
@@ -46,6 +57,16 @@ class TwitterAccounts {
             NSLog(err.localizedDescription)
         }
 
+        var numOfAccounts: Int = accounts.count
+        var observer: NSObjectProtocol!
+        observer = self.notificationCenter.addObserver(forName: .initAccounts, object: nil, queue: nil, using: { notification in
+            numOfAccounts -= 1
+            if numOfAccounts == 0 {
+                self.notificationCenter.post(name: .alreadyAccounts, object: nil)
+                self.notificationCenter.removeObserver(observer)
+            }
+        })
+
         //for account in accounts {
         for account in accounts {
             let userID = account
@@ -56,15 +77,16 @@ class TwitterAccounts {
             let oauthSecret = accountToken["oauthSecret"]!!
 
             let swifter = Swifter(consumerKey: self.consumerKey,
-                                       consumerSecret: self.consumerSecret,
-                                       oauthToken: oauthToken,
-                                       oauthTokenSecret: oauthSecret)
+                                  consumerSecret: self.consumerSecret,
+                                  oauthToken: oauthToken,
+                                  oauthTokenSecret: oauthSecret)
 
             self.setAccount(swifter: swifter,
                             userID: userID,
                             oauthToken: oauthToken,
                             oauthSecret: oauthSecret,
-                            failure: failure)
+                            failure: failure,
+                            notificationName: .initAccounts)
         }
     }
 
@@ -104,8 +126,15 @@ class TwitterAccounts {
     }
 
     func logout(account: TwitterAccount) {
-        try? self.keychain.remove(account.userID)
         self.list.removeValue(forKey: account.userID)
+        try? self.keychain.remove(account.userID)
+
+        let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
+        if account.userID == currentUserID! {
+            let userID = self.listKeys.first
+            self.userDefaults.set(userID, forKey: "CurrentAccount")
+            self.userDefaults.synchronize()
+        }
     }
 
     private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
@@ -122,6 +151,12 @@ class TwitterAccounts {
                                          screenName: screenName!,
                                          avaterUrl: avaterUrl!)
             self.list[userID] = account
+
+            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
+            if !self.list.keys.contains(currentUserID!) {
+                self.userDefaults.set(userID, forKey: "CurrentAccount")
+                self.userDefaults.synchronize()
+            }
 
             if notificationName != nil {
                 self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])
