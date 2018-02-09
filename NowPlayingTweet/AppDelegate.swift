@@ -60,12 +60,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            if self.twitterAccounts.existAccount {
-                self.currentAccount.title = self.twitterAccounts.current!.name
-                self.currentAccount.fetchImage(url: self.twitterAccounts.current!.avaterUrl, rounded: true)
-                self.currentAccount.isHidden = false
-                self.currentSeparator.isHidden = false
+            let existAccount = self.twitterAccounts.existAccount
+            self.updateCurrentAccount(to: existAccount)
 
+            if existAccount {
                 let menu = NSMenu()
                 for userID in self.twitterAccounts.listKeys {
                     let twitterAccount = self.twitterAccounts.list[userID]
@@ -76,6 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 self.tweetMenu.submenu = menu
             }
+
             notificationCenter.removeObserver(observer)
         })
     }
@@ -187,6 +186,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         return format
+    }
+
+    func updateCurrentAccount(to existAccount: Bool) {
+        if existAccount {
+            self.currentAccount.title = self.twitterAccounts.current!.name
+            self.currentAccount.fetchImage(url: self.twitterAccounts.current!.avaterUrl, rounded: true)
+        }
+
+        self.currentAccount.isHidden = !existAccount
+        self.currentSeparator.isHidden = !existAccount
     }
 
 }

@@ -68,10 +68,11 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             menuItem.title = name!
             menuItem.action = #selector(self.appDelegate.tweetBySelectingAccount(_:))
 
-            if self.twitterAccounts.listKeys.count == 0 {
+            if self.twitterAccounts.listKeys.count == 1 {
                 let menu = NSMenu()
                 menu.addItem(menuItem)
                 self.appDelegate.tweetMenu?.submenu = menu
+                self.appDelegate.updateCurrentAccount(to: true)
             } else {
                 self.appDelegate.tweetMenu?.submenu?.insertItem(menuItem, at: numberOfAccounts)
             }
@@ -106,6 +107,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.set(avaterUrl: self.selected?.avaterUrl)
         } else {
             self.appDelegate.tweetMenu?.submenu = nil
+            self.appDelegate.updateCurrentAccount(to: false)
 
             self.removeButton.disable()
             self.selected = nil

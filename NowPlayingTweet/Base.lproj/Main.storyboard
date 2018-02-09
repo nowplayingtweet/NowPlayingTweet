@@ -10,10 +10,10 @@
             <objects>
                 <menu title="NowPlayingTweet" systemMenu="apple" id="MHr-w1-nK8">
                     <items>
-                        <menuItem title="Current Account" image="NSUser" hidden="YES" enabled="NO" id="n9w-bL-8rt">
+                        <menuItem title="Current Account" image="NSUser" enabled="NO" id="n9w-bL-8rt">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
-                        <menuItem isSeparatorItem="YES" hidden="YES" id="pCa-oZ-K4p"/>
+                        <menuItem isSeparatorItem="YES" id="pCa-oZ-K4p"/>
                         <menuItem title="About NowPlayingTweet" id="uIe-gP-Lt8">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
