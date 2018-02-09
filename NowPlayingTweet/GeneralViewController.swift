@@ -12,16 +12,13 @@ class GeneralViewController: NSViewController {
     @IBOutlet weak var tweetFormatView: NSScrollView!
     @IBOutlet var tweetFormat: NSTextView!
     @IBOutlet weak var editButton: NSButton!
-    
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
-    var userDefaults: UserDefaults?
+
+    var userDefaults: UserDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-
-        self.userDefaults = self.appDelegate.userDefaults
 
         self.updateTweetFormatLabel()
     }
@@ -43,19 +40,19 @@ class GeneralViewController: NSViewController {
     }
 
     @IBAction func resetFormat(_ sender: NSButton) {
-        self.userDefaults?.removeObject(forKey: "TweetFormat")
-        self.userDefaults?.synchronize()
+        self.userDefaults.removeObject(forKey: "TweetFormat")
+        self.userDefaults.synchronize()
         self.updateTweetFormatLabel()
     }
 
     func change(format: String) {
-        self.userDefaults?.set(format, forKey: "TweetFormat")
-        self.userDefaults?.synchronize()
+        self.userDefaults.set(format, forKey: "TweetFormat")
+        self.userDefaults.synchronize()
         self.updateTweetFormatLabel()
     }
 
     private func updateTweetFormatLabel() {
-        self.tweetFormat.string = (self.userDefaults?.string(forKey: "TweetFormat"))!
+        self.tweetFormat.string = (self.userDefaults.string(forKey: "TweetFormat"))!
     }
 
 }

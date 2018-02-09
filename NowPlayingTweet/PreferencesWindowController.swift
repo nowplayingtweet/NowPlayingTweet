@@ -34,18 +34,18 @@ class PreferencesWindowController: NSWindowController {
     }
 
     private func replaceViewController(identifier: NSStoryboard.SceneIdentifier) {
-        if let viewController = self.storyboard?.instantiateController(withIdentifier: identifier) as? NSViewController {
-            let windowFrame: NSRect = (self.window?.frame)!
-            var newWindowFrame: NSRect = (self.window?.frameRect(forContentRect: viewController.view.frame))!
-            newWindowFrame.origin.x = windowFrame.origin.x
-            newWindowFrame.origin.y = windowFrame.origin.y + windowFrame.size.height - newWindowFrame.size.height
-
-            self.window?.contentViewController = nil
-            self.window?.setFrame(newWindowFrame, display: true, animate: true)
-            self.window?.contentViewController = viewController
-        } else {
+        guard let viewController = self.storyboard?.instantiateController(withIdentifier: identifier) as? NSViewController else {
             return
         }
+
+        let windowFrame: NSRect = (self.window?.frame)!
+        var newWindowFrame: NSRect = (self.window?.frameRect(forContentRect: viewController.view.frame))!
+        newWindowFrame.origin.x = windowFrame.origin.x
+        newWindowFrame.origin.y = windowFrame.origin.y + windowFrame.size.height - newWindowFrame.size.height
+
+        self.window?.contentViewController = nil
+        self.window?.setFrame(newWindowFrame, display: true, animate: true)
+        self.window?.contentViewController = viewController
     }
 
 }

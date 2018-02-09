@@ -15,6 +15,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     @IBOutlet weak var screenName: NSTextField!
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
+    @IBOutlet weak var accountList: AccountsListView!
 
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -23,13 +24,14 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             return self.appDelegate.twitterAccounts
         }
     }
+
     var selected: TwitterAccount?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-        guard self.twitterAccounts.existAccount else {
+        if !self.twitterAccounts.existAccount {
             return
         }
 
@@ -38,6 +40,8 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         self.set(name: self.selected?.name)
         self.set(screenName: self.selected?.screenName)
         self.set(avaterUrl: self.selected?.avaterUrl)
+        let index: IndexSet = IndexSet(integer: self.twitterAccounts.listKeys.index(of: (self.selected?.userID)!)!)
+        self.accountList.selectRowIndexes(index, byExtendingSelection: true)
     }
 
     @IBAction func addAccount(_ sender: NSButton) {
@@ -64,26 +68,23 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
         } else {
+            self.removeButton.disable()
+            self.selected = nil
             self.set(name: nil)
             self.set(avaterUrl: nil)
             self.set(screenName: nil)
-
-            self.removeButton.disable()
         }
     }
 
     @IBAction func selectAccount(_ sender: AccountsListView) {
-        guard sender.clickedRow != -1 else {
-            return
-        }
-        let userID = self.twitterAccounts.listKeys[sender.clickedRow]
+        let row = sender.selectedRow
+        let userID = self.twitterAccounts.listKeys[row]
         let twitterAccount: TwitterAccount = self.twitterAccounts.list[userID]!
         self.selected = twitterAccount
 
         self.set(name: twitterAccount.name)
         self.set(screenName: twitterAccount.screenName)
         self.set(avaterUrl: twitterAccount.avaterUrl)
-        
     }
 
     func set(name string: String?) {
@@ -101,14 +102,13 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.avater.fetchImage(url: url!, rounded: true)
             self.avater.enable()
         } else {
-            let image: NSImage = NSImage(named: .user)!
-            self.avater.image = image.toRoundCorners()
+            self.avater.image = NSImage(named: .user)
             self.avater.disable()
         }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        guard self.twitterAccounts.existAccount else {
+        if !self.twitterAccounts.existAccount {
             return 0
         }
         let accountCount = self.twitterAccounts.list.count
