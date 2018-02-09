@@ -1,14 +1,13 @@
-//
-//  AccountListView.swift
-//  NowPlayingTweet
-//
-//  Created by kPherox on 2018/02/08.
-//  Copyright © 2018 kPherox. All rights reserved.
-//
+/**
+ *  AccountsListView.swift
+ *  NowPlayingTweet
+ *
+ *  © 2018 kPherox.
+**/
 
 import Cocoa
 
-class AccountListView: NSTableView {
+class AccountsListView: NSTableView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

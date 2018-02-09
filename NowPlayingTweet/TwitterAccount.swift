@@ -19,6 +19,7 @@ struct TwitterAccount {
     let oauthToken: String
     let oauthSecret: String
 
+    let name: String
     let screenName: String
     let avaterUrl: URL
 

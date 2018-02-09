@@ -19,18 +19,22 @@ class TwitterAccounts {
 
     let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    var accounts: [String : TwitterAccount] = [:]
-    var keys: [String] = []
-
-    var current: TwitterAccount? {
+    var list: [String : TwitterAccount] = [:]
+    var listKeys: [String] {
         get {
-            return self.existAccount ? self.accounts.first?.value : nil
+            return self.list.keys.sorted()
         }
     }
 
     var existAccount: Bool {
         get {
-            return self.accounts.count > 0
+            return self.list.count > 0
+        }
+    }
+
+    var current: TwitterAccount? {
+        get {
+            return self.existAccount ? self.list.first?.value : nil
         }
     }
 
@@ -101,11 +105,12 @@ class TwitterAccounts {
 
     func logout(account: TwitterAccount) {
         try? self.keychain.remove(account.userID)
-        self.accounts.removeValue(forKey: account.userID)
+        self.list.removeValue(forKey: account.userID)
     }
 
     private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
         swifter.showUser(for: .id(userID), success: { json in
+            let name = json.object!["name"]?.string
             let screenName = json.object!["screen_name"]?.string
             let avaterUrl = URL(string: (json.object!["profile_image_url_https"]?.string)!)
 
@@ -113,10 +118,10 @@ class TwitterAccounts {
                                          userID: userID,
                                          oauthToken: oauthToken,
                                          oauthSecret: oauthSecret,
+                                         name: name!,
                                          screenName: screenName!,
                                          avaterUrl: avaterUrl!)
-            self.accounts[userID] = account
-            self.keys = self.accounts.keys.sorted()
+            self.list[userID] = account
 
             if notificationName != nil {
                 self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])
