@@ -58,11 +58,25 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.accountList.reloadData()
 
             let userID = self.selected?.userID
+            let name = self.selected?.name
+
             let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-            self.set(name: self.selected?.name)
+            let menuItem = NSMenuItem()
+            menuItem.title = name!
+            menuItem.action = #selector(self.appDelegate.tweetBySelectingAccount(_:))
+
+            if self.twitterAccounts.listKeys.count == 0 {
+                let menu = NSMenu()
+                menu.addItem(menuItem)
+                self.appDelegate.tweetMenu?.submenu = menu
+            } else {
+                self.appDelegate.tweetMenu?.submenu?.insertItem(menuItem, at: numberOfAccounts)
+            }
+
+            self.set(name: name)
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
 
@@ -76,6 +90,10 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         self.accountList.reloadData()
 
         if self.twitterAccounts.existAccount {
+            let removedName = self.selected?.name
+            let menuItem = self.appDelegate.tweetMenu?.submenu?.item(withTitle: removedName!)
+            self.appDelegate.tweetMenu?.submenu?.removeItem(menuItem!)
+
             self.selected = self.twitterAccounts.current
 
             let userID = self.selected?.userID
@@ -87,6 +105,8 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
         } else {
+            self.appDelegate.tweetMenu?.submenu = nil
+
             self.removeButton.disable()
             self.selected = nil
             self.set(name: nil)

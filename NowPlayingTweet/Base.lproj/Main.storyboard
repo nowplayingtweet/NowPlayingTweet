@@ -21,10 +21,10 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
-                        <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
+                        <menuItem title="Tweet NowPlaying" enabled="NO" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="tweetNowPlaying:" target="Voe-Tx-rLC" id="Kbe-PC-B7r"/>
+                                <action selector="tweetByCurrentAccount:" target="Voe-Tx-rLC" id="89o-hV-ezm"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="gVa-7w-528"/>
@@ -48,6 +48,7 @@
                         <outlet property="currentAccount" destination="n9w-bL-8rt" id="t4X-oy-1Df"/>
                         <outlet property="currentSeparator" destination="pCa-oZ-K4p" id="cBy-jS-lUy"/>
                         <outlet property="menu" destination="MHr-w1-nK8" id="ZPJ-5F-mFY"/>
+                        <outlet property="tweetMenu" destination="Jpx-zD-RJg" id="eek-t3-fH5"/>
                     </connections>
                 </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -469,7 +470,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="PzJ-in-rrx">
-                                    <rect key="frame" x="1" y="243" width="148" height="16"/>
+                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="vMw-f6-U91">

@@ -36,9 +36,14 @@ class AdvancedViewController: NSViewController {
     private func notificationObserver(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
         if state {
-            notificationObserver.addObserver(true, self.appDelegate, name: .iTunesPlayerInfo, selector: #selector(self.appDelegate.handleNowPlaying(_:)))
+            notificationObserver.addObserver(self.appDelegate,
+                                             name: .iTunesPlayerInfo,
+                                             selector: #selector(self.appDelegate.handleNowPlaying(_:)),
+                                             distributed: true)
         } else {
-            notificationObserver.removeObserver(true, self.appDelegate, name: .iTunesPlayerInfo)
+            notificationObserver.removeObserver(self.appDelegate,
+                                                name: .iTunesPlayerInfo,
+                                                distributed: true)
         }
     }
 
