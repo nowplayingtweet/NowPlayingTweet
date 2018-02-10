@@ -10,6 +10,10 @@
             <objects>
                 <menu title="NowPlayingTweet" systemMenu="apple" id="MHr-w1-nK8">
                     <items>
+                        <menuItem title="Current Account" image="NSUser" enabled="NO" id="n9w-bL-8rt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="pCa-oZ-K4p"/>
                         <menuItem title="About NowPlayingTweet" id="uIe-gP-Lt8">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
@@ -20,7 +24,7 @@
                         <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="tweetNowPlaying:" target="Voe-Tx-rLC" id="Kbe-PC-B7r"/>
+                                <action selector="tweetByCurrentAccount:" target="Voe-Tx-rLC" id="89o-hV-ezm"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="gVa-7w-528"/>
@@ -41,7 +45,10 @@
                 </menu>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="NowPlayingTweet" customModuleProvider="target">
                     <connections>
+                        <outlet property="currentAccount" destination="n9w-bL-8rt" id="t4X-oy-1Df"/>
+                        <outlet property="currentSeparator" destination="pCa-oZ-K4p" id="cBy-jS-lUy"/>
                         <outlet property="menu" destination="MHr-w1-nK8" id="ZPJ-5F-mFY"/>
+                        <outlet property="tweetMenu" destination="Jpx-zD-RJg" id="eek-t3-fH5"/>
                     </connections>
                 </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -359,25 +366,16 @@
             <objects>
                 <viewController title="Accounts" storyboardIdentifier="AccountsViewController" id="eLk-Pt-GjP" customClass="AccountsViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ymK-C2-fHY">
-                        <rect key="frame" x="0.0" y="0.0" width="407" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="470" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bkt-C4-jwP">
-                                <rect key="frame" x="84" y="216" width="64" height="64"/>
+                                <rect key="frame" x="180" y="196" width="64" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUser" id="v1W-Vx-EGl"/>
                             </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dyC-FG-YZu">
-                                <rect key="frame" x="154" y="238" width="204" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Account Name" id="gwA-dv-9Pb">
-                                    <font key="font" metaFont="system" size="16"/>
-                                    <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8tm-JS-S9U">
-                                <rect key="frame" x="44" y="168" width="159" height="32"/>
+                                <rect key="frame" x="172" y="112" width="142" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add Acccount" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e9S-BC-6TW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -388,7 +386,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7hi-Il-CDo">
-                                <rect key="frame" x="203" y="168" width="159" height="32"/>
+                                <rect key="frame" x="314" y="112" width="142" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Remove Account" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V90-bs-XgW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -398,18 +396,142 @@
                                     <action selector="removeAccount:" target="eLk-Pt-GjP" id="SSK-62-3vg"/>
                                 </connections>
                             </button>
+                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oDZ-RU-JMr">
+                                <rect key="frame" x="20" y="20" width="150" height="260"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="9Ba-VW-FsA">
+                                    <rect key="frame" x="1" y="1" width="148" height="258"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH" customClass="AccountsListView" customModule="NowPlayingTweet" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="148" height="258"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <size key="intercellSpacing" width="0.0" height="2"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
+                                            <color key="gridColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn identifier="" width="148" minWidth="145" maxWidth="150" id="paq-oN-bBs">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="sHB-ec-B1O">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <prototypeCellViews>
+                                                        <tableCellView id="Yw2-ul-X98" customClass="AccountCellView" customModule="NowPlayingTweet" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="1" width="148" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7jF-qL-fci">
+                                                                    <rect key="frame" x="3" y="9" width="32" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSUser" id="DP3-my-xaQ"/>
+                                                                </imageView>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XoJ-qw-fel">
+                                                                    <rect key="frame" x="41" y="21" width="103" height="20"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Account Name" id="zBh-qV-jNP">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CqH-WY-MzN">
+                                                                    <rect key="frame" x="41" y="9" width="103" height="14"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="@null" id="zBT-bG-KB3">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="imageView" destination="7jF-qL-fci" id="F2j-Zg-WYV"/>
+                                                                <outlet property="screenName" destination="CqH-WY-MzN" id="viT-wA-J0I"/>
+                                                                <outlet property="textField" destination="XoJ-qw-fel" id="bbK-sA-IuG"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <action selector="selectAccount:" target="eLk-Pt-GjP" id="QUD-oU-E2c"/>
+                                                <outlet property="dataSource" destination="eLk-Pt-GjP" id="0nM-Ap-bOV"/>
+                                                <outlet property="delegate" destination="eLk-Pt-GjP" id="ZGX-6Z-WXl"/>
+                                            </connections>
+                                        </tableView>
+                                    </subviews>
+                                    <nil key="backgroundColor"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="PzJ-in-rrx">
+                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="vMw-f6-U91">
+                                    <rect key="frame" x="111" y="1" width="16" height="258"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dyC-FG-YZu">
+                                <rect key="frame" x="250" y="229" width="200" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Account Name" id="gwA-dv-9Pb">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yw8-j5-9ue">
+                                <rect key="frame" x="250" y="207" width="200" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="@null" id="IJt-DK-cr9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rwE-oK-OmT">
+                                <rect key="frame" x="301" y="160" width="151" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="This account is current." id="Xyb-IH-Nsp">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d1K-MF-mBA">
+                                <rect key="frame" x="330" y="153" width="126" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Set to Current" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ujT-go-VXo">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setToCurrent:" target="eLk-Pt-GjP" id="ZtI-kh-kC9"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="accountAvater" destination="Bkt-C4-jwP" id="qR0-R3-qik"/>
-                        <outlet property="accountName" destination="dyC-FG-YZu" id="f4Y-A5-epA"/>
+                        <outlet property="accountList" destination="Nsg-BV-1xH" id="0Ug-aL-vRt"/>
                         <outlet property="addButton" destination="8tm-JS-S9U" id="Rtv-RQ-Tld"/>
+                        <outlet property="avater" destination="Bkt-C4-jwP" id="uWf-aU-Tqe"/>
+                        <outlet property="currentButton" destination="d1K-MF-mBA" id="3cX-Jq-U3V"/>
+                        <outlet property="currentLabel" destination="rwE-oK-OmT" id="MMF-CF-Rhz"/>
+                        <outlet property="name" destination="dyC-FG-YZu" id="rwX-XP-zHZ"/>
                         <outlet property="removeButton" destination="7hi-Il-CDo" id="57S-hj-cBi"/>
+                        <outlet property="screenName" destination="yw8-j5-9ue" id="uga-wM-yAS"/>
                     </connections>
                 </viewController>
                 <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136" y="835"/>
+            <point key="canvasLocation" x="152" y="835"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
@@ -476,7 +598,7 @@
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="525" y="780"/>
+            <point key="canvasLocation" x="642" y="780"/>
         </scene>
         <!--General-->
         <scene sceneID="hIz-AP-VOD">
@@ -585,7 +707,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="kIX-By-YQh">
-                                    <rect key="frame" x="-100" y="-100" width="16" height="0.0"/>
+                                    <rect key="frame" x="-16" y="0.0" width="16" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

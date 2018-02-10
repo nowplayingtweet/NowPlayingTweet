@@ -44,17 +44,17 @@ class iTunesPlayerInfo {
     private func convert(from itunesTrack: iTunesTrack) {
         let trackArtworks: [iTunesArtwork] = itunesTrack.artworks!() as! [iTunesArtwork]
         self.artworks = trackArtworks
-        
+
         self.artwork = self.artworks![0].data
-        
+
         self.title = itunesTrack.name
-        
+
         self.artist = itunesTrack.artist
-        
+
         self.album = itunesTrack.album
-        
+
         self.albumArtist = itunesTrack.albumArtist
-        
+
         self.bitRate = itunesTrack.bitRate
     }
 
