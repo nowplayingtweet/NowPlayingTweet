@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1EAC5D202F2AE10005257E /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1EAC5C202F2AE10005257E /* Sparkle.framework */; };
+		3D1EAC5F202F2AE60005257E /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1EAC5C202F2AE10005257E /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
 		3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralViewController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
@@ -68,6 +70,7 @@
 			files = (
 				3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */,
 				3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */,
+				3D1EAC5F202F2AE60005257E /* Sparkle.framework in Embed Frameworks */,
 				3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */,
 				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
 			);
@@ -77,6 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D1EAC5C202F2AE10005257E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
@@ -120,10 +124,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
 				3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */,
 				3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */,
 				3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */,
-				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
+				3D1EAC5D202F2AE10005257E /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,10 +223,11 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
+				3D55210120223B8000AAF108 /* SwifterMac.framework */,
 				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
-				3D55210120223B8000AAF108 /* SwifterMac.framework */,
+				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
+				3D1EAC5C202F2AE10005257E /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -546,7 +552,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -570,7 +576,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
