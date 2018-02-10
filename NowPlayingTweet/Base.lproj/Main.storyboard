@@ -21,7 +21,7 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
-                        <menuItem title="Tweet NowPlaying" enabled="NO" id="Jpx-zD-RJg">
+                        <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="tweetByCurrentAccount:" target="Voe-Tx-rLC" id="89o-hV-ezm"/>
@@ -375,7 +375,7 @@
                                 <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUser" id="v1W-Vx-EGl"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8tm-JS-S9U">
-                                <rect key="frame" x="172" y="132" width="142" height="32"/>
+                                <rect key="frame" x="172" y="112" width="142" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add Acccount" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e9S-BC-6TW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -386,7 +386,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7hi-Il-CDo">
-                                <rect key="frame" x="314" y="132" width="142" height="32"/>
+                                <rect key="frame" x="314" y="112" width="142" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Remove Account" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V90-bs-XgW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -496,12 +496,34 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rwE-oK-OmT">
+                                <rect key="frame" x="301" y="160" width="151" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="This account is current." id="Xyb-IH-Nsp">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d1K-MF-mBA">
+                                <rect key="frame" x="330" y="153" width="126" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Set to Current" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ujT-go-VXo">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setToCurrent:" target="eLk-Pt-GjP" id="ZtI-kh-kC9"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="accountList" destination="Nsg-BV-1xH" id="0Ug-aL-vRt"/>
                         <outlet property="addButton" destination="8tm-JS-S9U" id="Rtv-RQ-Tld"/>
                         <outlet property="avater" destination="Bkt-C4-jwP" id="uWf-aU-Tqe"/>
+                        <outlet property="currentButton" destination="d1K-MF-mBA" id="3cX-Jq-U3V"/>
+                        <outlet property="currentLabel" destination="rwE-oK-OmT" id="MMF-CF-Rhz"/>
                         <outlet property="name" destination="dyC-FG-YZu" id="rwX-XP-zHZ"/>
                         <outlet property="removeButton" destination="7hi-Il-CDo" id="57S-hj-cBi"/>
                         <outlet property="screenName" destination="yw8-j5-9ue" id="uga-wM-yAS"/>

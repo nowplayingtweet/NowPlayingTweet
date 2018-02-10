@@ -13,11 +13,15 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var screenName: NSTextField!
+    @IBOutlet weak var currentButton: NSButton!
+    @IBOutlet weak var currentLabel: NSTextField!
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
     @IBOutlet weak var accountList: AccountsListView!
 
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
+
+    let userDefaults: UserDefaults = UserDefaults.standard
 
     var twitterAccounts: TwitterAccounts {
         get {
@@ -37,13 +41,27 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
 
         self.selected = self.twitterAccounts.current
         self.removeButton.enable()
-        self.set(name: self.selected?.name)
-        self.set(screenName: self.selected?.screenName)
-        self.set(avaterUrl: self.selected?.avaterUrl)
+
         let userID = self.selected?.userID
         let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+
+        let isCurrent = self.twitterAccounts.currentKey == userID
+        self.currentLabel.isHidden = !isCurrent
+        self.currentButton.isHidden = isCurrent
+
+        self.set(name: self.selected?.name)
+        self.set(screenName: self.selected?.screenName)
+        self.set(avaterUrl: self.selected?.avaterUrl)
+    }
+
+    @IBAction func setToCurrent(_ sender: NSButton) {
+        let userID = self.selected?.userID
+        self.twitterAccounts.changeCurrent(userID: userID!)
+        self.appDelegate.updateCurrentAccount(to: true)
+        self.currentLabel.isHidden = false
+        self.currentButton.isHidden = true
     }
 
     @IBAction func addAccount(_ sender: NSButton) {
@@ -73,8 +91,13 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
                 menu.addItem(menuItem)
                 self.appDelegate.tweetMenu?.submenu = menu
                 self.appDelegate.updateCurrentAccount(to: true)
+                self.currentLabel.isHidden = false
+                self.currentButton.isHidden = true
+
             } else {
                 self.appDelegate.tweetMenu?.submenu?.insertItem(menuItem, at: numberOfAccounts)
+                self.currentLabel.isHidden = true
+                self.currentButton.isHidden = false
             }
 
             self.set(name: name)
@@ -102,18 +125,28 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
+            let isCurrent = self.twitterAccounts.currentKey == userID
+            self.currentLabel.isHidden = !isCurrent
+            self.currentButton.isHidden = isCurrent
+
             self.set(name: self.selected?.name)
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
+
+            self.appDelegate.updateCurrentAccount(to: true)
         } else {
             self.appDelegate.tweetMenu?.submenu = nil
-            self.appDelegate.updateCurrentAccount(to: false)
 
             self.removeButton.disable()
             self.selected = nil
             self.set(name: nil)
             self.set(avaterUrl: nil)
             self.set(screenName: nil)
+
+            self.currentLabel.isHidden = true
+            self.currentButton.isHidden = true
+
+            self.appDelegate.updateCurrentAccount(to: false)
         }
     }
 
@@ -123,6 +156,9 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         let twitterAccount: TwitterAccount = self.twitterAccounts.list[userID]!
         self.selected = twitterAccount
 
+        let isCurrent = self.twitterAccounts.currentKey == userID
+        self.currentLabel.isHidden = !isCurrent
+        self.currentButton.isHidden = isCurrent
         self.set(name: twitterAccount.name)
         self.set(screenName: twitterAccount.screenName)
         self.set(avaterUrl: twitterAccount.avaterUrl)

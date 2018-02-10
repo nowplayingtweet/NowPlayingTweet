@@ -6,7 +6,6 @@
 **/
 
 import Foundation
-import AppKit
 import SwifterMac
 import KeychainAccess
 
@@ -34,18 +33,31 @@ class TwitterAccounts {
         }
     }
 
+    var currentKey: String? {
+        get {
+            if !self.existAccount {
+                return nil
+            }
+
+            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
+            if self.list.keys.contains(currentUserID!) {
+                return currentUserID
+            } else {
+                let userID = self.listKeys.first
+                self.changeCurrent(userID: userID!)
+
+                return userID
+            }
+        }
+    }
     var current: TwitterAccount? {
         get {
             if !self.existAccount {
                 return nil
             }
-            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
-            if self.list.keys.contains(currentUserID!) {
-                return self.list[currentUserID!]
-            } else {
-                let userID = self.listKeys.first
-                return self.list[userID!]
-            }
+
+            let userID = self.currentKey
+            return self.list[userID!]
         }
     }
 
@@ -67,8 +79,7 @@ class TwitterAccounts {
                 let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
                 if !self.list.keys.contains(currentUserID!) {
                     let userID = self.listKeys.first
-                    self.userDefaults.set(userID, forKey: "CurrentAccount")
-                    self.userDefaults.synchronize()
+                    self.changeCurrent(userID: userID!)
                 }
 
                 self.notificationCenter.removeObserver(observer)
@@ -140,12 +151,21 @@ class TwitterAccounts {
         let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
         if account.userID == currentUserID! {
             let userID = self.listKeys.first
-            self.userDefaults.set(userID, forKey: "CurrentAccount")
-            self.userDefaults.synchronize()
+            self.changeCurrent(userID: userID!)
         }
     }
 
-    private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
+    func changeCurrent(userID: String) {
+        self.userDefaults.set(userID, forKey: "CurrentAccount")
+        self.userDefaults.synchronize()
+    }
+
+    private func setAccount(swifter: Swifter,
+                            userID: String,
+                            oauthToken: String,
+                            oauthSecret: String,
+                            failure: @escaping Swifter.FailureHandler,
+                            notificationName: Notification.Name? = nil) {
         swifter.showUser(for: .id(userID), success: { json in
             let name = json.object!["name"]?.string
             let screenName = json.object!["screen_name"]?.string
