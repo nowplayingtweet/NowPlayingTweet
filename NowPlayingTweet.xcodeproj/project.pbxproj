@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D1EAC5D202F2AE10005257E /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1EAC5C202F2AE10005257E /* Sparkle.framework */; };
 		3D1EAC5F202F2AE60005257E /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1EAC5C202F2AE10005257E /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3D1EAC63202F550B0005257E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3D1EAC62202F32540005257E /* dsa_pub.pem */; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
 		3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralViewController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		3D1EAC5C202F2AE10005257E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
+		3D1EAC62202F32540005257E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
 				3D5520DB2022322300AAF108 /* NowPlayingTweet.entitlements */,
+				3D1EAC62202F32540005257E /* dsa_pub.pem */,
 			);
 			path = NowPlayingTweet;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 			files = (
 				3D5520D62022322200AAF108 /* Assets.xcassets in Resources */,
 				3D5520D92022322300AAF108 /* Main.storyboard in Resources */,
+				3D1EAC63202F550B0005257E /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

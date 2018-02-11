@@ -20,6 +20,12 @@
                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="GEm-OZ-h5k"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Check for Updates…" id="mCz-r2-YwV">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="checkForUpdates:" target="sOh-le-0AT" id="2wH-Cv-yY6"/>
+                            </connections>
+                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
                         <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -52,6 +58,7 @@
                     </connections>
                 </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+                <customObject id="sOh-le-0AT" customClass="SUUpdater"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
