@@ -1,5 +1,5 @@
 /**
- *  NSImageView++.swift
+ *  NSMenuItem++.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -8,7 +8,7 @@
 import Foundation
 import AppKit
 
-extension NSImageView {
+extension NSMenuItem {
 
     func fetchImage(url: URL, rounded: Bool = false) {
         let request = URLRequest(url: url,

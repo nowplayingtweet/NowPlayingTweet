@@ -13,12 +13,15 @@ import iTunesScripting
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var menu: NSMenu!
+    @IBOutlet weak var currentAccount: NSMenuItem!
+    @IBOutlet weak var currentSeparator: NSMenuItem!
+    @IBOutlet weak var tweetMenu: NSMenuItem!
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    let twitterAccount: TwitterAccount = TwitterAccount()
+    let twitterAccounts: TwitterAccounts = TwitterAccounts()
 
     var playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
@@ -26,12 +29,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
 
         // Defines get URL handler
-        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(self.handleEvent(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
-        
+        NSAppleEventManager.shared().setEventHandler(self,
+                                                     andSelector: #selector(self.handleEvent(_:withReplyEvent:)),
+                                                     forEventClass: AEEventClass(kInternetEventClass),
+                                                     andEventID: AEEventID(kAEGetURL))
+
         let defaultSettings: [String : Any] = [
-            "TweetFormat": "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
-            "TweetWithImage": true,
-            "AutoTweet": false,
+            "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
+            "TweetWithImage" : true,
+            "AutoTweet" : false,
+            "CurrentAccount" : "0",
             ]
         self.userDefaults.register(defaults: defaultSettings)
 
@@ -44,8 +51,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
             let notificationObserver: NotificationObserver = NotificationObserver()
-            notificationObserver.addObserver(true, self, name: .iTunesPlayerInfo, selector: #selector(AppDelegate.handleNowPlaying(_:)))
+            notificationObserver.addObserver(self,
+                                             name: .iTunesPlayerInfo,
+                                             selector: #selector(AppDelegate.handleNowPlaying(_:)),
+                                             distributed: true)
         }
+
+        let notificationCenter: NotificationCenter = NotificationCenter.default
+        var observer: NSObjectProtocol!
+        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
+            let existAccount = self.twitterAccounts.existAccount
+            self.updateCurrentAccount(to: existAccount)
+
+            if existAccount {
+                let menu = NSMenu()
+                for userID in self.twitterAccounts.listKeys {
+                    let twitterAccount = self.twitterAccounts.list[userID]
+                    let menuItem = NSMenuItem()
+                    menuItem.title = (twitterAccount?.name)!
+                    menuItem.action = #selector(self.tweetBySelectingAccount(_:))
+                    menu.addItem(menuItem)
+                }
+                self.tweetMenu.submenu = menu
+            }
+
+            notificationCenter.removeObserver(observer)
+        })
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -63,10 +94,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        try! self.postTweet()
+        self.tweetNowPlaying(by: self.twitterAccounts.current)
     }
 
-    @IBAction func tweetNowPlaying(_ sender: Any) {
+    @IBAction func tweetByCurrentAccount(_ sender: NSMenuItem) {
+        self.tweetNowPlaying(by: self.twitterAccounts.current)
+    }
+
+    @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
+        let account = self.twitterAccounts.list[sender.title]
+        self.tweetNowPlaying(by: account)
+    }
+
+    func tweetNowPlaying(by twitterAccounts: TwitterAccount?) {
         let tweetFailureHandler: Swifter.FailureHandler = { error in
             let err = error as! SwifterError
 
@@ -85,23 +125,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 msg.append("\r")
             }
 
-            let alert = NSAlert()
-            alert.messageText = "Tweet failed!"
-            alert.informativeText = msg
+            let alert = NSAlert(message: "Tweet failed!",
+                                informative: msg,
+                                style: .warning)
             alert.runModal()
         }
 
         do {
-            try self.postTweet(failure: tweetFailureHandler)
-        } catch NPTError.NotExistTrack {
-            let alert = NSAlert()
-            alert.messageText = "Can't tweet!"
-            alert.informativeText = "Not exist music."
-            alert.runModal()
+            try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
         } catch NPTError.NotLogin {
-            let alert = NSAlert()
-            alert.messageText = "Not logged in!"
-            alert.informativeText = "Please login in Preferences -> Accounts."
+            let alert = NSAlert(message: "Not logged in!",
+                                informative: "Please login in Preferences -> Accounts.",
+                                style: .warning)
+            alert.runModal()
+        } catch NPTError.NotExistTrack {
+            let alert = NSAlert(message: "Not exist music.",
+                                style: .informational)
             alert.runModal()
         } catch let error {
             let alert = NSAlert(error: error)
@@ -109,23 +148,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func postTweet(failure: Swifter.FailureHandler? = nil) throws {
-        self.playerInfo.updateTrack()
-
-        guard self.playerInfo.existTrack else {
-            throw NPTError.NotExistTrack
+    func postTweet(with twitterAccount: TwitterAccount?, failure: Swifter.FailureHandler? = nil) throws {
+        if !self.twitterAccounts.existAccount {
+            throw NPTError.NotLogin
         }
 
-        guard self.twitterAccount.isLogin else {
-            throw NPTError.NotLogin
+        self.playerInfo.updateTrack()
+
+        if !self.playerInfo.existTrack {
+            throw NPTError.NotExistTrack
         }
 
         let tweetText = self.createTweetText()
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterAccount.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
+            twitterAccount?.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
         } else {
-            self.twitterAccount.tweet(text: tweetText, failure: failure)
+            twitterAccount?.tweet(text: tweetText, failure: failure)
         }
     }
 
@@ -147,6 +186,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         return format
+    }
+
+    func updateCurrentAccount(to existAccount: Bool) {
+        if existAccount {
+            self.currentAccount.title = self.twitterAccounts.current!.name
+            self.currentAccount.fetchImage(url: self.twitterAccounts.current!.avaterUrl, rounded: true)
+        }
+
+        self.currentAccount.isHidden = !existAccount
+        self.currentSeparator.isHidden = !existAccount
     }
 
 }

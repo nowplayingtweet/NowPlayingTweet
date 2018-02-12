@@ -13,16 +13,15 @@ class AdvancedViewController: NSViewController {
     @IBOutlet weak var autoTweet: NSButton!
 
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
-    var userDefaults: UserDefaults?
+
+    var userDefaults: UserDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do view setup here.
-
-        self.userDefaults = self.appDelegate.userDefaults
-
-        self.tweetWithImage.set(state: (self.userDefaults?.bool(forKey: "TweetWithImage"))!)
-        self.autoTweet.set(state: (self.userDefaults?.bool(forKey: "AutoTweet"))!)
+        self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
+        self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
     }
 
     @IBAction func switchSetting(_ sender: NSButton) {
@@ -30,16 +29,21 @@ class AdvancedViewController: NSViewController {
         if identifier == "AutoTweet" {
             self.notificationObserver(state: sender.state.toBool())
         }
-        self.userDefaults?.set(sender.state.toBool(), forKey: identifier)
-        self.userDefaults?.synchronize()
+        self.userDefaults.set(sender.state.toBool(), forKey: identifier)
+        self.userDefaults.synchronize()
     }
 
     private func notificationObserver(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
         if state {
-            notificationObserver.addObserver(true, self.appDelegate, name: .iTunesPlayerInfo, selector: #selector(self.appDelegate.handleNowPlaying(_:)))
+            notificationObserver.addObserver(self.appDelegate,
+                                             name: .iTunesPlayerInfo,
+                                             selector: #selector(self.appDelegate.handleNowPlaying(_:)),
+                                             distributed: true)
         } else {
-            notificationObserver.removeObserver(true, self.appDelegate, name: .iTunesPlayerInfo)
+            notificationObserver.removeObserver(self.appDelegate,
+                                                name: .iTunesPlayerInfo,
+                                                distributed: true)
         }
     }
 
