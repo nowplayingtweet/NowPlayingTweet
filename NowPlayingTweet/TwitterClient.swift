@@ -1,5 +1,5 @@
 /**
- *  TwitterAccounts.swift
+ *  TwitterClient.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
