@@ -23,6 +23,12 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
+    static let shared: AccountsViewController = {
+        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let windowController = storyboard.instantiateController(withIdentifier: .accountsViewController)
+        return windowController as! AccountsViewController
+    }()
+
     var twitterAccounts: TwitterAccounts {
         get {
             return self.appDelegate.twitterAccounts

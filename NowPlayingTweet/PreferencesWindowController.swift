@@ -20,14 +20,11 @@ class PreferencesWindowController: NSWindowController {
         return windowController as! PreferencesWindowController
     }()
 
-    private var viewControllers: [NSViewController] {
-        let viewControllerIDs: [NSStoryboard.SceneIdentifier] = [
-            .generalViewController,
-            .accountsViewController,
-            .advancedViewController,
-            ]
-        return viewControllerIDs.map { self.storyboard?.instantiateController(withIdentifier: $0) as! NSViewController }
-    }
+    private let viewControllers: [NSViewController] = [
+        GeneralViewController.shared,
+        AccountsViewController.shared,
+        AdvancedViewController.shared,
+        ]
 
     override func windowDidLoad() {
         super.windowDidLoad()

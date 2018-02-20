@@ -10,16 +10,19 @@ import AppKit
 
 extension NSImageView {
 
+    static let session: URLSession = {
+        let conf =  URLSessionConfiguration.default
+        return URLSession(configuration: conf,
+                             delegate: nil,
+                             delegateQueue: OperationQueue.main)
+    }()
+
     func fetchImage(url: URL, rounded: Bool = false) {
         let request = URLRequest(url: url,
                                  cachePolicy: .returnCacheDataElseLoad,
                                  timeoutInterval: 300)
-        let conf =  URLSessionConfiguration.default
-        let session = URLSession(configuration: conf,
-                                 delegate: nil,
-                                 delegateQueue: OperationQueue.main)
 
-        session.dataTask(with: request, completionHandler: { data, _, error in
+        NSImageView.session.dataTask(with: request, completionHandler: { data, _, error in
             if let error = error {
                 NSLog(error.localizedDescription)
             }
