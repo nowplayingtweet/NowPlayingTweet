@@ -13,7 +13,7 @@ class NotificationObserver {
 
     let distNotificationCenter: DistributedNotificationCenter = DistributedNotificationCenter.default()
 
-    func addObserver(_ observer: Any, name: Notification.Name, selector: Selector, distributed: Bool = false, object: Any? = nil) {
+    func addObserver(_ observer: Any, name: Notification.Name, selector: Selector, object: Any?, distributed: Bool = false) {
         if distributed {
             distNotificationCenter.addObserver(observer, selector: selector, name: name, object: object as? String)
         } else {
@@ -21,7 +21,7 @@ class NotificationObserver {
         }
     }
 
-    func removeObserver(_ observer: Any, name: Notification.Name, distributed: Bool = false, object: Any? = nil) {
+    func removeObserver(_ observer: Any, name: Notification.Name, object: Any?, distributed: Bool = false) {
         if distributed {
             distNotificationCenter.removeObserver(observer, name: name, object: object as? String)
         } else {

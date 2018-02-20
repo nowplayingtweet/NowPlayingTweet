@@ -31,7 +31,7 @@
                         <menuItem title="Preferences…" id="QpU-gc-T1D">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <segue destination="B8D-0N-5wS" kind="show" id="m9I-X6-D3p"/>
+                                <action selector="showPreferences:" target="Voe-Tx-rLC" id="Upb-BT-B8A"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="iTY-jt-etY"/>
@@ -67,11 +67,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
-                                            <connections>
-                                                <segue destination="B8D-0N-5wS" kind="show" id="Cb2-il-OCD"/>
-                                            </connections>
-                                        </menuItem>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
                                         <menuItem title="Quit NowPlayingTweet" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
@@ -307,33 +303,33 @@
                     </connections>
                 </application>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="72" y="39"/>
         </scene>
         <!--Preferences Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" userLabel="Preferences Window Controller" customClass="PreferencesWindowController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="PreferencesWindowController" showSeguePresentationStyle="single" id="B8D-0N-5wS" userLabel="Preferences Window Controller" customClass="PreferencesWindowController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="463" height="0.0"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
                         <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" explicitItemIdentifier="General" label="General" paletteLabel="General" tag="-1" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
+                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" explicitItemIdentifier="General" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
                                     <connections>
-                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="UeY-eC-oZp"/>
+                                        <action selector="switchView:" target="B8D-0N-5wS" id="HtF-2k-aZe"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Accounts" label="Accounts" paletteLabel="Accounts" tag="-1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
+                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Accounts" label="Accounts" paletteLabel="Accounts" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
                                     <connections>
-                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="4vd-2D-Rsj"/>
+                                        <action selector="switchView:" target="B8D-0N-5wS" id="kI6-r7-YHZ"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="62F04CBD-F991-49E8-A1B2-7291B7A49FDF" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="-1" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
+                                <toolbarItem implicitItemIdentifier="62F04CBD-F991-49E8-A1B2-7291B7A49FDF" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
                                     <connections>
-                                        <action selector="switchViewController:" target="B8D-0N-5wS" id="eDe-Sa-cbW"/>
+                                        <action selector="switchView:" target="B8D-0N-5wS" id="y1m-iA-ovZ"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="S68-t4-Zxc"/>
@@ -350,16 +346,13 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="accountsToolbarItem" destination="4yk-tb-cuL" id="5xl-dm-7N4"/>
-                        <outlet property="advancedToolbarItem" destination="032-pi-eDJ" id="dQX-By-Pdn"/>
-                        <outlet property="generalToolbarItem" destination="phY-Ab-qK6" id="df9-i4-4VS"/>
-                        <outlet property="toolbar" destination="loh-6J-f1L" id="AuV-Zv-KPt"/>
-                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
+                        <outlet property="generalItem" destination="phY-Ab-qK6" id="9Wd-a9-xE5"/>
+                        <outlet property="toolbar" destination="loh-6J-f1L" id="9uO-R0-Nrx"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="74" y="397"/>
+            <point key="canvasLocation" x="72" y="257"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="f4J-kw-96r">
@@ -531,7 +524,7 @@
                 </viewController>
                 <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="152" y="835"/>
+            <point key="canvasLocation" x="72" y="561"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
@@ -598,7 +591,7 @@
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="642" y="780"/>
+            <point key="canvasLocation" x="482" y="506"/>
         </scene>
         <!--General-->
         <scene sceneID="hIz-AP-VOD">
@@ -730,7 +723,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-359" y="770"/>
+            <point key="canvasLocation" x="-443" y="496"/>
         </scene>
     </scenes>
     <resources>
@@ -738,7 +731,4 @@
         <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="NSUser" width="32" height="32"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="m9I-X6-D3p"/>
-    </inferredMetricsTieBreakers>
 </document>

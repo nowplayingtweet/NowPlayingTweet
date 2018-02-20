@@ -10,33 +10,49 @@ import Cocoa
 class PreferencesWindowController: NSWindowController {
 
     @IBOutlet weak var toolbar: NSToolbar!
-    @IBOutlet weak var generalToolbarItem: NSToolbarItem!
-    @IBOutlet weak var accountsToolbarItem: NSToolbarItem!
-    @IBOutlet weak var advancedToolbarItem: NSToolbarItem!
+    @IBOutlet weak var generalItem: NSToolbarItem!
+
+    var userDefaults: UserDefaults = UserDefaults.standard
+
+    static let shared: PreferencesWindowController = {
+        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let windowController = storyboard.instantiateController(withIdentifier: .preferencesWindowController)
+        return windowController as! PreferencesWindowController
+    }()
+
+    private var viewControllers: [NSViewController] {
+        let viewControllerIDs: [NSStoryboard.SceneIdentifier] = [
+            .generalViewController,
+            .accountsViewController,
+            .advancedViewController,
+            ]
+        return viewControllerIDs.map { self.storyboard?.instantiateController(withIdentifier: $0) as! NSViewController }
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        self.toolbar.selectedItemIdentifier = self.generalToolbarItem.itemIdentifier
-    }
+        let items = self.toolbar.items
 
-    @IBAction func switchViewController(_ sender: NSToolbarItem) {
-        switch sender.itemIdentifier {
-        case .general:
-            self.replaceViewController(identifier: .generalViewController)
-        case .accounts:
-            self.replaceViewController(identifier: .accountsViewController)
-        case .advanced:
-            self.replaceViewController(identifier: .advancedViewController)
-        default:
-            break
+        let lastViewItemIdentifier = NSToolbarItem.Identifier(self.userDefaults.string(forKey: "lastViewItemIdentifier") ?? "")
+
+        let checkLatestViewIdentifier: (NSToolbarItem) -> Bool = { toolbarItem in
+            toolbarItem.itemIdentifier == lastViewItemIdentifier
         }
-    }
 
-    private func replaceViewController(identifier: NSStoryboard.SceneIdentifier) {
-        guard let viewController = self.storyboard?.instantiateController(withIdentifier: identifier) as? NSViewController else {
+        guard let item = items.first(where: checkLatestViewIdentifier) ?? self.generalItem else {
+            self.window?.center()
             return
         }
+
+        self.toolbar.selectedItemIdentifier = item.itemIdentifier
+
+        self.switchView(item)
+        self.window?.center()
+    }
+
+    @IBAction func switchView(_ toolbarItem: NSToolbarItem) {
+        let viewController = self.viewControllers[toolbarItem.tag]
 
         let windowFrame: NSRect = (self.window?.frame)!
         var newWindowFrame: NSRect = (self.window?.frameRect(forContentRect: viewController.view.frame))!
@@ -46,6 +62,8 @@ class PreferencesWindowController: NSWindowController {
         self.window?.contentViewController = nil
         self.window?.setFrame(newWindowFrame, display: true, animate: true)
         self.window?.contentViewController = viewController
+
+        self.userDefaults.set(toolbarItem.itemIdentifier.rawValue, forKey: "lastViewItemIdentifier")
     }
 
 }

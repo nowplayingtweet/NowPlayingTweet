@@ -39,10 +39,12 @@ class AdvancedViewController: NSViewController {
             notificationObserver.addObserver(self.appDelegate,
                                              name: .iTunesPlayerInfo,
                                              selector: #selector(self.appDelegate.handleNowPlaying(_:)),
+                                             object: nil,
                                              distributed: true)
         } else {
             notificationObserver.removeObserver(self.appDelegate,
                                                 name: .iTunesPlayerInfo,
+                                                object: nil,
                                                 distributed: true)
         }
     }

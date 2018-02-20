@@ -54,6 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             notificationObserver.addObserver(self,
                                              name: .iTunesPlayerInfo,
                                              selector: #selector(AppDelegate.handleNowPlaying(_:)),
+                                             object: nil,
                                              distributed: true)
         }
 
@@ -95,6 +96,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         self.tweetNowPlaying(by: self.twitterAccounts.current)
+    }
+
+    @IBAction func showPreferences(_ sender: Any) {
+        PreferencesWindowController.shared.showWindow(sender)
     }
 
     @IBAction func tweetByCurrentAccount(_ sender: NSMenuItem) {
