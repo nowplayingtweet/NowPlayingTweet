@@ -9,7 +9,9 @@ import Foundation
 import SwifterMac
 import KeychainAccess
 
-class TwitterAccounts {
+class TwitterClient {
+
+    static let shared: TwitterClient = TwitterClient()
 
     let consumerKey: String = "lT580cWIob4JiEmydWrz3Lr3c"
     let consumerSecret: String = "tQbaxDRMSNebagQaa9RXtjQ9SskoNiwo8bBadP2y6aggFesDik"
@@ -20,48 +22,39 @@ class TwitterAccounts {
 
     var userDefaults: UserDefaults = UserDefaults.standard
 
-    var list: [String : TwitterAccount] = [:]
-    var listKeys: [String] {
-        get {
-            return self.list.keys.sorted()
-        }
+    var accounts: [String : TwitterAccount] = [:]
+
+    var accountIDs: [String] {
+        return self.accounts.keys.sorted()
     }
 
     var existAccount: Bool {
-        get {
-            return self.list.count > 0
-        }
+        return self.accounts.count > 0
     }
 
-    var currentKey: String? {
-        get {
-            if !self.existAccount {
-                return nil
-            }
-
-            let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
-            if self.list.keys.contains(currentUserID!) {
-                return currentUserID
-            } else {
-                let userID = self.listKeys.first
-                self.changeCurrent(userID: userID!)
-
-                return userID
-            }
-        }
-    }
     var current: TwitterAccount? {
-        get {
-            if !self.existAccount {
-                return nil
-            }
-
-            let userID = self.currentKey
-            return self.list[userID!]
+        if !self.existAccount {
+            return nil
         }
+
+        let userID = self.currentID
+        return self.accounts[userID!]
     }
 
-    init() {
+    var currentID: String? {
+        if !self.existAccount {
+            return nil
+        }
+
+        if !self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
+            let userID = self.accountIDs.first
+            self.changeCurrent(userID: userID!)
+        }
+
+        return self.userDefaults.string(forKey: "CurrentAccount")
+    }
+
+    private init() {
         let accounts = self.keychain.allKeys()
 
         let failure: Swifter.FailureHandler = { error in
@@ -76,9 +69,8 @@ class TwitterAccounts {
             if numOfAccounts == 0 {
                 self.notificationCenter.post(name: .alreadyAccounts, object: nil)
 
-                let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
-                if !self.list.keys.contains(currentUserID!) {
-                    let userID = self.listKeys.first
+                if !self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
+                    let userID = self.accountIDs.first
                     self.changeCurrent(userID: userID!)
                 }
 
@@ -145,12 +137,12 @@ class TwitterAccounts {
     }
 
     func logout(account: TwitterAccount) {
-        self.list.removeValue(forKey: account.userID)
+        self.accounts.removeValue(forKey: account.userID)
         try? self.keychain.remove(account.userID)
 
         let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
         if account.userID == currentUserID! {
-            let userID = self.listKeys.first
+            let userID = self.accountIDs.first
             self.changeCurrent(userID: userID!)
         }
     }
@@ -178,7 +170,7 @@ class TwitterAccounts {
                                          name: name!,
                                          screenName: screenName!,
                                          avaterUrl: avaterUrl!)
-            self.list[userID] = account
+            self.accounts[userID] = account
 
             if notificationName != nil {
                 self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])

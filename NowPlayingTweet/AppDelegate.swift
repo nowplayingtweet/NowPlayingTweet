@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    let twitterAccounts: TwitterAccounts = TwitterAccounts()
+    let twitterClient: TwitterClient = TwitterClient.shared
 
     var playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
@@ -61,13 +61,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            let existAccount = self.twitterAccounts.existAccount
+            let existAccount = self.twitterClient.existAccount
             self.updateCurrentAccount(to: existAccount)
 
             if existAccount {
                 let menu = NSMenu()
-                for userID in self.twitterAccounts.listKeys {
-                    let twitterAccount = self.twitterAccounts.list[userID]
+                for userID in self.twitterClient.accountIDs {
+                    let twitterAccount = self.twitterClient.accounts[userID]
                     let menuItem = NSMenuItem()
                     menuItem.title = (twitterAccount?.name)!
                     menuItem.action = #selector(self.tweetBySelectingAccount(_:))
@@ -95,7 +95,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        self.tweetNowPlaying(by: self.twitterAccounts.current)
+        self.tweetNowPlaying(by: self.twitterClient.current)
     }
 
     @IBAction func showPreferences(_ sender: Any) {
@@ -103,11 +103,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func tweetByCurrentAccount(_ sender: NSMenuItem) {
-        self.tweetNowPlaying(by: self.twitterAccounts.current)
+        self.tweetNowPlaying(by: self.twitterClient.current)
     }
 
     @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
-        let account = self.twitterAccounts.list[sender.title]
+        let account = self.twitterClient.accounts[sender.title]
         self.tweetNowPlaying(by: account)
     }
 
@@ -154,7 +154,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func postTweet(with twitterAccount: TwitterAccount?, failure: Swifter.FailureHandler? = nil) throws {
-        if !self.twitterAccounts.existAccount {
+        if !self.twitterClient.existAccount {
             throw NPTError.NotLogin
         }
 
@@ -195,8 +195,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func updateCurrentAccount(to existAccount: Bool) {
         if existAccount {
-            self.currentAccount.title = self.twitterAccounts.current!.name
-            self.currentAccount.fetchImage(url: self.twitterAccounts.current!.avaterUrl, rounded: true)
+            self.currentAccount.title = self.twitterClient.current!.name
+            self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
         }
 
         self.currentAccount.isHidden = !existAccount
