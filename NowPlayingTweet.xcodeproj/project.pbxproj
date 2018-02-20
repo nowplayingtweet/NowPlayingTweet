@@ -218,9 +218,9 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
+				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
 			);
 			name = Frameworks;

@@ -11,51 +11,85 @@ import ScriptingUtilities
 
 class iTunesPlayerInfo {
 
-    private let iTunes: iTunesApplication = ScriptingUtilities.application(name: "iTunes") as! iTunesApplication
-    //private let iTunes = ScriptingUtilities.application(bundleIdentifier: "com.apple.iTunes") as! iTunesApplication
+    struct Track {
+        let title: String?
 
-    var title: String?
+        let artist: String?
 
-    var artist: String?
+        let album: String?
 
-    var album: String?
+        let albumArtist: String?
 
-    var albumArtist: String?
+        let bitRate: Int?
 
-    var bitRate: Int?
+        let artworks: [iTunesArtwork]?
 
-    var artworks: [iTunesArtwork]?
+        var artwork: NSImage? {
+            return self.artworks?[0].data
+        }
+    }
 
-    var artwork: NSImage?
+    private var iTunes: iTunesApplication?
 
-    var existTrack: Bool = false
+    var currentTrack: iTunesPlayerInfo.Track?
+
+    var isRunningiTunes: Bool {
+        return self.checkRunningiTunes()
+    }
+
+    var existTrack: Bool {
+        return self.currentTrack != nil
+    }
 
     init() {
         self.updateTrack()
     }
 
     func updateTrack() {
-        self.existTrack = (self.iTunes.currentTrack?.exists!())!
-        if self.existTrack {
-            self.convert(from: self.iTunes.currentTrack!)
+        if !self.checkRunningiTunes() {
+            self.cleanTrack()
+            self.iTunes = nil
+            return
         }
+
+        if self.iTunes == nil {
+            self.iTunes = ScriptingUtilities.application(name: "iTunes") as? iTunesApplication
+            //self.iTunes = ScriptingUtilities.application(bundleIdentifier: "com.apple.iTunes") as? iTunesApplication
+        }
+
+        let existTrack = self.iTunes?.currentTrack?.exists!()
+
+        if existTrack! {
+            self.convert(from: (self.iTunes?.currentTrack)!)
+        } else {
+            self.cleanTrack()
+        }
+    }
+
+    private func checkRunningiTunes() -> Bool {
+        let runningApps = NSWorkspace.shared.runningApplications
+
+        let regularApps = runningApps.filter {
+            $0.activationPolicy == NSApplication.ActivationPolicy.regular
+        }
+        let appIDs = regularApps.map { $0.bundleIdentifier }
+
+        return appIDs.first(where: { $0 == "com.apple.iTunes" }) != nil
+    }
+
+    private func cleanTrack() {
+        self.currentTrack = nil
     }
 
     private func convert(from itunesTrack: iTunesTrack) {
         let trackArtworks: [iTunesArtwork] = itunesTrack.artworks!() as! [iTunesArtwork]
-        self.artworks = trackArtworks
 
-        self.artwork = self.artworks![0].data
-
-        self.title = itunesTrack.name
-
-        self.artist = itunesTrack.artist
-
-        self.album = itunesTrack.album
-
-        self.albumArtist = itunesTrack.albumArtist
-
-        self.bitRate = itunesTrack.bitRate
+        self.currentTrack = Track(title: itunesTrack.name,
+                                  artist: itunesTrack.artist,
+                                  album: itunesTrack.album,
+                                  albumArtist: itunesTrack.albumArtist,
+                                  bitRate: itunesTrack.bitRate,
+                                  artworks: trackArtworks)
     }
 
 }

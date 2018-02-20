@@ -313,7 +313,7 @@
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="463" height="0.0"/>
+                        <rect key="contentRect" x="196" y="240" width="488" height="0.0"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
                         <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
                             <allowedToolbarItems>
@@ -352,7 +352,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="72" y="257"/>
+            <point key="canvasLocation" x="208" y="201"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="f4J-kw-96r">
@@ -524,7 +524,7 @@
                 </viewController>
                 <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="72" y="561"/>
+            <point key="canvasLocation" x="714" y="438"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
@@ -591,7 +591,7 @@
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="482" y="506"/>
+            <point key="canvasLocation" x="1119" y="383"/>
         </scene>
         <!--General-->
         <scene sceneID="hIz-AP-VOD">
@@ -723,7 +723,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-443" y="496"/>
+            <point key="canvasLocation" x="209" y="373"/>
         </scene>
     </scenes>
     <resources>

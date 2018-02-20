@@ -143,6 +143,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                 informative: "Please login in Preferences -> Accounts.",
                                 style: .warning)
             alert.runModal()
+        } catch NPTError.NotRunningiTunes {
+            let alert = NSAlert(message: "Not runnning iTunes.",
+                                style: .informational)
+            alert.runModal()
         } catch NPTError.NotExistTrack {
             let alert = NSAlert(message: "Not exist music.",
                                 style: .informational)
@@ -160,28 +164,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.playerInfo.updateTrack()
 
+        if !self.playerInfo.isRunningiTunes {
+            throw NPTError.NotRunningiTunes
+        }
+
         if !self.playerInfo.existTrack {
             throw NPTError.NotExistTrack
         }
 
-        let tweetText = self.createTweetText()
+        let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
+
+        let tweetText = self.createTweetText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            twitterAccount?.tweet(text: tweetText, with: self.playerInfo.artwork, failure: failure)
+            twitterAccount?.tweet(text: tweetText, with: currentTrack.artwork, failure: failure)
         } else {
             twitterAccount?.tweet(text: tweetText, failure: failure)
         }
     }
 
-    func createTweetText() -> String {
+    func createTweetText(from track: iTunesPlayerInfo.Track) -> String {
         var format = self.userDefaults.string(forKey: "TweetFormat")!
 
         let convertDictionary: [String : String] = [
-            "{{Title}}" : self.playerInfo.title!,
-            "{{Artist}}" : self.playerInfo.artist!,
-            "{{Album}}" : self.playerInfo.album!,
-            "{{AlbumArtist}}" : self.playerInfo.albumArtist!,
-            "{{BitRate}}" : String(self.playerInfo.bitRate!),
+            "{{Title}}" : track.title!,
+            "{{Artist}}" : track.artist!,
+            "{{Album}}" : track.album!,
+            "{{AlbumArtist}}" : track.albumArtist!,
+            "{{BitRate}}" : String(track.bitRate!),
         ]
 
         for (from,to) in convertDictionary {
