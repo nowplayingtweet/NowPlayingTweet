@@ -11,7 +11,7 @@ import AppKit
 extension NSToolbarItem.Identifier {
 
     static let general =  NSToolbarItem.Identifier("General")
+    static let account =  NSToolbarItem.Identifier("Account")
     static let advanced =  NSToolbarItem.Identifier("Advanced")
-    static let accounts =  NSToolbarItem.Identifier("Accounts")
 
 }

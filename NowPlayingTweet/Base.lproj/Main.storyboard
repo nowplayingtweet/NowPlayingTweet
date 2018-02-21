@@ -21,7 +21,7 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
-                        <menuItem title="Tweet NowPlaying" id="Jpx-zD-RJg">
+                        <menuItem title="Tweet NowPlaying" identifier="TweetNowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="tweetByCurrentAccount:" target="Voe-Tx-rLC" id="89o-hV-ezm"/>
@@ -46,7 +46,6 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="NowPlayingTweet" customModuleProvider="target">
                     <connections>
                         <outlet property="currentAccount" destination="n9w-bL-8rt" id="t4X-oy-1Df"/>
-                        <outlet property="currentSeparator" destination="pCa-oZ-K4p" id="cBy-jS-lUy"/>
                         <outlet property="menu" destination="MHr-w1-nK8" id="ZPJ-5F-mFY"/>
                         <outlet property="tweetMenu" destination="Jpx-zD-RJg" id="eek-t3-fH5"/>
                     </connections>
@@ -322,7 +321,7 @@
                                         <action selector="switchView:" target="B8D-0N-5wS" id="HtF-2k-aZe"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Accounts" label="Accounts" paletteLabel="Accounts" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
+                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Account" label="Accounts" paletteLabel="Account" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL" userLabel="Accounts">
                                     <connections>
                                         <action selector="switchView:" target="B8D-0N-5wS" id="kI6-r7-YHZ"/>
                                     </connections>
@@ -354,10 +353,10 @@
             </objects>
             <point key="canvasLocation" x="208" y="201"/>
         </scene>
-        <!--Accounts-->
+        <!--Account-->
         <scene sceneID="f4J-kw-96r">
             <objects>
-                <viewController title="Accounts" storyboardIdentifier="AccountsViewController" id="eLk-Pt-GjP" customClass="AccountsViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Account" storyboardIdentifier="AccountViewController" id="eLk-Pt-GjP" customClass="AccountViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ymK-C2-fHY">
                         <rect key="frame" x="0.0" y="0.0" width="470" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>

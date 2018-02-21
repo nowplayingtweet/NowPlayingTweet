@@ -33,13 +33,13 @@ class AdvancedViewController: NSViewController {
     @IBAction func switchSetting(_ sender: NSButton) {
         let identifier: String = (sender.identifier?.rawValue)!
         if identifier == "AutoTweet" {
-            self.notificationObserver(state: sender.state.toBool())
+            self.autoTweet(state: sender.state.toBool())
         }
         self.userDefaults.set(sender.state.toBool(), forKey: identifier)
         self.userDefaults.synchronize()
     }
 
-    private func notificationObserver(state: Bool) {
+    private func autoTweet(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
         if state {
             notificationObserver.addObserver(self.appDelegate,

@@ -1,5 +1,5 @@
 /**
- *  AccountsViewController.swift
+ *  AccountViewController.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -8,7 +8,7 @@
 import Cocoa
 import SwifterMac
 
-class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
@@ -23,10 +23,10 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    static let shared: AccountsViewController = {
+    static let shared: AccountViewController = {
         let storyboard = NSStoryboard(name: .main, bundle: nil)
-        let windowController = storyboard.instantiateController(withIdentifier: .accountsViewController)
-        return windowController as! AccountsViewController
+        let windowController = storyboard.instantiateController(withIdentifier: .accountViewController)
+        return windowController as! AccountViewController
     }()
 
     let twitterClient: TwitterClient = TwitterClient.shared
@@ -61,7 +61,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     @IBAction func setToCurrent(_ sender: NSButton) {
         let userID = self.selected?.userID
         self.twitterClient.changeCurrent(userID: userID!)
-        self.appDelegate.updateCurrentAccount(to: true)
+        self.appDelegate.updateTwitterAccount()
         self.currentLabel.isHidden = false
         self.currentButton.isHidden = true
     }
@@ -92,7 +92,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
                 let menu = NSMenu()
                 menu.addItem(menuItem)
                 self.appDelegate.tweetMenu?.submenu = menu
-                self.appDelegate.updateCurrentAccount(to: true)
+                self.appDelegate.updateTwitterAccount()
                 self.currentLabel.isHidden = false
                 self.currentButton.isHidden = true
 
@@ -135,7 +135,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
 
-            self.appDelegate.updateCurrentAccount(to: true)
+            self.appDelegate.updateTwitterAccount()
         } else {
             self.appDelegate.tweetMenu?.submenu = nil
 
@@ -148,7 +148,7 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.currentLabel.isHidden = true
             self.currentButton.isHidden = true
 
-            self.appDelegate.updateCurrentAccount(to: false)
+            self.appDelegate.updateTwitterAccount()
         }
     }
 

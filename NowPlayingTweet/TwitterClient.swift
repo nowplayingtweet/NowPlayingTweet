@@ -18,9 +18,9 @@ class TwitterClient {
 
     let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
-    let notificationCenter: NotificationCenter = NotificationCenter.default
-
     var userDefaults: UserDefaults = UserDefaults.standard
+
+    let notificationCenter: NotificationCenter = NotificationCenter.default
 
     var accounts: [String : TwitterAccount] = [:]
 
@@ -28,8 +28,12 @@ class TwitterClient {
         return self.accounts.keys.sorted()
     }
 
+    var numberOfAccounts: Int {
+        return self.accounts.count
+    }
+
     var existAccount: Bool {
-        return self.accounts.count > 0
+        return self.numberOfAccounts > 0
     }
 
     var current: TwitterAccount? {
@@ -37,19 +41,11 @@ class TwitterClient {
             return nil
         }
 
-        let userID = self.currentID
-        return self.accounts[userID!]
+        return self.accounts[self.currentID!]
     }
 
     var currentID: String? {
-        if !self.existAccount {
-            return nil
-        }
-
-        if !self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
-            let userID = self.accountIDs.first
-            self.changeCurrent(userID: userID!)
-        }
+        self.updateCurrentAccount()
 
         return self.userDefaults.string(forKey: "CurrentAccount")
     }
@@ -64,18 +60,17 @@ class TwitterClient {
 
         var numOfAccounts: Int = accounts.count
         var observer: NSObjectProtocol!
-        observer = self.notificationCenter.addObserver(forName: .initAccounts, object: nil, queue: nil, using: { notification in
+        observer = self.notificationCenter.addObserver(forName: .initializeAccounts, object: nil, queue: nil, using: { _ in
             numOfAccounts -= 1
-            if numOfAccounts == 0 {
-                self.notificationCenter.post(name: .alreadyAccounts, object: nil)
-
-                if !self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
-                    let userID = self.accountIDs.first
-                    self.changeCurrent(userID: userID!)
-                }
-
-                self.notificationCenter.removeObserver(observer)
+            if numOfAccounts != 0 {
+                return
             }
+
+            self.updateCurrentAccount()
+
+            self.notificationCenter.post(name: .alreadyAccounts,
+                                         object: nil)
+            self.notificationCenter.removeObserver(observer)
         })
 
         //for account in accounts {
@@ -97,7 +92,13 @@ class TwitterClient {
                             oauthToken: oauthToken,
                             oauthSecret: oauthSecret,
                             failure: failure,
-                            notificationName: .initAccounts)
+                            notificationName: .initializeAccounts)
+        }
+
+        if numOfAccounts == 0 {
+            self.notificationCenter.post(name: .alreadyAccounts,
+                                         object: nil)
+            return
         }
     }
 
@@ -140,10 +141,26 @@ class TwitterClient {
         self.accounts.removeValue(forKey: account.userID)
         try? self.keychain.remove(account.userID)
 
-        let currentUserID = self.userDefaults.string(forKey: "CurrentAccount")
-        if account.userID == currentUserID! {
+        if self.existAccount {
+            self.updateCurrentAccount()
+        }
+
+        self.notificationCenter.post(name: .logout,
+                                     object: nil,
+                                     userInfo: ["oldUserID" : account.userID])
+    }
+
+    private func updateCurrentAccount() {
+        if self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
+            return
+        }
+
+        if self.existAccount {
             let userID = self.accountIDs.first
             self.changeCurrent(userID: userID!)
+        } else {
+            self.userDefaults.removeObject(forKey: "CurrentAccount")
+            self.userDefaults.synchronize()
         }
     }
 
@@ -152,12 +169,7 @@ class TwitterClient {
         self.userDefaults.synchronize()
     }
 
-    private func setAccount(swifter: Swifter,
-                            userID: String,
-                            oauthToken: String,
-                            oauthSecret: String,
-                            failure: @escaping Swifter.FailureHandler,
-                            notificationName: Notification.Name? = nil) {
+    private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
         swifter.showUser(for: .id(userID), success: { json in
             let name = json.object!["name"]?.string
             let screenName = json.object!["screen_name"]?.string
@@ -173,7 +185,9 @@ class TwitterClient {
             self.accounts[userID] = account
 
             if notificationName != nil {
-                self.notificationCenter.post(name: notificationName!, object: nil, userInfo: ["account" : account])
+                self.notificationCenter.post(name: notificationName!,
+                                             object: nil,
+                                             userInfo: ["account" : account])
             }
         }, failure: failure)
     }

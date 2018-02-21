@@ -69,10 +69,7 @@ class iTunesPlayerInfo {
     private func checkRunningiTunes() -> Bool {
         let runningApps = NSWorkspace.shared.runningApplications
 
-        let regularApps = runningApps.filter {
-            $0.activationPolicy == NSApplication.ActivationPolicy.regular
-        }
-        let appIDs = regularApps.map { $0.bundleIdentifier }
+        let appIDs = runningApps.map { $0.bundleIdentifier }
 
         return appIDs.first(where: { $0 == "com.apple.iTunes" }) != nil
     }

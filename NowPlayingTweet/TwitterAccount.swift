@@ -12,7 +12,7 @@ import KeychainAccess
 
 struct TwitterAccount {
 
-    var swifter: Swifter
+    let swifter: Swifter
 
     let userID: String
 

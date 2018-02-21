@@ -22,7 +22,7 @@ class PreferencesWindowController: NSWindowController {
 
     private let viewControllers: [NSViewController] = [
         GeneralViewController.shared,
-        AccountsViewController.shared,
+        AccountViewController.shared,
         AdvancedViewController.shared,
         ]
 
@@ -57,9 +57,10 @@ class PreferencesWindowController: NSWindowController {
         newWindowFrame.origin.y = windowFrame.origin.y + windowFrame.size.height - newWindowFrame.size.height
 
         self.window?.contentViewController = nil
+        self.window?.title = viewController.title!
         self.window?.setFrame(newWindowFrame, display: true, animate: true)
         self.window?.contentViewController = viewController
-
+    
         self.userDefaults.set(toolbarItem.itemIdentifier.rawValue, forKey: "lastViewItemIdentifier")
     }
 
