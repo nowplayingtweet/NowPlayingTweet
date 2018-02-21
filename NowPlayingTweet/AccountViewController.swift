@@ -67,12 +67,9 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     @IBAction func addAccount(_ sender: NSButton) {
-        self.twitterClient.login()
-
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
-            self.removeButton.enable()
             self.selected = notification.userInfo!["account"] as? TwitterClient.Account
 
             self.accountList.reloadData()
@@ -84,20 +81,13 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-            let menuItem = NSMenuItem()
-            menuItem.title = name!
-            menuItem.action = #selector(self.appDelegate.tweetBySelectingAccount(_:))
+            self.appDelegate.updateTwitterAccount()
 
-            if self.twitterClient.accountIDs.count == 1 {
-                let menu = NSMenu()
-                menu.addItem(menuItem)
-                self.appDelegate.tweetMenu?.submenu = menu
-                self.appDelegate.updateTwitterAccount()
+            if self.twitterClient.numberOfAccounts == 1 {
+                self.removeButton.enable()
                 self.currentLabel.isHidden = false
                 self.currentButton.isHidden = true
-
             } else {
-                self.appDelegate.tweetMenu?.submenu?.insertItem(menuItem, at: numberOfAccounts)
                 self.currentLabel.isHidden = true
                 self.currentButton.isHidden = false
             }
@@ -108,6 +98,8 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             notificationCenter.removeObserver(observer)
         })
+
+        self.twitterClient.login()
     }
 
     @IBAction func removeAccount(_ sender: NSButton) {
@@ -116,10 +108,6 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.accountList.reloadData()
 
         if self.twitterClient.existAccount {
-            let removedName = self.selected?.name
-            let menuItem = self.appDelegate.tweetMenu?.submenu?.item(withTitle: removedName!)
-            self.appDelegate.tweetMenu?.submenu?.removeItem(menuItem!)
-
             self.selected = self.twitterClient.current
 
             let userID = self.selected?.userID
@@ -137,8 +125,6 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.appDelegate.updateTwitterAccount()
         } else {
-            self.appDelegate.tweetMenu?.submenu = nil
-
             self.removeButton.disable()
             self.selected = nil
             self.set(name: nil)
@@ -155,19 +141,18 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction func selectAccount(_ sender: AccountsListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
-        let twitterAccount: TwitterClient.Account = self.twitterClient.accounts[userID]!
-        self.selected = twitterAccount
+        self.selected = self.twitterClient.accounts[userID]!
 
-        let isCurrent = self.twitterClient.currentID == userID
+        let isCurrent = self.twitterClient.currentID == self.selected?.userID
         self.currentLabel.isHidden = !isCurrent
         self.currentButton.isHidden = isCurrent
-        self.set(name: twitterAccount.name)
-        self.set(screenName: twitterAccount.screenName)
-        self.set(avaterUrl: twitterAccount.avaterUrl)
+        self.set(name: self.selected?.name)
+        self.set(screenName: self.selected?.screenName)
+        self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
     func set(name string: String?) {
-        self.name.stringValue = string != nil ? string! : "Account Name"
+        self.name.stringValue = string != nil ? string! : "Not logged in..."
         self.name.textColor = string != nil ? .labelColor : .disabledControlTextColor
     }
 
@@ -190,7 +175,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         if !self.twitterClient.existAccount {
             return 0
         }
-        let accountCount = self.twitterClient.accounts.count
+        let accountCount = self.twitterClient.numberOfAccounts
         return accountCount
     }
 

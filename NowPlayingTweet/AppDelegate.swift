@@ -147,7 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func postTweet(with twitterAccount: TwitterClient.Account?, failure: Swifter.FailureHandler? = nil) throws {
+    private func postTweet(with twitterAccount: TwitterClient.Account?, failure: Swifter.FailureHandler? = nil) throws {
         if !self.twitterClient.existAccount {
             throw NPTError.NotLogin
         }
@@ -173,7 +173,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func createTweetText(from track: iTunesPlayerInfo.Track) -> String {
+    private func createTweetText(from track: iTunesPlayerInfo.Track) -> String {
         var format = self.userDefaults.string(forKey: "TweetFormat")!
 
         let convertDictionary: [String : String] = [
@@ -195,13 +195,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func updateTwitterAccount() {
         if !self.twitterClient.existAccount {
-            self.currentAccount.title = "Not Login..."
+            self.currentAccount.title = "Not Logged in..."
             self.currentAccount.image = NSImage(named: .user)
             self.tweetMenu.submenu = nil
             return
         }
 
-        if self.twitterClient.accountIDs.count > 1 {
+        self.currentAccount.title = self.twitterClient.current!.name
+        self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+
+        if self.twitterClient.numberOfAccounts > 1 {
             let menu = NSMenu()
             for userID in self.twitterClient.accountIDs {
                 let twitterAccount = self.twitterClient.accounts[userID]

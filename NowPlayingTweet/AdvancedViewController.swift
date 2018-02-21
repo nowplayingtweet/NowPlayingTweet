@@ -49,13 +49,15 @@ class AdvancedViewController: NSViewController {
 
         self.appDelegate.switchAutoTweet(state: sender.state.toBool())
 
+        let notificationCenter: NotificationCenter = NotificationCenter.default
         if sender.state.toBool() {
-            let notificationCenter: NotificationCenter = NotificationCenter.default
             var observer: NSObjectProtocol!
             observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
                 self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
                 notificationCenter.removeObserver(observer)
             })
+        } else {
+            notificationCenter.post(name: .disableAutoTweet, object: nil)
         }
     }
 
