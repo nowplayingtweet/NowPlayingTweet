@@ -28,30 +28,34 @@ class AdvancedViewController: NSViewController {
         // Do view setup here.
         self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
         self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
+
+        if self.userDefaults.bool(forKey: "AutoTweet") {
+            let notificationCenter: NotificationCenter = NotificationCenter.default
+            var observer: NSObjectProtocol!
+            observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
+                self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
+                notificationCenter.removeObserver(observer)
+            })
+        }
     }
 
     @IBAction func switchSetting(_ sender: NSButton) {
         let identifier: String = (sender.identifier?.rawValue)!
-        if identifier == "AutoTweet" {
-            self.autoTweet(state: sender.state.toBool())
+        if identifier != "AutoTweet" {
+            self.userDefaults.set(sender.state.toBool(), forKey: identifier)
+            self.userDefaults.synchronize()
+            return
         }
-        self.userDefaults.set(sender.state.toBool(), forKey: identifier)
-        self.userDefaults.synchronize()
-    }
 
-    private func autoTweet(state: Bool) {
-        let notificationObserver: NotificationObserver = NotificationObserver()
-        if state {
-            notificationObserver.addObserver(self.appDelegate,
-                                             name: .iTunesPlayerInfo,
-                                             selector: #selector(self.appDelegate.handleNowPlaying(_:)),
-                                             object: nil,
-                                             distributed: true)
-        } else {
-            notificationObserver.removeObserver(self.appDelegate,
-                                                name: .iTunesPlayerInfo,
-                                                object: nil,
-                                                distributed: true)
+        self.appDelegate.switchAutoTweet(state: sender.state.toBool())
+
+        if sender.state.toBool() {
+            let notificationCenter: NotificationCenter = NotificationCenter.default
+            var observer: NSObjectProtocol!
+            observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
+                self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
+                notificationCenter.removeObserver(observer)
+            })
         }
     }
 

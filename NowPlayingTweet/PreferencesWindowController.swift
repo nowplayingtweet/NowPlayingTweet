@@ -46,6 +46,8 @@ class PreferencesWindowController: NSWindowController {
 
         self.switchView(item)
         self.window?.center()
+
+        self.window?.level = .floating
     }
 
     @IBAction func switchView(_ toolbarItem: NSToolbarItem) {

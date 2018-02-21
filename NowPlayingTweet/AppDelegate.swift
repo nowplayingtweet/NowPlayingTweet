@@ -61,12 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
-            let notificationObserver: NotificationObserver = NotificationObserver()
-            notificationObserver.addObserver(self,
-                                             name: .iTunesPlayerInfo,
-                                             selector: #selector(self.handleNowPlaying(_:)),
-                                             object: nil,
-                                             distributed: true)
+            self.switchAutoTweet(state: true)
         }
     }
 
@@ -85,7 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        self.tweetNowPlaying(by: self.twitterClient.current)
+        self.tweetNowPlaying(by: self.twitterClient.current, auto: true)
     }
 
     @IBAction func showPreferences(_ sender: Any) {
@@ -101,7 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.tweetNowPlaying(by: account)
     }
 
-    func tweetNowPlaying(by twitterAccounts: TwitterClient.Account?) {
+    func tweetNowPlaying(by twitterAccounts: TwitterClient.Account?, auto: Bool = false) {
         let tweetFailureHandler: Swifter.FailureHandler = { error in
             let err = error as! SwifterError
 
@@ -129,8 +124,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
         } catch NPTError.NotLogin {
+            if auto {
+                self.switchAutoTweet(state: false)
+                let notificationCenter: NotificationCenter = NotificationCenter.default
+                notificationCenter.post(name: .disableAutoTweet, object: nil)
+            }
             let alert = NSAlert(message: "Not logged in!",
-                                informative: "Please login in Preferences -> Accounts.",
+                                informative: "Please login in Preferences -> Accounts.\nDisable Auto Tweet",
                                 style: .warning)
             alert.runModal()
         } catch NPTError.NotRunningiTunes {
@@ -217,6 +217,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.currentAccount.title = self.twitterClient.current!.name
         self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+    }
+
+    func switchAutoTweet(state: Bool) {
+        let notificationObserver: NotificationObserver = NotificationObserver()
+        if state {
+            notificationObserver.addObserver(self,
+                                             name: .iTunesPlayerInfo,
+                                             selector: #selector(self.handleNowPlaying(_:)),
+                                             object: nil,
+                                             distributed: true)
+        } else {
+            notificationObserver.removeObserver(self,
+                                                name: .iTunesPlayerInfo,
+                                                object: nil,
+                                                distributed: true)
+        }
+        self.userDefaults.set(state, forKey: "AutoTweet")
+        self.userDefaults.synchronize()
     }
 
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
