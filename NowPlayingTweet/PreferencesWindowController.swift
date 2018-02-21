@@ -60,7 +60,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.title = viewController.title!
         self.window?.setFrame(newWindowFrame, display: true, animate: true)
         self.window?.contentViewController = viewController
-    
+
         self.userDefaults.set(toolbarItem.itemIdentifier.rawValue, forKey: "lastViewItemIdentifier")
     }
 

@@ -101,7 +101,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.tweetNowPlaying(by: account)
     }
 
-    func tweetNowPlaying(by twitterAccounts: TwitterAccount?) {
+    func tweetNowPlaying(by twitterAccounts: TwitterClient.Account?) {
         let tweetFailureHandler: Swifter.FailureHandler = { error in
             let err = error as! SwifterError
 
@@ -147,7 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func postTweet(with twitterAccount: TwitterAccount?, failure: Swifter.FailureHandler? = nil) throws {
+    func postTweet(with twitterAccount: TwitterClient.Account?, failure: Swifter.FailureHandler? = nil) throws {
         if !self.twitterClient.existAccount {
             throw NPTError.NotLogin
         }
@@ -167,9 +167,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let tweetText = self.createTweetText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            twitterAccount?.tweet(text: tweetText, with: currentTrack.artwork, failure: failure)
+            self.twitterClient.tweet(account: twitterAccount!, text: tweetText, with: currentTrack.artwork, failure: failure)
         } else {
-            twitterAccount?.tweet(text: tweetText, failure: failure)
+            self.twitterClient.tweet(account: twitterAccount!, text: tweetText, failure: failure)
         }
     }
 

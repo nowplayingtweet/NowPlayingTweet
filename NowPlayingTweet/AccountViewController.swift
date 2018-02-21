@@ -31,7 +31,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
 
     let twitterClient: TwitterClient = TwitterClient.shared
 
-    var selected: TwitterAccount?
+    var selected: TwitterClient.Account?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
             self.removeButton.enable()
-            self.selected = notification.userInfo!["account"] as? TwitterAccount
+            self.selected = notification.userInfo!["account"] as? TwitterClient.Account
 
             self.accountList.reloadData()
 
@@ -155,7 +155,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction func selectAccount(_ sender: AccountsListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
-        let twitterAccount: TwitterAccount = self.twitterClient.accounts[userID]!
+        let twitterAccount: TwitterClient.Account = self.twitterClient.accounts[userID]!
         self.selected = twitterAccount
 
         let isCurrent = self.twitterClient.currentID == userID
@@ -198,7 +198,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
 
         let userID = self.twitterClient.accountIDs[row]
-        let twitterAccount: TwitterAccount = self.twitterClient.accounts[userID]!
+        let twitterAccount: TwitterClient.Account = self.twitterClient.accounts[userID]!
 
         cellView.textField?.stringValue = twitterAccount.name
         cellView.screenName.stringValue = "@\(twitterAccount.screenName)"

@@ -6,10 +6,26 @@
 **/
 
 import Foundation
+import AppKit
 import SwifterMac
 import KeychainAccess
 
 class TwitterClient {
+
+    struct Account {
+        let swifter: Swifter
+
+        let userID: String
+
+        let oauthToken: String
+        let oauthSecret: String
+
+        let name: String
+
+        let screenName: String
+
+        let avaterUrl: URL
+    }
 
     static let shared: TwitterClient = TwitterClient()
 
@@ -22,7 +38,7 @@ class TwitterClient {
 
     let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    var accounts: [String : TwitterAccount] = [:]
+    var accounts: [String : TwitterClient.Account] = [:]
 
     var accountIDs: [String] {
         return self.accounts.keys.sorted()
@@ -36,7 +52,7 @@ class TwitterClient {
         return self.numberOfAccounts > 0
     }
 
-    var current: TwitterAccount? {
+    var current: TwitterClient.Account? {
         if !self.existAccount {
             return nil
         }
@@ -137,7 +153,7 @@ class TwitterClient {
                           failure: failure)
     }
 
-    func logout(account: TwitterAccount) {
+    func logout(account: TwitterClient.Account) {
         self.accounts.removeValue(forKey: account.userID)
         try? self.keychain.remove(account.userID)
 
@@ -148,6 +164,15 @@ class TwitterClient {
         self.notificationCenter.post(name: .logout,
                                      object: nil,
                                      userInfo: ["oldUserID" : account.userID])
+    }
+
+    func tweet(account: TwitterClient.Account, text: String, with artwork: NSImage? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
+        if artwork == nil {
+            account.swifter.postTweet(status: text, success: success, failure: failure)
+            return
+        }
+        let image = artwork?.toData(from: .jpeg)
+        account.swifter.postTweet(status: text, media: image!, success: success, failure: failure)
     }
 
     private func updateCurrentAccount() {
@@ -175,7 +200,7 @@ class TwitterClient {
             let screenName = json.object!["screen_name"]?.string
             let avaterUrl = URL(string: (json.object!["profile_image_url_https"]?.string)!)
 
-            let account = TwitterAccount(swifter: swifter,
+            let account = TwitterClient.Account(swifter: swifter,
                                          userID: userID,
                                          oauthToken: oauthToken,
                                          oauthSecret: oauthSecret,
