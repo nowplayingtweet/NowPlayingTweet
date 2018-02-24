@@ -17,7 +17,7 @@ class AdvancedViewController: NSViewController {
     var userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: AdvancedViewController = {
-        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
         let windowController = storyboard.instantiateController(withIdentifier: .advancedViewController)
         return windowController as! AdvancedViewController
     }()

@@ -24,7 +24,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     let userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: AccountViewController = {
-        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
         let windowController = storyboard.instantiateController(withIdentifier: .accountViewController)
         return windowController as! AccountViewController
     }()

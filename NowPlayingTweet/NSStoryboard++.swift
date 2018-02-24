@@ -10,7 +10,7 @@ import AppKit
 
 extension NSStoryboard.Name {
 
-    static let main = NSStoryboard.Name("Main")
+    static let main: NSStoryboard.Name = NSStoryboard.Name(Bundle.main.infoDictionary!["NSMainStoryboardFile"] as! String)
 
 }
 

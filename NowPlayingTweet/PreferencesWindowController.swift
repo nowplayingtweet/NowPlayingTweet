@@ -15,7 +15,7 @@ class PreferencesWindowController: NSWindowController {
     var userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: PreferencesWindowController = {
-        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
         let windowController = storyboard.instantiateController(withIdentifier: .preferencesWindowController)
         return windowController as! PreferencesWindowController
     }()
@@ -48,6 +48,10 @@ class PreferencesWindowController: NSWindowController {
         self.window?.center()
 
         self.window?.level = .floating
+    }
+
+    @IBAction func cancel(_ sender: Any?) {
+        self.close()
     }
 
     @IBAction func switchView(_ toolbarItem: NSToolbarItem) {

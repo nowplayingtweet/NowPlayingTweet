@@ -16,7 +16,7 @@ class GeneralViewController: NSViewController {
     var userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: GeneralViewController = {
-        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
         let windowController = storyboard.instantiateController(withIdentifier: .generalViewController)
         return windowController as! GeneralViewController
     }()
