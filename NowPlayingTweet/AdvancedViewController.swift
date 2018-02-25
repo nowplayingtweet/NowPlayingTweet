@@ -13,7 +13,7 @@ class AdvancedViewController: NSViewController {
     @IBOutlet weak var autoTweet: NSButton!
     @IBOutlet weak var useKeyShortcut: NSButton!
 
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
     var userDefaults: UserDefaults = UserDefaults.standard
 

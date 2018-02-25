@@ -19,7 +19,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var removeButton: NSButton!
     @IBOutlet weak var accountList: AccountsListView!
 
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
     let userDefaults: UserDefaults = UserDefaults.standard
 

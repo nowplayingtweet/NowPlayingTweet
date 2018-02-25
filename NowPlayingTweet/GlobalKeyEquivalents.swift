@@ -27,6 +27,8 @@ class GlobalKeyEquivalents {
 
     var eventMonitor: Any?
 
+    private weak var delegate: KeyEquivalentsDelegate?
+
     private init() {
         if !self.trusted {
             return
@@ -35,6 +37,10 @@ class GlobalKeyEquivalents {
         if self.isEnabled  {
             self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
         }
+    }
+
+    func set(delegate: KeyEquivalentsDelegate) {
+        self.delegate = delegate
     }
 
     func addMonitor() throws {
@@ -68,7 +74,9 @@ class GlobalKeyEquivalents {
             return
         }
 
-        print(flags, keyCode)
+        if flags == [.control, .option] && keyCode == 34 {
+            self.delegate?.tweetWithCurrent()
+        }
     }
 
 }

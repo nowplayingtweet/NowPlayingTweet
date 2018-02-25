@@ -10,7 +10,7 @@ import SwifterMac
 import iTunesScripting
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var currentAccount: NSMenuItem!
@@ -69,6 +69,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if self.userDefaults.bool(forKey: "AutoTweet") {
             self.switchAutoTweet(state: true)
         }
+
+        self.keyEquivalents.set(delegate: self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -257,4 +259,13 @@ Disable Auto Tweet
 
         return true
     }
+
+    func tweet(with userID: String) {
+        self.tweetNowPlaying(by: self.twitterClient.accounts[userID])
+    }
+
+    func tweetWithCurrent() {
+        self.tweetNowPlaying(by: self.twitterClient.current)
+    }
+
 }
