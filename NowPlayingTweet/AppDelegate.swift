@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
             "TweetWithImage" : true,
             "AutoTweet" : false,
+            "UseKeyShortcut" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
     }
@@ -47,6 +48,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        let notificationCenter: NotificationCenter = NotificationCenter.default
+        var observer: NSObjectProtocol!
+        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
+            self.updateTwitterAccount()
+
+            notificationCenter.removeObserver(observer)
+        })
+
+        self.updateTwitterAccount()
 
         if let button = self.statusItem.button {
             let image = NSImage(named: NSImage.Name("StatusBarIcon"))
@@ -55,14 +65,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         self.statusItem.menu = self.menu
-
-        self.updateTwitterAccount()
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            self.updateTwitterAccount()
-            notificationCenter.removeObserver(observer)
-        })
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
             self.switchAutoTweet(state: true)
@@ -130,11 +132,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } catch NPTError.NotLogin {
             if auto {
                 self.switchAutoTweet(state: false)
-                let notificationCenter: NotificationCenter = NotificationCenter.default
-                notificationCenter.post(name: .disableAutoTweet, object: nil)
             }
             let alert = NSAlert(message: "Not logged in!",
-                                informative: "Please login in Preferences -> Accounts.\nDisable Auto Tweet",
+                                informative: """
+Please login with Preferences -> Account.
+
+Disable Auto Tweet
+""",
                                 style: .warning)
             alert.runModal()
         } catch NPTError.NotRunningiTunes {
@@ -239,6 +243,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                 name: .iTunesPlayerInfo,
                                                 object: nil,
                                                 distributed: true)
+            let notificationCenter: NotificationCenter = NotificationCenter.default
+            notificationCenter.post(name: .disableAutoTweet, object: nil)
         }
         self.userDefaults.set(state, forKey: "AutoTweet")
         self.userDefaults.synchronize()

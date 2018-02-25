@@ -12,6 +12,7 @@ enum NPTError: Error {
     case NotRunningiTunes
     case NotExistTrack
     case NotLogin
+    case NotTrustedApp
     case Unknown(String)
 
 }

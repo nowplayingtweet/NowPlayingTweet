@@ -12,6 +12,8 @@ class GlobalKeyEquivalents {
 
     static let shared: GlobalKeyEquivalents = GlobalKeyEquivalents()
 
+    let userDefaults: UserDefaults = UserDefaults.standard
+
     var trusted: Bool {
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() : kCFBooleanTrue]
         let trusted = AXIsProcessTrustedWithOptions(options)
@@ -19,18 +21,47 @@ class GlobalKeyEquivalents {
         return trusted
     }
 
+    var isEnabled: Bool {
+        return self.userDefaults.bool(forKey: "UseKeyShortcut")
+    }
+
     var eventMonitor: Any?
 
-    let userDefaults: UserDefaults = UserDefaults.standard
-
     private init() {
-        if self.trusted {//self.userDefaults.bool(forKey: "isUseKeyShortcut") {
-            // Handle key doen event
+        if !self.trusted {
+            return
+        }
+
+        if self.isEnabled  {
             self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
         }
     }
 
-    @objc func handleKeyDownEvent(_ event: NSEvent) {
+    func addMonitor() throws {
+        if !self.trusted {
+            self.userDefaults.set(false, forKey: "UseKeyShortcut")
+            throw NPTError.NotTrustedApp
+        }
+
+        self.userDefaults.set(true, forKey: "UseKeyShortcut")
+        self.userDefaults.synchronize()
+
+        self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
+    }
+
+    func removeMonitor() throws {
+        self.userDefaults.set(false, forKey: "UseKeyShortcut")
+        self.userDefaults.synchronize()
+
+        guard let eventMonitor = self.eventMonitor else {
+            throw NPTError.Unknown("Have not eventMonitor")
+        }
+
+        NSEvent.removeMonitor(eventMonitor)
+        self.eventMonitor = nil
+    }
+
+    @objc private func handleKeyDownEvent(_ event: NSEvent) {
         //
         let flags = event.modifierFlags
         let keyCode = event.keyCode
