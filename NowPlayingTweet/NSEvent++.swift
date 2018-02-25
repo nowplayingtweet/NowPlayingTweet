@@ -11,7 +11,7 @@ import AppKit
 extension NSEvent.ModifierFlags {
 
     static var none: NSEvent.ModifierFlags {
-        return NSEvent.ModifierFlags(rawValue: 0x100)
+        return NSEvent.ModifierFlags(rawValue: 0x0)
     }
 
 }

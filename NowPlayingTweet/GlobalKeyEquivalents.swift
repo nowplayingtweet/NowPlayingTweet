@@ -62,8 +62,7 @@ class GlobalKeyEquivalents {
     }
 
     @objc private func handleKeyDownEvent(_ event: NSEvent) {
-        //
-        let flags = event.modifierFlags
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         let keyCode = event.keyCode
         if flags == .none {
             return
