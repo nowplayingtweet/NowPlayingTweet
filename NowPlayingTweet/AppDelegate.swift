@@ -20,7 +20,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    var twitterClient: TwitterClient = TwitterClient.shared
+    let twitterClient: TwitterClient = TwitterClient.shared
+
+    let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     let playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
@@ -35,14 +37,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.userDefaults.register(defaults: defaultSettings)
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-
-        // Defines get URL handler
+    func applicationWillFinishLaunching(_ aNotification: Notification) {
+        // Handle get url event
         NSAppleEventManager.shared().setEventHandler(self,
-                                                     andSelector: #selector(self.handleEvent(_:withReplyEvent:)),
+                                                     andSelector: #selector(self.handleGetURLEvent(_:withReplyEvent:)),
                                                      forEventClass: AEEventClass(kInternetEventClass),
                                                      andEventID: AEEventID(kAEGetURL))
+    }
+
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Insert code here to initialize your application
 
         if let button = self.statusItem.button {
             let image = NSImage(named: NSImage.Name("StatusBarIcon"))
@@ -69,8 +73,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    @objc func handleEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        // Cell SwifterMac handler
+    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
+        // Cell Swifter handleOpenURL
         Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
     }
 
