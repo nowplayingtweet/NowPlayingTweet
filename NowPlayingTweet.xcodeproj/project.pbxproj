@@ -24,7 +24,7 @@
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
-		3DAA09B0202C969D00C6F449 /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountsListView.swift */; };
+		3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountListView.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
 		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
@@ -40,6 +40,7 @@
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
+		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +99,7 @@
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
-		3DAA09AF202C969D00C6F449 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
+		3DAA09AF202C969D00C6F449 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
+		3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,11 +175,12 @@
 				3D5520D32022322200AAF108 /* GeneralViewController.swift */,
 				3D552110202329E900AAF108 /* AccountViewController.swift */,
 				3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */,
-				3DAA09AF202C969D00C6F449 /* AccountsListView.swift */,
+				3DAA09AF202C969D00C6F449 /* AccountListView.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
 				3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
+				3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */,
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
 				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
@@ -371,7 +374,7 @@
 				3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountViewController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
-				3DAA09B0202C969D00C6F449 /* AccountsListView.swift in Sources */,
+				3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
@@ -379,6 +382,7 @@
 				3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
 				3DD88B282024974C000F7818 /* Notification++.swift in Sources */,
+				3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */,
 				3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,

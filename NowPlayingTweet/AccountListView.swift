@@ -1,5 +1,5 @@
 /**
- *  AccountsListView.swift
+ *  AccountListView.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class AccountsListView: NSTableView {
+class AccountListView: NSTableView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

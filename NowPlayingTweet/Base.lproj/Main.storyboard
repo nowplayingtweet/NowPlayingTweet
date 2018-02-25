@@ -396,7 +396,7 @@
                                     <rect key="frame" x="1" y="1" width="148" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH" customClass="AccountsListView" customModule="NowPlayingTweet" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH" customClass="AccountListView" customModule="NowPlayingTweet" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="148" height="258"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="0.0" height="2"/>
