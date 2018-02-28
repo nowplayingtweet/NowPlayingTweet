@@ -54,24 +54,18 @@ class AdvancedViewController: NSViewController {
             if state {
                 try self.keyEquivalents.addMonitor()
             } else {
-                try self.keyEquivalents.removeMonitor()
+                self.keyEquivalents.removeMonitor()
             }
         } catch NPTError.NotTrustedApp {
             let alert = NSAlert(message: "Not Trusted This Application!",
                                 informative: """
 Please add/enable with
-System Preferences.app
--> Security & Privacy
--> Privacy
--> Accessibility.
-
-Disable Key Equivalents
+System Preferences.app -> Security & Privacy -> Privacy -> Accessibility.
+Disable Key Equivalents.
 """,
                                 style: .warning)
             alert.runModal()
             sender.set(state: false)
-        } catch NPTError.Unknown(let msg) {
-            print(msg)
         } catch {
             print("error")
         }

@@ -17,7 +17,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var currentLabel: NSTextField!
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
-    @IBOutlet weak var accountList: AccountsListView!
+    @IBOutlet weak var accountList: AccountListView!
 
     let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -138,7 +138,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    @IBAction func selectAccount(_ sender: AccountsListView) {
+    @IBAction func selectAccount(_ sender: AccountListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
         self.selected = self.twitterClient.accounts[userID]!

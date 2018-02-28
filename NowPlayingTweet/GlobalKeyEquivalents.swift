@@ -31,6 +31,15 @@ class GlobalKeyEquivalents {
 
     private init() {
         if !self.trusted {
+            self.removeMonitor()
+            let alert = NSAlert(message: "Disable Key Equivalents.",
+                                informative: """
+Not Trusted This Application
+Please add/enable with
+System Preferences.app -> Security & Privacy -> Privacy -> Accessibility.
+""",
+                                style: .warning)
+            alert.runModal()
             return
         }
 
@@ -45,7 +54,7 @@ class GlobalKeyEquivalents {
 
     func addMonitor() throws {
         if !self.trusted {
-            self.userDefaults.set(false, forKey: "UseKeyShortcut")
+            self.removeMonitor()
             throw NPTError.NotTrustedApp
         }
 
@@ -55,15 +64,11 @@ class GlobalKeyEquivalents {
         self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
     }
 
-    func removeMonitor() throws {
+    func removeMonitor() {
         self.userDefaults.set(false, forKey: "UseKeyShortcut")
         self.userDefaults.synchronize()
 
-        guard let eventMonitor = self.eventMonitor else {
-            throw NPTError.Unknown("Have not eventMonitor")
-        }
-
-        NSEvent.removeMonitor(eventMonitor)
+        NSEvent.removeMonitor(self.eventMonitor)
         self.eventMonitor = nil
     }
 
