@@ -41,6 +41,10 @@
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
 		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
+		3DFF865A204718E8004FDD88 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; };
+		3DFF865B204718E8004FDD88 /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
+		3DFF865D204718F4004FDD88 /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DFF865F204718F4004FDD88 /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +75,8 @@
 				3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */,
 				3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */,
 				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
+				3DFF865F204718F4004FDD88 /* Magnet.framework in Embed Frameworks */,
+				3DFF865D204718F4004FDD88 /* KeyHolder.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +121,8 @@
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
 		3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsDelegate.swift; sourceTree = "<group>"; };
+		3DFF8658204718E7004FDD88 /* Magnet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Magnet.framework; path = Carthage/Build/Mac/Magnet.framework; sourceTree = "<group>"; };
+		3DFF8659204718E8004FDD88 /* KeyHolder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeyHolder.framework; path = Carthage/Build/Mac/KeyHolder.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +134,8 @@
 				3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */,
 				3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */,
 				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
+				3DFF865A204718E8004FDD88 /* Magnet.framework in Frameworks */,
+				3DFF865B204718E8004FDD88 /* KeyHolder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +235,8 @@
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
 				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
+				3DFF8658204718E7004FDD88 /* Magnet.framework */,
+				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -50,24 +50,10 @@ class AdvancedViewController: NSViewController {
     @IBAction func switchUseKeyShortcut(_ sender: NSButton) {
         let state = sender.state.toBool()
 
-        do {
-            if state {
-                try self.keyEquivalents.addMonitor()
-            } else {
-                self.keyEquivalents.removeMonitor()
-            }
-        } catch NPTError.NotTrustedApp {
-            let alert = NSAlert(message: "Not Trusted This Application!",
-                                informative: """
-Please add/enable with
-System Preferences.app -> Security & Privacy -> Privacy -> Accessibility.
-Disable Key Equivalents.
-""",
-                                style: .warning)
-            alert.runModal()
-            sender.set(state: false)
-        } catch {
-            print("error")
+        if state {
+            self.keyEquivalents.register()
+        } else {
+            self.keyEquivalents.unregister()
         }
     }
 

@@ -5,8 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
-import AppKit
+import Cocoa
 
 extension NSImageView {
 

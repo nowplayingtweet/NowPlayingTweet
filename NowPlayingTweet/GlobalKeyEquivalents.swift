@@ -5,46 +5,37 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
-import AppKit
+import Cocoa
+import Carbon
+import Magnet
 
-class GlobalKeyEquivalents {
+class GlobalKeyEquivalents: NSObject {
 
     static let shared: GlobalKeyEquivalents = GlobalKeyEquivalents()
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    var trusted: Bool {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() : kCFBooleanTrue]
-        let trusted = AXIsProcessTrustedWithOptions(options)
-
-        return trusted
-    }
-
     var isEnabled: Bool {
         return self.userDefaults.bool(forKey: "UseKeyShortcut")
     }
 
-    var eventMonitor: Any?
+    let keyCombo: KeyCombo = KeyCombo(keyCode: kVK_ANSI_I, cocoaModifiers: [.control, .option])!
+
+    let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
 
     private weak var delegate: KeyEquivalentsDelegate?
 
-    private init() {
-        if !self.trusted {
-            self.removeMonitor()
-            let alert = NSAlert(message: "Disable Key Equivalents.",
-                                informative: """
-Not Trusted This Application
-Please add/enable with
-System Preferences.app -> Security & Privacy -> Privacy -> Accessibility.
-""",
-                                style: .warning)
-            alert.runModal()
+    private override init() {
+        super.init()
+
+        if !self.isEnabled  {
             return
         }
 
-        if self.isEnabled  {
-            self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
+        let hotKey: HotKey = HotKey(identifier: "TweetWithCurrent", keyCombo: self.keyCombo, target: self, action: #selector(self.handleHotKey))
+
+        if !self.hotKeyCenter.register(with: hotKey) {
+            self.unregister()
         }
     }
 
@@ -52,36 +43,27 @@ System Preferences.app -> Security & Privacy -> Privacy -> Accessibility.
         self.delegate = delegate
     }
 
-    func addMonitor() throws {
-        if !self.trusted {
-            self.removeMonitor()
-            throw NPTError.NotTrustedApp
-        }
-
+    func register() {
         self.userDefaults.set(true, forKey: "UseKeyShortcut")
         self.userDefaults.synchronize()
 
-        self.eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: self.handleKeyDownEvent(_:))
+        let hotKey: HotKey = HotKey(identifier: "TweetWithCurrent", keyCombo: self.keyCombo, target: self, action: #selector(self.handleHotKey))
+
+        if !self.hotKeyCenter.register(with: hotKey) {
+            self.unregister()
+        }
     }
 
-    func removeMonitor() {
+    func unregister() {
         self.userDefaults.set(false, forKey: "UseKeyShortcut")
         self.userDefaults.synchronize()
 
-        NSEvent.removeMonitor(self.eventMonitor)
-        self.eventMonitor = nil
+        self.hotKeyCenter.unregisterHotKey(with: "TweetWithCurrent")
     }
 
-    @objc private func handleKeyDownEvent(_ event: NSEvent) {
-        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-        let keyCode = event.keyCode
-        if flags == .none {
-            return
-        }
-
-        if flags == [.control, .option] && keyCode == 34 {
-            self.delegate?.tweetWithCurrent()
-        }
+    @objc private func handleHotKey() {
+        print("handle hotkey")
+        self.delegate?.tweetWithCurrent()
     }
 
 }

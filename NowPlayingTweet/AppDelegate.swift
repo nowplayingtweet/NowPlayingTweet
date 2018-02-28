@@ -120,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
             var informative: String = ""
             for jsonError in jsonErrors {
                 informative.append(jsonError.object!["message"]!.string!)
-                informative.append("\r")
+                informative.append("\n")
             }
 
             let alert = NSAlert(message: "Tweet failed!",
@@ -131,14 +131,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
         do {
             try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
-
-            let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
         } catch NPTError.NotLogin {
             let title: String = "Not logged in!"
             var informative: String = "Please login with Preferences -> Account."
             if auto {
                 self.switchAutoTweet(state: false)
-                informative.append("\r")
+                informative.append("\n")
                 informative.append("Disable Auto Tweet.")
             }
 
