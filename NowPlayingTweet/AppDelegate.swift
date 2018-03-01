@@ -6,6 +6,7 @@
 **/
 
 import Cocoa
+import Magnet
 import SwifterMac
 import iTunesScripting
 
@@ -75,6 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        HotKeyCenter.shared.unregisterAll()
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
@@ -144,7 +146,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
                                 informative: informative,
                                 style: .critical)
             alert.runModal()
-        } catch NPTError.NotRunningiTunes {
+        } catch NPTError.NotLaunchediTunes {
             let alert = NSAlert(message: "Not runnning iTunes.",
                                 style: .informational)
             alert.runModal()
@@ -166,7 +168,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.playerInfo.updateTrack()
 
         if !self.playerInfo.isRunningiTunes {
-            throw NPTError.NotRunningiTunes
+            throw NPTError.NotLaunchediTunes
         }
 
         if !self.playerInfo.existTrack {
@@ -261,12 +263,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         return true
     }
 
-    func tweet(with userID: String) {
-        self.tweetNowPlaying(by: self.twitterClient.accounts[userID])
-    }
-
     func tweetWithCurrent() {
         self.tweetNowPlaying(by: self.twitterClient.current)
+    }
+
+    func tweet(with userID: String) {
+        self.tweetNowPlaying(by: self.twitterClient.accounts[userID])
     }
 
 }

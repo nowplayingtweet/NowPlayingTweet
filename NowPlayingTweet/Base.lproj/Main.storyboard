@@ -317,19 +317,24 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
                         <toolbar key="toolbar" implicitIdentifier="2403275B-30FA-49FD-AA2B-2D6CA4B3C395" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="loh-6J-f1L">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" explicitItemIdentifier="General" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6" userLabel="General">
+                                <toolbarItem implicitItemIdentifier="B21336ED-B509-4D65-9D09-CA22F3B74E1C" explicitItemIdentifier="GeneralPane" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="phY-Ab-qK6">
                                     <connections>
                                         <action selector="switchView:" target="B8D-0N-5wS" id="HtF-2k-aZe"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="Account" label="Account" paletteLabel="Account" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL">
+                                <toolbarItem implicitItemIdentifier="78C46B13-EEDA-4390-B41C-F01244C80804" explicitItemIdentifier="AccountPane" label="Account" paletteLabel="Account" tag="1" image="NSUser" selectable="YES" id="4yk-tb-cuL">
                                     <connections>
                                         <action selector="switchView:" target="B8D-0N-5wS" id="kI6-r7-YHZ"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="62F04CBD-F991-49E8-A1B2-7291B7A49FDF" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="032-pi-eDJ" userLabel="Advanced">
+                                <toolbarItem implicitItemIdentifier="62F04CBD-F991-49E8-A1B2-7291B7A49FDF" explicitItemIdentifier="AdvancedPane" label="Advanced" paletteLabel="Advanced" tag="2" image="NSAdvanced" selectable="YES" id="032-pi-eDJ">
                                     <connections>
                                         <action selector="switchView:" target="B8D-0N-5wS" id="y1m-iA-ovZ"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="0FFA38D8-F895-458F-8240-378C8E1D3DDF" explicitItemIdentifier="KeyEquivalentsPane" label="Key Equivalents" paletteLabel="Key Equivalents" tag="3" image="NSTouchBarTextBoxTemplate" selectable="YES" id="ZLE-Cx-uZC">
+                                    <connections>
+                                        <action selector="switchView:" target="B8D-0N-5wS" id="nis-p4-P9l"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="S68-t4-Zxc"/>
@@ -338,6 +343,7 @@
                                 <toolbarItem reference="phY-Ab-qK6"/>
                                 <toolbarItem reference="4yk-tb-cuL"/>
                                 <toolbarItem reference="032-pi-eDJ"/>
+                                <toolbarItem reference="ZLE-Cx-uZC"/>
                                 <toolbarItem reference="S68-t4-Zxc"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -346,7 +352,10 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="generalItem" destination="phY-Ab-qK6" id="9Wd-a9-xE5"/>
+                        <outlet property="accountPane" destination="4yk-tb-cuL" id="lht-8P-gja"/>
+                        <outlet property="advancedPane" destination="032-pi-eDJ" id="O5B-WB-fsq"/>
+                        <outlet property="generalPane" destination="phY-Ab-qK6" id="eZJ-Bl-Utk"/>
+                        <outlet property="keyEquivalentsPane" destination="ZLE-Cx-uZC" id="AsG-2x-JGc"/>
                         <outlet property="toolbar" destination="loh-6J-f1L" id="9uO-R0-Nrx"/>
                     </connections>
                 </windowController>
@@ -357,7 +366,7 @@
         <!--Account-->
         <scene sceneID="f4J-kw-96r">
             <objects>
-                <viewController title="Account" storyboardIdentifier="AccountViewController" id="eLk-Pt-GjP" customClass="AccountViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Account" storyboardIdentifier="AccountPaneController" showSeguePresentationStyle="single" id="eLk-Pt-GjP" customClass="AccountPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ymK-C2-fHY">
                         <rect key="frame" x="0.0" y="0.0" width="470" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -529,7 +538,7 @@
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
             <objects>
-                <viewController title="Advanced" storyboardIdentifier="AdvancedViewController" id="XEl-xh-gkm" customClass="AdvancedViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Advanced" storyboardIdentifier="AdvancedPaneController" showSeguePresentationStyle="single" id="XEl-xh-gkm" customClass="AdvancedPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="o7T-Eo-SQQ">
                         <rect key="frame" x="0.0" y="0.0" width="290" height="216"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -590,7 +599,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="switchUseKeyShortcut:" target="XEl-xh-gkm" id="b3W-m2-wDb"/>
+                                    <action selector="switchSetting:" target="XEl-xh-gkm" id="OQN-NO-zTd"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -603,12 +612,12 @@
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1123" y="396"/>
+            <point key="canvasLocation" x="109" y="651"/>
         </scene>
         <!--General-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController title="General" storyboardIdentifier="GeneralViewController" id="XfG-lQ-9wD" customClass="GeneralViewController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="General" storyboardIdentifier="GeneralPaneController" showSeguePresentationStyle="single" id="XfG-lQ-9wD" customClass="GeneralPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="XC2-Zc-a2S">
                         <rect key="frame" x="0.0" y="0.0" width="488" height="170"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -735,12 +744,54 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="209" y="373"/>
+            <point key="canvasLocation" x="208" y="373"/>
+        </scene>
+        <!--Key Equivalents-->
+        <scene sceneID="eKO-wj-1Yb">
+            <objects>
+                <viewController title="Key Equivalents" storyboardIdentifier="KeyEquivalentsPaneController" showSeguePresentationStyle="single" id="T2M-SU-Aw3" customClass="KeyEquivalentsPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="hCd-Gk-XHS">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="64"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pak-9p-DEl" customClass="RecordView" customModule="KeyHolder">
+                                <rect key="frame" x="280" y="20" width="158" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EIz-L2-k7i">
+                                <rect key="frame" x="60" y="23" width="214" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet NowPlaying with Current:" id="rLl-O0-VcT">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mjN-5b-9MO">
+                                <rect key="frame" x="48" y="-14" width="404" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Account Key Shortcut" id="yxA-6N-yK3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="accountShortcutLabel" destination="mjN-5b-9MO" id="8Db-0a-Nq7"/>
+                        <outlet property="currentRecortView" destination="pak-9p-DEl" id="q9c-oz-oyq"/>
+                    </connections>
+                </viewController>
+                <customObject id="65k-NB-Lx0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="543" y="693"/>
         </scene>
     </scenes>
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="NSTouchBarTextBoxTemplate" width="20" height="30"/>
         <image name="NSUser" width="32" height="32"/>
     </resources>
 </document>

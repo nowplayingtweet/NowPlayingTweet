@@ -1,5 +1,5 @@
 /**
- *  GeneralViewController.swift
+ *  GeneralPaneController.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class GeneralViewController: NSViewController {
+class GeneralPaneController: NSViewController {
 
     @IBOutlet weak var tweetFormatView: NSScrollView!
     @IBOutlet var tweetFormat: NSTextView!
@@ -15,10 +15,10 @@ class GeneralViewController: NSViewController {
 
     var userDefaults: UserDefaults = UserDefaults.standard
 
-    static let shared: GeneralViewController = {
+    static let shared: GeneralPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .generalViewController)
-        return windowController as! GeneralViewController
+        let windowController = storyboard.instantiateController(withIdentifier: .generalPaneController)
+        return windowController as! GeneralPaneController
     }()
 
     override func viewDidLoad() {

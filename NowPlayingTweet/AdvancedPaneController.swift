@@ -1,5 +1,5 @@
 /**
- *  AdvancedViewController.swift
+ *  AdvancedPaneController.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class AdvancedViewController: NSViewController {
+class AdvancedPaneController: NSViewController {
 
     @IBOutlet weak var tweetWithImage: NSButton!
     @IBOutlet weak var autoTweet: NSButton!
@@ -19,10 +19,10 @@ class AdvancedViewController: NSViewController {
 
     let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
-    static let shared: AdvancedViewController = {
+    static let shared: AdvancedPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .advancedViewController)
-        return windowController as! AdvancedViewController
+        let windowController = storyboard.instantiateController(withIdentifier: .advancedPaneController)
+        return windowController as! AdvancedPaneController
     }()
 
     override func viewDidLoad() {
@@ -51,9 +51,9 @@ class AdvancedViewController: NSViewController {
         let state = sender.state.toBool()
 
         if state {
-            self.keyEquivalents.register()
+            self.keyEquivalents.enable()
         } else {
-            self.keyEquivalents.unregister()
+            self.keyEquivalents.disable()
         }
     }
 

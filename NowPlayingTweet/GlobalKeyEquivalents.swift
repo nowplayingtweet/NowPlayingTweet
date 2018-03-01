@@ -19,8 +19,6 @@ class GlobalKeyEquivalents: NSObject {
         return self.userDefaults.bool(forKey: "UseKeyShortcut")
     }
 
-    let keyCombo: KeyCombo = KeyCombo(keyCode: kVK_ANSI_I, cocoaModifiers: [.control, .option])!
-
     let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
 
     private weak var delegate: KeyEquivalentsDelegate?
@@ -28,41 +26,59 @@ class GlobalKeyEquivalents: NSObject {
     private override init() {
         super.init()
 
-        if !self.isEnabled  {
-            return
-        }
-
-        let hotKey: HotKey = HotKey(identifier: "TweetWithCurrent", keyCombo: self.keyCombo, target: self, action: #selector(self.handleHotKey))
-
-        if !self.hotKeyCenter.register(with: hotKey) {
-            self.unregister()
-        }
+        self.start()
     }
 
     func set(delegate: KeyEquivalentsDelegate) {
         self.delegate = delegate
     }
 
-    func register() {
+    func enable() {
         self.userDefaults.set(true, forKey: "UseKeyShortcut")
         self.userDefaults.synchronize()
 
-        let hotKey: HotKey = HotKey(identifier: "TweetWithCurrent", keyCombo: self.keyCombo, target: self, action: #selector(self.handleHotKey))
-
-        if !self.hotKeyCenter.register(with: hotKey) {
-            self.unregister()
-        }
+        self.start()
     }
 
-    func unregister() {
+    func disable() {
         self.userDefaults.set(false, forKey: "UseKeyShortcut")
         self.userDefaults.synchronize()
 
-        self.hotKeyCenter.unregisterHotKey(with: "TweetWithCurrent")
+        self.hotKeyCenter.unregisterAll()
     }
 
-    @objc private func handleHotKey() {
-        print("handle hotkey")
+    private func start() {
+        if !self.isEnabled  {
+            return
+        }
+
+        for identifier in self.userDefaults.keyComboIdentifier() {
+            if let keyCombo: KeyCombo = self.userDefaults.keyCombo(forKey: identifier) {
+                self.register(identifier, keyCombo: keyCombo)
+            }
+        }
+    }
+
+    func register(_ identifier: String, keyCombo: KeyCombo) {
+        self.userDefaults.set(keyCombo, forKey: identifier)
+        self.userDefaults.synchronize()
+
+        if !self.isEnabled  {
+            return
+        }
+
+        let hotKey: HotKey = HotKey(identifier: identifier, keyCombo: keyCombo, target: self, action: #selector(self.tweetWithCurrent))
+        hotKey.register()
+    }
+
+    func unregister(_ identifier: String) {
+        self.userDefaults.removeKeyCombo(forKey: identifier)
+        self.userDefaults.synchronize()
+
+        self.hotKeyCenter.unregisterHotKey(with: identifier)
+    }
+
+    @objc func tweetWithCurrent() {
         self.delegate?.tweetWithCurrent()
     }
 

@@ -10,7 +10,10 @@ import Cocoa
 class PreferencesWindowController: NSWindowController {
 
     @IBOutlet weak var toolbar: NSToolbar!
-    @IBOutlet weak var generalItem: NSToolbarItem!
+    @IBOutlet weak var generalPane: NSToolbarItem!
+    @IBOutlet weak var accountPane: NSToolbarItem!
+    @IBOutlet weak var advancedPane: NSToolbarItem!
+    @IBOutlet weak var keyEquivalentsPane: NSToolbarItem!
 
     var userDefaults: UserDefaults = UserDefaults.standard
 
@@ -21,23 +24,25 @@ class PreferencesWindowController: NSWindowController {
     }()
 
     private let viewControllers: [NSViewController] = [
-        GeneralViewController.shared,
-        AccountViewController.shared,
-        AdvancedViewController.shared,
+        GeneralPaneController.shared,
+        AccountPaneController.shared,
+        AdvancedPaneController.shared,
+        KeyEquivalentsPaneController.shared,
         ]
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let items = self.toolbar.items
+        let items: [NSToolbarItem] = [
+            self.generalPane,
+            self.accountPane,
+            self.advancedPane,
+            self.keyEquivalentsPane,
+            ]
 
         let lastViewItemIdentifier = NSToolbarItem.Identifier(self.userDefaults.string(forKey: "lastViewItemIdentifier") ?? "")
 
-        let checkLatestViewIdentifier: (NSToolbarItem) -> Bool = { toolbarItem in
-            toolbarItem.itemIdentifier == lastViewItemIdentifier
-        }
-
-        guard let item = items.first(where: checkLatestViewIdentifier) ?? self.generalItem else {
+        guard let item = items.first(where: { $0.itemIdentifier == lastViewItemIdentifier }) ?? self.generalPane else {
             self.window?.center()
             return
         }
