@@ -2,6 +2,8 @@
 Changelog.
 
 ## [Unreleased]
+### Added
+* Add global keyboard shortcut for Tweet NowPlaying with Current Account.
 
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
 ### Added

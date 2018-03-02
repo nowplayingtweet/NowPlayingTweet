@@ -1,28 +1,38 @@
 # NowPlayingTweet for Mac
 Tweet #NowPlaying with iTunes.
 
-# License
-This software is released under the MIT License. See the [LICENSE](LICENSE) file for more information.
+## License
+This software is released under the MIT License.  
+See the [LICENSE] file for more information.
 
-This software include:
+### Include framework
+#### SwiftScripting
+- ScriptingUtilities.framework
+- iTunesScripting.framework
 
-**Swifter**
+Copyright (c) 2015 Tony Ingraldi.  
+[SwiftScripting - GitHub]
 
-Copyright (c) 2014 Matt Donnelly.
+#### Swifter
+Copyright (c) 2014 Matt Donnelly.  
+Released under the [MIT License][Swifter-License].
 
-Released under the MIT License. [LICENSE](https://raw.githubusercontent.com/kPherox/Swifter/master/LICENSE)
+#### KeychainAccess
+Copyright (c) 2014 kishikawa katsumi.  
+Released under the [MIT License][KeychainAccess-License].
 
+#### Magnet
+Copyright (c) 2016 Clipy Project.  
+Released under the [MIT License][Magnet-License].
 
-**KeychainAccess**
+#### KeyHolder
+Copyright (c) 2016 Clipy Project.  
+Released under the [MIT License][KeyHolder-License].
 
-Copyright (c) 2014 kishikawa katsumi.
-
-Released under the MIT License. [LICENSE](https://raw.githubusercontent.com/kishikawakatsumi/KeychainAccess/master/LICENSE)
-
-
-**ScriptingUtilities.framework, iTunesScripting.framework**
-
-Copyright (c) 2015 Tony Ingraldi
-
-[SwiftScripting - GitHub](https://github.com/tingraldi/SwiftScripting)
+[LICENSE]: https://github.com/kPherox/NowPlayingTweet/blob/master/LICENSE.txt
+[SwiftScripting - GitHub]: https://github.com/tingraldi/SwiftScripting
+[Swifter-License]: https://github.com/kPherox/Swifter/blob/master/LICENSE
+[KeychainAccess-License]: https://github.com/kishikawakatsumi/KeychainAccess/blog/master/LICENSE
+[Magnet-License]: https://github.com/Clipy/Magnet/blob/master/LICENSE
+[KeyHolder-License]: https://github.com/Clipy/KeyHolder/blob/master/LICENSE
 
