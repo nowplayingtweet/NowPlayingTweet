@@ -1,6 +1,9 @@
 # NowPlayingTweet for Mac
 Tweet #NowPlaying with iTunes.
 
+## Requirements
+* Mac OS X 10.11 or later.
+
 ## License
 This software is released under the MIT License.  
 See the [LICENSE] file for more information.
