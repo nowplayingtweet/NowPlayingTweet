@@ -60,9 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.updateTwitterAccount()
 
         if let button = self.statusItem.button {
-            let image = NSImage(named: NSImage.Name("StatusBarIcon"))
-            image?.isTemplate = true
-            button.image = image
+            button.title = "♫"
         }
 
         self.statusItem.menu = self.menu
