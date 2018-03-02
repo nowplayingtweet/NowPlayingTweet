@@ -5,8 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
-import AppKit
+import Cocoa
 
 extension NSStoryboard.Name {
 
@@ -17,8 +16,9 @@ extension NSStoryboard.Name {
 extension NSStoryboard.SceneIdentifier {
 
     static let preferencesWindowController = NSStoryboard.SceneIdentifier("PreferencesWindowController")
-    static let generalViewController = NSStoryboard.SceneIdentifier("GeneralViewController")
-    static let accountViewController = NSStoryboard.SceneIdentifier("AccountViewController")
-    static let advancedViewController = NSStoryboard.SceneIdentifier("AdvancedViewController")
+    static let generalPaneController = NSStoryboard.SceneIdentifier("GeneralPaneController")
+    static let accountPaneController = NSStoryboard.SceneIdentifier("AccountPaneController")
+    static let advancedPaneController = NSStoryboard.SceneIdentifier("AdvancedPaneController")
+    static let keyEquivalentsPaneController = NSStoryboard.SceneIdentifier("KeyEquivalentsPaneController")
 
 }

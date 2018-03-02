@@ -6,11 +6,12 @@
 **/
 
 import Cocoa
+import Magnet
 import SwifterMac
 import iTunesScripting
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var currentAccount: NSMenuItem!
@@ -20,7 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    var twitterClient: TwitterClient = TwitterClient.shared
+    let twitterClient: TwitterClient = TwitterClient.shared
+
+    let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     let playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
@@ -31,46 +34,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
             "TweetWithImage" : true,
             "AutoTweet" : false,
+            "UseKeyShortcut" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-
-        // Defines get URL handler
+    func applicationWillFinishLaunching(_ aNotification: Notification) {
+        // Handle get url event
         NSAppleEventManager.shared().setEventHandler(self,
-                                                     andSelector: #selector(self.handleEvent(_:withReplyEvent:)),
+                                                     andSelector: #selector(self.handleGetURLEvent(_:withReplyEvent:)),
                                                      forEventClass: AEEventClass(kInternetEventClass),
                                                      andEventID: AEEventID(kAEGetURL))
+    }
 
-        if let button = self.statusItem.button {
-            let image = NSImage(named: NSImage.Name("StatusBarIcon"))
-            image?.isTemplate = true
-            button.image = image
-        }
-
-        self.statusItem.menu = self.menu
-
-        self.updateTwitterAccount()
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Insert code here to initialize your application
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
             self.updateTwitterAccount()
+
             notificationCenter.removeObserver(observer)
         })
+
+        self.updateTwitterAccount()
+
+        if let button = self.statusItem.button {
+            button.title = "♫"
+        }
+
+        self.statusItem.menu = self.menu
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
             self.switchAutoTweet(state: true)
         }
+
+        self.keyEquivalents.set(delegate: self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        HotKeyCenter.shared.unregisterAll()
     }
 
-    @objc func handleEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        // Cell SwifterMac handler
+    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
+        // Cell Swifter handleOpenURL
         Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
     }
 
@@ -109,14 +117,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             let jsonErrors: [JSON] = json.object!["errors"]!.array!
 
-            var msg: String = ""
+            var informative: String = ""
             for jsonError in jsonErrors {
-                msg.append(jsonError.object!["message"]!.string!)
-                msg.append("\r")
+                informative.append(jsonError.object!["message"]!.string!)
+                informative.append("\n")
             }
 
             let alert = NSAlert(message: "Tweet failed!",
-                                informative: msg,
+                                informative: informative,
                                 style: .warning)
             alert.runModal()
         }
@@ -124,16 +132,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
         } catch NPTError.NotLogin {
+            let title: String = "Not logged in!"
+            var informative: String = "Please login with Preferences -> Account."
             if auto {
                 self.switchAutoTweet(state: false)
-                let notificationCenter: NotificationCenter = NotificationCenter.default
-                notificationCenter.post(name: .disableAutoTweet, object: nil)
+                informative.append("\n")
+                informative.append("Disable Auto Tweet.")
             }
-            let alert = NSAlert(message: "Not logged in!",
-                                informative: "Please login in Preferences -> Accounts.\nDisable Auto Tweet",
-                                style: .warning)
+
+            let alert = NSAlert(message: title,
+                                informative: informative,
+                                style: .critical)
             alert.runModal()
-        } catch NPTError.NotRunningiTunes {
+        } catch NPTError.NotLaunchediTunes {
             let alert = NSAlert(message: "Not runnning iTunes.",
                                 style: .informational)
             alert.runModal()
@@ -155,7 +166,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.playerInfo.updateTrack()
 
         if !self.playerInfo.isRunningiTunes {
-            throw NPTError.NotRunningiTunes
+            throw NPTError.NotLaunchediTunes
         }
 
         if !self.playerInfo.existTrack {
@@ -235,6 +246,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                 name: .iTunesPlayerInfo,
                                                 object: nil,
                                                 distributed: true)
+            let notificationCenter: NotificationCenter = NotificationCenter.default
+            notificationCenter.post(name: .disableAutoTweet, object: nil)
         }
         self.userDefaults.set(state, forKey: "AutoTweet")
         self.userDefaults.synchronize()
@@ -247,4 +260,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         return true
     }
+
+    func tweetWithCurrent() {
+        self.tweetNowPlaying(by: self.twitterClient.current)
+    }
+
+    func tweet(with userID: String) {
+        self.tweetNowPlaying(by: self.twitterClient.accounts[userID])
+    }
+
 }

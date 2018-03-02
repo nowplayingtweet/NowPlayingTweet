@@ -1,5 +1,5 @@
 /**
- *  AccountViewController.swift
+ *  AccountPaneController.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -8,7 +8,7 @@
 import Cocoa
 import SwifterMac
 
-class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
@@ -17,16 +17,16 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var currentLabel: NSTextField!
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
-    @IBOutlet weak var accountList: AccountsListView!
+    @IBOutlet weak var accountList: AccountListView!
 
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    static let shared: AccountViewController = {
+    static let shared: AccountPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .accountViewController)
-        return windowController as! AccountViewController
+        let windowController = storyboard.instantiateController(withIdentifier: .accountPaneController)
+        return windowController as! AccountPaneController
     }()
 
     let twitterClient: TwitterClient = TwitterClient.shared
@@ -138,7 +138,7 @@ class AccountViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    @IBAction func selectAccount(_ sender: AccountsListView) {
+    @IBAction func selectAccount(_ sender: AccountListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
         self.selected = self.twitterClient.accounts[userID]!
