@@ -56,6 +56,7 @@ extension UserDefaults {
     func removeKeyCombo(forKey key: String) {
         var keyEquivalents = self.dictionary(forKey: "KeyEquivalents") ?? [:]
         keyEquivalents.removeValue(forKey: key)
+        self.set(keyEquivalents, forKey: "KeyEquivalents")
     }
 
 }

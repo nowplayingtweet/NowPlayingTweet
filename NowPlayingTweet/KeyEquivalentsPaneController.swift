@@ -65,4 +65,8 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         recordView.keyCombo = self.userDefaults.keyCombo(forKey: identifier)
     }
 
+    @IBAction func changeCancel(_ sender: NSButton) {
+        self.currentRecortView.endRecording()
+    }
+
 }
