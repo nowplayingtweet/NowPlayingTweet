@@ -1,4 +1,4 @@
-github "kPherox/Swifter"
+github "kPherox/Swifter" "master"
 github "kishikawakatsumi/KeychainAccess"
-github "Clipy/Magnet"
+github "kPherox/Magnet" "master"
 github "Clipy/KeyHolder"

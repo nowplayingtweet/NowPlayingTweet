@@ -1,4 +1,5 @@
 github "Clipy/KeyHolder" "v2.1.0"
 github "Clipy/Magnet" "v2.1.0"
-github "kPherox/Swifter" "2.1.0.2"
+github "kPherox/Magnet" "7470b430c7bca8ccb0a4d80afc54be99f89a825b"
+github "kPherox/Swifter" "b60528c9017dbb33c4b414b00b0f137296020520"
 github "kishikawakatsumi/KeychainAccess" "v3.1.0"
