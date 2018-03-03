@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
     func applicationWillFinishLaunching(_ aNotification: Notification) {
         // Handle get url event
         NSAppleEventManager.shared().setEventHandler(self,
-                                                     andSelector: #selector(self.handleGetURLEvent(_:withReplyEvent:)),
+                                                     andSelector: #selector(AppDelegate.handleGetURLEvent(_:withReplyEvent:)),
                                                      forEventClass: AEEventClass(kInternetEventClass),
                                                      andEventID: AEEventID(kAEGetURL))
     }
@@ -221,7 +221,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
                 let twitterAccount = self.twitterClient.accounts[userID]
                 let menuItem = NSMenuItem()
                 menuItem.title = (twitterAccount?.name)!
-                menuItem.action = #selector(self.tweetBySelectingAccount(_:))
+                menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
                 menu.addItem(menuItem)
             }
             self.tweetMenu.submenu = menu
@@ -238,7 +238,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         if state {
             notificationObserver.addObserver(self,
                                              name: .iTunesPlayerInfo,
-                                             selector: #selector(self.handleNowPlaying(_:)),
+                                             selector: #selector(AppDelegate.handleNowPlaying(_:)),
                                              object: nil,
                                              distributed: true)
         } else {

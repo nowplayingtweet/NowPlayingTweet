@@ -67,7 +67,7 @@ class GlobalKeyEquivalents: NSObject {
             return
         }
 
-        let hotKey: HotKey = HotKey(identifier: identifier, keyCombo: keyCombo, target: self, action: #selector(self.tweetWithCurrent))
+        let hotKey: HotKey = HotKey(identifier: identifier, keyCombo: keyCombo, target: self, action: #selector(GlobalKeyEquivalents.handleHotKeyEvent(_:)))
         hotKey.register()
     }
 
@@ -78,8 +78,15 @@ class GlobalKeyEquivalents: NSObject {
         self.hotKeyCenter.unregisterHotKey(with: identifier)
     }
 
-    @objc func tweetWithCurrent() {
-        self.delegate?.tweetWithCurrent()
+    @objc private func handleHotKeyEvent(_ hotKey: HotKey) {
+        let userID = hotKey.identifier
+
+        if userID == "Current" {
+            self.delegate?.tweetWithCurrent()
+            return
+        }
+
+        self.delegate?.tweet(with: userID)
     }
 
 }
