@@ -73,6 +73,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.selected = notification.userInfo!["account"] as? TwitterClient.Account
 
             self.accountList.reloadData()
+            KeyEquivalentsPaneController.shared.reloadView()
 
             let userID = self.selected?.userID
             let name = self.selected?.name
@@ -106,6 +107,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.twitterClient.logout(account: self.selected!)
 
         self.accountList.reloadData()
+        KeyEquivalentsPaneController.shared.reloadView()
 
         if self.twitterClient.existAccount {
             self.selected = self.twitterClient.current

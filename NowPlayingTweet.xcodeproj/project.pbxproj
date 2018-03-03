@@ -27,6 +27,7 @@
 		3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountListView.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
 		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
+		3DBBB9A9204AEF6300818352 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBB9A8204AEF6100818352 /* Label.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
 		3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */; };
@@ -110,6 +111,7 @@
 		3DAA09AF202C969D00C6F449 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
+		3DBBB9A8204AEF6100818352 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
 		3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPaneController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */,
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
 				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
+				3DBBB9A8204AEF6100818352 /* Label.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
 				3DD88B25202450D9000F7818 /* NSControl++.swift */,
@@ -407,6 +410,7 @@
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
+				3DBBB9A9204AEF6300818352 /* Label.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,

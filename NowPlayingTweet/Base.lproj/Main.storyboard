@@ -751,15 +751,15 @@
             <objects>
                 <viewController title="Key Equivalents" storyboardIdentifier="KeyEquivalentsPaneController" showSeguePresentationStyle="single" id="T2M-SU-Aw3" customClass="KeyEquivalentsPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="hCd-Gk-XHS">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="105"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pak-9p-DEl" customClass="RecordView" customModule="KeyHolder">
-                                <rect key="frame" x="280" y="56" width="158" height="24"/>
+                                <rect key="frame" x="280" y="61" width="158" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EIz-L2-k7i">
-                                <rect key="frame" x="60" y="59" width="214" height="17"/>
+                                <rect key="frame" x="60" y="64" width="214" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet NowPlaying with Current:" id="rLl-O0-VcT">
                                     <font key="font" metaFont="system"/>
@@ -794,12 +794,14 @@ Gw
                     </view>
                     <connections>
                         <outlet property="accountShortcutLabel" destination="mjN-5b-9MO" id="8Db-0a-Nq7"/>
+                        <outlet property="cancelButton" destination="M0q-Mz-Gyf" id="HvN-Rb-exh"/>
+                        <outlet property="currentRecordLabel" destination="EIz-L2-k7i" id="iMd-Sj-tfo"/>
                         <outlet property="currentRecortView" destination="pak-9p-DEl" id="q9c-oz-oyq"/>
                     </connections>
                 </viewController>
                 <customObject id="65k-NB-Lx0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="544" y="723"/>
+            <point key="canvasLocation" x="675" y="800.5"/>
         </scene>
     </scenes>
     <resources>
