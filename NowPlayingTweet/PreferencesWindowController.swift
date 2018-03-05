@@ -17,12 +17,6 @@ class PreferencesWindowController: NSWindowController {
 
     var userDefaults: UserDefaults = UserDefaults.standard
 
-    static let shared: PreferencesWindowController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .preferencesWindowController)
-        return windowController as! PreferencesWindowController
-    }()
-
     private let viewControllers: [NSViewController] = [
         GeneralPaneController.shared,
         AccountPaneController.shared,

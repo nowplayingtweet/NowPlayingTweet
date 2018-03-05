@@ -91,10 +91,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.tweetNowPlaying(by: self.twitterClient.current, auto: true)
     }
 
-    @IBAction func showPreferences(_ sender: Any) {
-        PreferencesWindowController.shared.showWindow(sender)
-    }
-
     @IBAction func tweetByCurrentAccount(_ sender: NSMenuItem) {
         self.tweetNowPlaying(by: self.twitterClient.current)
     }

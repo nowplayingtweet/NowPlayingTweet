@@ -41,41 +41,44 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         self.currentRecortView.keyCombo = self.userDefaults.keyCombo(forKey: "Current")
     }
 
-    override func viewDidAppear() {
-        super.viewDidAppear()
+    override func viewWillAppear() {
+        super.viewWillAppear()
         self.reloadView()
     }
 
     func reloadView() {
-        let numOfAccounts = self.twitterClient.numberOfAccounts
+        let existAccount = self.twitterClient.existAccount
         for subview in self.view.subviews { subview.removeFromSuperview() }
+
         self.view.addSubview(self.currentRecordLabel)
         self.view.addSubview(self.currentRecortView)
-        self.view.addSubview(self.accountShortcutLabel)
-
-        var newFrameSize: CGSize
-        // width: 500
-        if numOfAccounts == 0 {
-            // height: 100
-            newFrameSize = CGSize(width: 500, height: 100)
-            self.accountShortcutLabel.isHidden = true
-        } else {
-            newFrameSize = CGSize(width: 500, height: 144 + 32 * numOfAccounts)
-            self.accountShortcutLabel.isHidden = false
-        }
-
-        self.view.window?.setContentSize(newFrameSize)
-
-        self.cancelButton.setFrameOrigin(CGPoint(x: 216, y: 20))
         self.view.addSubview(self.cancelButton)
 
-        if numOfAccounts == 0 { return }
+        if !existAccount {
+            // height is 100 when hasn't account
+            let newFrameSize: CGSize = CGSize(width: 500, height: 100)
+            self.view.setFrameSize(newFrameSize)
+            self.view.window?.setContentSize(newFrameSize)
+
+            self.cancelButton.setFrameOrigin(CGPoint(x: 216, y: 20))
+            return
+        }
+
+        self.view.addSubview(self.accountShortcutLabel)
+        self.cancelButton.setFrameOrigin(CGPoint(x: 216, y: 20))
+
+        let addHeight = 32 * self.twitterClient.numberOfAccounts
+
+        // height: 100 + label height(44) + account rows(32 x number of account)
+        let newFrameSize: CGSize = CGSize(width: 500, height: 144 + addHeight)
+        self.view.setFrameSize(newFrameSize)
+        self.view.window?.setContentSize(newFrameSize)
 
         let labelSize = CGSize(width: 210, height: 17)
         let viewSize = CGSize(width: 158, height: 24)
 
-        var labelYPoint = 64 + 32 * numOfAccounts
-        var recordYPoint = 61 + 32 * numOfAccounts
+        var labelYPoint = 64 + addHeight
+        var recordYPoint = 61 + addHeight
 
         for accountID in self.twitterClient.accountIDs {
             labelYPoint -= 32
