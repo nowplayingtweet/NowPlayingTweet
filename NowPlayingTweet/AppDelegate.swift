@@ -96,7 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
     }
 
     @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
-        let account = self.twitterClient.accounts[sender.title]
+        let account = self.twitterClient.account(name: sender.title)
         self.tweetNowPlaying(by: account)
     }
 
@@ -158,6 +158,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         if !self.twitterClient.existAccount {
             throw NPTError.NotLogin
         }
+        guard let twitterAccount = twitterAccount else {
+            throw NPTError.Unknown("Hasn't account")
+        }
 
         self.playerInfo.updateTrack()
 
@@ -174,9 +177,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         let tweetText = self.createTweetText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterClient.tweet(account: twitterAccount!, text: tweetText, with: currentTrack.artwork, failure: failure)
+            self.twitterClient.tweet(account: twitterAccount, text: tweetText, with: currentTrack.artwork, failure: failure)
         } else {
-            self.twitterClient.tweet(account: twitterAccount!, text: tweetText, failure: failure)
+            self.twitterClient.tweet(account: twitterAccount, text: tweetText, failure: failure)
         }
     }
 
@@ -214,7 +217,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         if self.twitterClient.numberOfAccounts > 1 {
             let menu = NSMenu()
             for userID in self.twitterClient.accountIDs {
-                let twitterAccount = self.twitterClient.accounts[userID]
+                let twitterAccount = self.twitterClient.account(userID: userID)
                 let menuItem = NSMenuItem()
                 menuItem.title = (twitterAccount?.name)!
                 menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
@@ -262,7 +265,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
     }
 
     func tweet(with userID: String) {
-        self.tweetNowPlaying(by: self.twitterClient.accounts[userID])
+        self.tweetNowPlaying(by: self.twitterClient.account(userID: userID))
     }
 
 }

@@ -37,7 +37,7 @@ class TwitterClient {
 
     let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    var accounts: [String : TwitterClient.Account] = [:]
+    private var accounts: [String : TwitterClient.Account] = [:]
 
     var accountIDs: [String] {
         return self.accounts.keys.sorted()
@@ -115,6 +115,18 @@ class TwitterClient {
                                          object: nil)
             return
         }
+    }
+
+    func account(name: String) -> TwitterClient.Account? {
+        return self.accounts.first { $0.value.name == name }?.value
+    }
+
+    func account(screenName: String) -> TwitterClient.Account? {
+        return self.accounts.first { $0.value.screenName == screenName }?.value
+    }
+
+    func account(userID: String) -> TwitterClient.Account? {
+        return self.accounts[userID]
     }
 
     func login() {

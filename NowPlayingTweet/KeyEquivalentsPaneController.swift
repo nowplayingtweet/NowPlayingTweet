@@ -90,7 +90,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             let viewFrame = CGRect(origin: viewOrigin, size: viewSize)
 
             // x: 62, y: 64
-            let accountName: String = (self.twitterClient.accounts[accountID]?.screenName)!
+            let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
             let recordLabel: NSTextField = Label(with: "Tweet with @\(accountName):",
                                                  frame: labelFrame,
                                                  alignment: .right) as NSTextField

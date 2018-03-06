@@ -143,7 +143,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction func selectAccount(_ sender: AccountListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
-        self.selected = self.twitterClient.accounts[userID]!
+        self.selected = self.twitterClient.account(userID: userID)
 
         let isCurrent = self.twitterClient.currentID == self.selected?.userID
         self.currentLabel.isHidden = !isCurrent
@@ -185,7 +185,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
 
         let userID = self.twitterClient.accountIDs[row]
-        let twitterAccount: TwitterClient.Account = self.twitterClient.accounts[userID]!
+        let twitterAccount: TwitterClient.Account = self.twitterClient.account(userID: userID)!
 
         cellView.textField?.stringValue = twitterAccount.name
         cellView.screenName.stringValue = "@\(twitterAccount.screenName)"
