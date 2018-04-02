@@ -19,9 +19,9 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var removeButton: NSButton!
     @IBOutlet weak var accountList: AccountListView!
 
-    let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
+    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
-    let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: AccountPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)
@@ -58,7 +58,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
-    @IBAction func setToCurrent(_ sender: NSButton) {
+    @IBAction private func setToCurrent(_ sender: NSButton) {
         let userID = self.selected?.userID
         self.twitterClient.changeCurrent(userID: userID!)
         self.appDelegate.updateTwitterAccount()
@@ -66,14 +66,13 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.currentButton.isHidden = true
     }
 
-    @IBAction func addAccount(_ sender: NSButton) {
+    @IBAction private func addAccount(_ sender: NSButton) {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
             self.selected = notification.userInfo!["account"] as? TwitterClient.Account
 
             self.accountList.reloadData()
-            KeyEquivalentsPaneController.shared.reloadView()
 
             let userID = self.selected?.userID
             let name = self.selected?.name
@@ -103,11 +102,10 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.twitterClient.login()
     }
 
-    @IBAction func removeAccount(_ sender: NSButton) {
+    @IBAction private func removeAccount(_ sender: NSButton) {
         self.twitterClient.logout(account: self.selected!)
 
         self.accountList.reloadData()
-        KeyEquivalentsPaneController.shared.reloadView()
 
         if self.twitterClient.existAccount {
             self.selected = self.twitterClient.current
@@ -140,7 +138,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    @IBAction func selectAccount(_ sender: AccountListView) {
+    @IBAction private func selectAccount(_ sender: AccountListView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
         self.selected = self.twitterClient.account(userID: userID)
@@ -153,17 +151,17 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
-    func set(name string: String?) {
+    private func set(name string: String?) {
         self.name.stringValue = string != nil ? string! : "Not logged in..."
         self.name.textColor = string != nil ? .labelColor : .disabledControlTextColor
     }
 
-    func set(screenName string: String?) {
+    private func set(screenName string: String?) {
         self.screenName.stringValue = "@\(string != nil ? string! : "null")"
         self.screenName.textColor = string != nil ? .secondaryLabelColor : .disabledControlTextColor
     }
 
-    func set(avaterUrl url: URL?) {
+    private func set(avaterUrl url: URL?) {
         if url != nil {
             self.avater.fetchImage(url: url!, rounded: true)
             self.avater.enable()

@@ -13,13 +13,13 @@ class GlobalKeyEquivalents: NSObject {
 
     static let shared: GlobalKeyEquivalents = GlobalKeyEquivalents()
 
-    let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
     var isEnabled: Bool {
         return self.userDefaults.bool(forKey: "UseKeyShortcut")
     }
 
-    let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
+    private let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
 
     private weak var delegate: KeyEquivalentsDelegate?
 

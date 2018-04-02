@@ -9,9 +9,9 @@ import Foundation
 
 class NotificationObserver {
 
-    let notificationCenter: NotificationCenter = NotificationCenter.default
+    private let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    let distNotificationCenter: DistributedNotificationCenter = DistributedNotificationCenter.default()
+    private let distNotificationCenter: DistributedNotificationCenter = DistributedNotificationCenter.default()
 
     func addObserver(_ observer: Any, name: Notification.Name, selector: Selector, object: Any?, distributed: Bool = false) {
         if distributed {

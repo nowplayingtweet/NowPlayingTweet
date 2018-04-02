@@ -13,7 +13,7 @@ class GeneralPaneController: NSViewController {
     @IBOutlet var tweetFormat: NSTextView!
     @IBOutlet weak var editButton: NSButton!
 
-    var userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: GeneralPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)

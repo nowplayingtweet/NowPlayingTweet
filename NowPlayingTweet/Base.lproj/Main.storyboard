@@ -603,7 +603,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="switchSetting:" target="XEl-xh-gkm" id="OQN-NO-zTd"/>
+                                    <action selector="switchUseKeyShortcut:" target="XEl-xh-gkm" id="ZHM-SV-8Og"/>
                                 </connections>
                             </button>
                         </subviews>

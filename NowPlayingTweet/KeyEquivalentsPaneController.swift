@@ -17,18 +17,18 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         return windowController as! KeyEquivalentsPaneController
     }()
 
-    var userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
-    let twitterClient: TwitterClient = TwitterClient.shared
+    private let twitterClient: TwitterClient = TwitterClient.shared
 
-    let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
+    private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     @IBOutlet weak var currentRecordLabel: NSTextField!
     @IBOutlet weak var currentRecortView: RecordView!
 
     @IBOutlet weak var accountShortcutLabel: NSTextField!
 
-    var selectedRecortView: RecordView?
+    private var selectedRecortView: RecordView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +40,13 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         self.currentRecortView.identifier = NSUserInterfaceItemIdentifier(rawValue: "Current")
         self.currentRecortView.keyCombo = self.userDefaults.keyCombo(forKey: "Current")
 
-        let existAccount = self.twitterClient.existAccount
+        self.reloadView()
 
-        if existAccount {
+        let reloadView: (Notification) -> () = { notification in
             self.reloadView()
         }
+        NotificationCenter.default.addObserver(forName: .login, object: nil, queue: nil, using: reloadView)
+        NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: nil, using: reloadView)
     }
 
     override func viewWillAppear() {
@@ -56,7 +58,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         self.selectedRecortView?.endRecording()
     }
 
-    func reloadView() {
+    private func reloadView() {
         for subview in self.view.subviews {
             switch subview {
             case self.currentRecordLabel, self.currentRecortView, self.accountShortcutLabel:

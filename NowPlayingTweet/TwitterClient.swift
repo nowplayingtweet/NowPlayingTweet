@@ -28,14 +28,14 @@ class TwitterClient {
 
     static let shared: TwitterClient = TwitterClient()
 
-    let consumerKey: String = "lT580cWIob4JiEmydWrz3Lr3c"
-    let consumerSecret: String = "tQbaxDRMSNebagQaa9RXtjQ9SskoNiwo8bBadP2y6aggFesDik"
+    private let consumerKey: String = "lT580cWIob4JiEmydWrz3Lr3c"
+    private let consumerSecret: String = "tQbaxDRMSNebagQaa9RXtjQ9SskoNiwo8bBadP2y6aggFesDik"
 
-    let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
+    private let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
-    var userDefaults: UserDefaults = UserDefaults.standard
+    private var userDefaults: UserDefaults = UserDefaults.standard
 
-    let notificationCenter: NotificationCenter = NotificationCenter.default
+    private let notificationCenter: NotificationCenter = NotificationCenter.default
 
     private var accounts: [String : TwitterClient.Account] = [:]
 

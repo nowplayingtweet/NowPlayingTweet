@@ -13,11 +13,11 @@ class AdvancedPaneController: NSViewController {
     @IBOutlet weak var autoTweet: NSButton!
     @IBOutlet weak var useKeyShortcut: NSButton!
 
-    let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
+    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
-    var userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
-    let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
+    private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     static let shared: AdvancedPaneController = {
         let storyboard = NSStoryboard(name: .main, bundle: .main)
@@ -36,18 +36,18 @@ class AdvancedPaneController: NSViewController {
         self.addDisableAutoTweetObserver(state: self.userDefaults.bool(forKey: "AutoTweet"))
     }
 
-    @IBAction func switchSetting(_ sender: NSButton) {
+    @IBAction private func switchSetting(_ sender: NSButton) {
         let identifier: String = (sender.identifier?.rawValue)!
         self.userDefaults.set(sender.state.toBool(), forKey: identifier)
         self.userDefaults.synchronize()
     }
 
-    @IBAction func switchAutoTweet(_ sender: NSButton) {
+    @IBAction private func switchAutoTweet(_ sender: NSButton) {
         self.appDelegate.switchAutoTweet(state: sender.state.toBool())
         self.addDisableAutoTweetObserver(state: sender.state.toBool())
     }
 
-    @IBAction func switchUseKeyShortcut(_ sender: NSButton) {
+    @IBAction private func switchUseKeyShortcut(_ sender: NSButton) {
         let state = sender.state.toBool()
 
         if state {

@@ -15,7 +15,7 @@ class PreferencesWindowController: NSWindowController {
     @IBOutlet weak var advancedPane: NSToolbarItem!
     @IBOutlet weak var keyEquivalentsPane: NSToolbarItem!
 
-    var userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
     private let viewControllers: [NSViewController] = [
         GeneralPaneController.shared,
