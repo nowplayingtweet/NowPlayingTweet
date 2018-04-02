@@ -26,9 +26,9 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     @IBOutlet weak var currentRecordLabel: NSTextField!
     @IBOutlet weak var currentRecortView: RecordView!
 
-    @IBOutlet weak var cancelButton: NSButton!
-
     @IBOutlet weak var accountShortcutLabel: NSTextField!
+
+    var selectedRecortView: RecordView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +39,12 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         self.currentRecortView.delegate = self
         self.currentRecortView.identifier = NSUserInterfaceItemIdentifier(rawValue: "Current")
         self.currentRecortView.keyCombo = self.userDefaults.keyCombo(forKey: "Current")
+
+        let existAccount = self.twitterClient.existAccount
+
+        if existAccount {
+            self.reloadView()
+        }
     }
 
     override func viewWillAppear() {
@@ -46,56 +52,58 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         self.reloadView()
     }
 
-    func reloadView() {
-        let existAccount = self.twitterClient.existAccount
-        for subview in self.view.subviews { subview.removeFromSuperview() }
+    override func cancelOperation(_ sender: Any?) {
+        self.selectedRecortView?.endRecording()
+    }
 
-        self.view.addSubview(self.currentRecordLabel)
-        self.view.addSubview(self.currentRecortView)
-        self.view.addSubview(self.cancelButton)
+    func reloadView() {
+        for subview in self.view.subviews {
+            switch subview {
+            case self.currentRecordLabel, self.currentRecortView, self.accountShortcutLabel:
+                continue
+            default:
+                subview.removeFromSuperview()
+            }
+        }
+
+        let existAccount = self.twitterClient.existAccount
+
+        self.accountShortcutLabel.isHidden = !existAccount
+
+        let accountRowsHeight = 32 * self.twitterClient.numberOfAccounts
+        let frameHeight: CGFloat = CGFloat(existAccount ? 64 + 44 + accountRowsHeight : 64)
+        let frameSize: CGSize = CGSize(width: 500, height: frameHeight)
+
+        self.view.setFrameSize(frameSize)
+        self.view.window?.setContentSize(frameSize)
 
         if !existAccount {
-            // height is 100 when hasn't account
-            let newFrameSize: CGSize = CGSize(width: 500, height: 100)
-            self.view.setFrameSize(newFrameSize)
-            self.view.window?.setContentSize(newFrameSize)
-
-            self.cancelButton.setFrameOrigin(CGPoint(x: 216, y: 20))
             return
         }
 
-        self.view.addSubview(self.accountShortcutLabel)
-        self.cancelButton.setFrameOrigin(CGPoint(x: 216, y: 20))
+        let labelSize = self.currentRecordLabel.frame.size
+        let viewSize = self.currentRecortView.frame.size
 
-        let addHeight = 32 * self.twitterClient.numberOfAccounts
+        let labelXPoint = self.currentRecordLabel.frame.origin.x
+        let viewXPoint = self.currentRecortView.frame.origin.x
 
-        // height: 100 + label height(44) + account rows(32 x number of account)
-        let newFrameSize: CGSize = CGSize(width: 500, height: 144 + addHeight)
-        self.view.setFrameSize(newFrameSize)
-        self.view.window?.setContentSize(newFrameSize)
-
-        let labelSize = CGSize(width: 210, height: 17)
-        let viewSize = CGSize(width: 158, height: 24)
-
-        var labelYPoint = 64 + addHeight
-        var recordYPoint = 61 + addHeight
+        var labelYPoint = 28 + accountRowsHeight
+        var viewYPoint = 25 + accountRowsHeight
 
         for accountID in self.twitterClient.accountIDs {
             labelYPoint -= 32
-            recordYPoint -= 32
-            let labelOrigin = CGPoint(x: 62, y: labelYPoint)
-            let viewOrigin = CGPoint(x: 280, y: recordYPoint)
+            viewYPoint -= 32
+            let labelPoint = CGPoint(x: labelXPoint, y: CGFloat(labelYPoint))
+            let viewPoint = CGPoint(x: viewXPoint, y: CGFloat(viewYPoint))
 
-            let labelFrame = CGRect(origin: labelOrigin, size: labelSize)
-            let viewFrame = CGRect(origin: viewOrigin, size: viewSize)
+            let labelFrame = CGRect(origin: labelPoint, size: labelSize)
+            let viewFrame = CGRect(origin: viewPoint, size: viewSize)
 
-            // x: 62, y: 64
             let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
             let recordLabel: NSTextField = Label(with: "Tweet with @\(accountName):",
                                                  frame: labelFrame,
                                                  alignment: .right) as NSTextField
 
-            // x: 280, y: 61
             let recordView: RecordView = RecordView(frame: viewFrame)
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
@@ -109,8 +117,9 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     }
 
     func recordViewShouldBeginRecording(_ recordView: RecordView) -> Bool {
-        guard let _: String = recordView.identifier?.rawValue else { return false }
+        if recordView.identifier == nil { return false }
         recordView.keyCombo = nil
+        self.selectedRecortView = recordView
         return true
     }
 
@@ -131,12 +140,9 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     }
 
     func recordViewDidEndRecording(_ recordView: RecordView) {
+        self.selectedRecortView = nil
         guard let identifier: String = recordView.identifier?.rawValue else { return }
         recordView.keyCombo = self.userDefaults.keyCombo(forKey: identifier)
-    }
-
-    @IBAction func changeCancel(_ sender: NSButton) {
-        self.currentRecortView.endRecording()
     }
 
 }
