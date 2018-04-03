@@ -6,12 +6,14 @@
 **/
 
 import Cocoa
+import LaunchAtLogin
 
 class AdvancedPaneController: NSViewController {
 
+    @IBOutlet weak var launchAtLogin: NSButton!
+    @IBOutlet weak var useKeyShortcut: NSButton!
     @IBOutlet weak var tweetWithImage: NSButton!
     @IBOutlet weak var autoTweet: NSButton!
-    @IBOutlet weak var useKeyShortcut: NSButton!
 
     private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -29,32 +31,38 @@ class AdvancedPaneController: NSViewController {
         super.viewDidLoad()
 
         // Do view setup here.
+        self.userDefaults.set(LaunchAtLogin.isEnabled, forKey: "LaunchAtLogin")
+        self.launchAtLogin.set(state: self.userDefaults.bool(forKey: "LaunchAtLogin"))
+        self.useKeyShortcut.set(state: self.userDefaults.bool(forKey: "UseKeyShortcut"))
         self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
         self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
-        self.useKeyShortcut.set(state: self.userDefaults.bool(forKey: "UseKeyShortcut"))
 
         self.addDisableAutoTweetObserver(state: self.userDefaults.bool(forKey: "AutoTweet"))
     }
 
     @IBAction private func switchSetting(_ sender: NSButton) {
-        let identifier: String = (sender.identifier?.rawValue)!
-        self.userDefaults.set(sender.state.toBool(), forKey: identifier)
-        self.userDefaults.synchronize()
-    }
-
-    @IBAction private func switchAutoTweet(_ sender: NSButton) {
-        self.appDelegate.switchAutoTweet(state: sender.state.toBool())
-        self.addDisableAutoTweetObserver(state: sender.state.toBool())
-    }
-
-    @IBAction private func switchUseKeyShortcut(_ sender: NSButton) {
+        guard let identifier: String = sender.identifier?.rawValue else { return }
         let state = sender.state.toBool()
 
-        if state {
-            self.keyEquivalents.enable()
-        } else {
-            self.keyEquivalents.disable()
+        switch identifier {
+        case "LaunchAtLogin":
+            LaunchAtLogin.isEnabled = state
+            if LaunchAtLogin.isEnabled != state {
+                self.userDefaults.set(false, forKey: "LaunchAtLogin")
+                self.userDefaults.synchronize()
+                self.launchAtLogin.set(state: false)
+                return
+            }
+        case "UseKeyShortcut":
+            self.keyEquivalents.isEnabled = state
+        case "AutoTweet":
+            self.appDelegate.manageAutoTweet(state: state)
+            self.addDisableAutoTweetObserver(state: state)
+        default:
+            break
         }
+        self.userDefaults.set(state, forKey: identifier)
+        self.userDefaults.synchronize()
     }
 
     private func addDisableAutoTweetObserver(state: Bool) {
@@ -62,7 +70,9 @@ class AdvancedPaneController: NSViewController {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             var observer: NSObjectProtocol!
             observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
-                self.autoTweet.set(state: false)
+                self.userDefaults.set(false, forKey: "AutoTweet")
+                self.userDefaults.synchronize()
+                self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
                 notificationCenter.removeObserver(observer)
             })
         }

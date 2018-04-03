@@ -38,6 +38,8 @@
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
+		3DDCEF5F20739CE200BE649C /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; };
+		3DDCEF6020739CE200BE649C /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
@@ -80,6 +82,7 @@
 				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
 				3DFF865F204718F4004FDD88 /* Magnet.framework in Embed Frameworks */,
 				3DFF865D204718F4004FDD88 /* KeyHolder.framework in Embed Frameworks */,
+				3DDCEF6020739CE200BE649C /* LaunchAtLogin.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneController.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
 				3DFF865A204718E8004FDD88 /* Magnet.framework in Frameworks */,
 				3DFF865B204718E8004FDD88 /* KeyHolder.framework in Frameworks */,
+				3DDCEF5F20739CE200BE649C /* LaunchAtLogin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +245,7 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */,
 				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
 				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
@@ -261,6 +267,7 @@
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
 				3D55210520223BBC00AAF108 /* Embed Frameworks */,
+				3DFF1CDA2073663F00203224 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -314,7 +321,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = kPherox;
 				TargetAttributes = {
 					3D5520CD2022322100AAF108 = {
@@ -383,6 +390,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3DFF1CDA2073663F00203224 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D5520CA2022322100AAF108 /* Sources */ = {
@@ -474,6 +498,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -481,6 +506,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -531,6 +557,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -538,6 +565,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

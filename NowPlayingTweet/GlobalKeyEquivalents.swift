@@ -16,7 +16,16 @@ class GlobalKeyEquivalents: NSObject {
     private let userDefaults: UserDefaults = UserDefaults.standard
 
     var isEnabled: Bool {
-        return self.userDefaults.bool(forKey: "UseKeyShortcut")
+        get {
+            return self.userDefaults.bool(forKey: "UseKeyShortcut")
+        }
+        set {
+            if newValue {
+                self.start()
+            } else {
+                self.hotKeyCenter.unregisterAll()
+            }
+        }
     }
 
     private let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
@@ -31,20 +40,6 @@ class GlobalKeyEquivalents: NSObject {
 
     func set(delegate: KeyEquivalentsDelegate) {
         self.delegate = delegate
-    }
-
-    func enable() {
-        self.userDefaults.set(true, forKey: "UseKeyShortcut")
-        self.userDefaults.synchronize()
-
-        self.start()
-    }
-
-    func disable() {
-        self.userDefaults.set(false, forKey: "UseKeyShortcut")
-        self.userDefaults.synchronize()
-
-        self.hotKeyCenter.unregisterAll()
     }
 
     private func start() {
