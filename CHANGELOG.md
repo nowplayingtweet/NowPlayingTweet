@@ -2,15 +2,20 @@
 Changelog.
 
 ## [Unreleased]
+### Changed
+* Update frameworks version.
+* Minimum system version up 10.11 -> 10.12.
+* Support macOS 10.14 Mojave Dark Mode.
+* Disable "Launch at Login".
 
 ## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
 ### Added
 * Add global keyboard shortcut for Tweet NowPlaying.
+* Enable "Launch at Login".
 * Add Tweet Format's counter.
 
 ### Changed
 * Minimum system version down 10.13 -> 10.11.
-* Disable sandbox.
 * Get out of editing state by escape key.
 
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
@@ -25,7 +30,7 @@ Changelog.
 ### Changed
 * Default setting Auto tweet to false.
 
-## Fixed
+### Fixed
 * Fix statusbar icon name.
 
 ## [Version 0.2 (Pre-Release)][0.2] - 2018-02-05
