@@ -4,10 +4,12 @@ Changelog.
 ## [Unreleased]
 ### Added
 * Add global keyboard shortcut for Tweet NowPlaying.
+* Add Tweet Format's counter.
 
 ### Changed
 * Minimum system version down 10.13 -> 10.11.
 * Disable sandbox.
+* Get out of editing state by escape key.
 
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
 ### Added
