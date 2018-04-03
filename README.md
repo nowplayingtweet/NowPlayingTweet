@@ -28,9 +28,9 @@ Released under the [MIT License][KeychainAccess-License].
 Copyright (c) 2016 Clipy Project.  
 Released under the [MIT License][Magnet-License].
 
-#### KeyHolder
-Copyright (c) 2016 Clipy Project.  
-Released under the [MIT License][KeyHolder-License].
+#### LaunchAtLogin
+Copyright (c) 2016 Sindre Sorhus.  
+Released under the [MIT License][LaunchAtLogin-License].
 
 [LICENSE]: https://github.com/kPherox/NowPlayingTweet/blob/master/LICENSE.txt
 [SwiftScripting - GitHub]: https://github.com/tingraldi/SwiftScripting
@@ -38,4 +38,5 @@ Released under the [MIT License][KeyHolder-License].
 [KeychainAccess-License]: https://github.com/kishikawakatsumi/KeychainAccess/blog/master/LICENSE
 [Magnet-License]: https://github.com/Clipy/Magnet/blob/master/LICENSE
 [KeyHolder-License]: https://github.com/Clipy/KeyHolder/blob/master/LICENSE
+[LaunchAtLogin-License]: https://github.com/sindresorhus/LaunchAtLogin/blob/master/license
 

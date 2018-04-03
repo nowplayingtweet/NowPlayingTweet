@@ -261,6 +261,7 @@
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
 				3D55210520223BBC00AAF108 /* Embed Frameworks */,
+				3DFF1CDA2073663F00203224 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -383,6 +384,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3DFF1CDA2073663F00203224 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D5520CA2022322100AAF108 /* Sources */ = {
