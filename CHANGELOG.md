@@ -3,6 +3,16 @@ Changelog.
 
 ## [Unreleased]
 
+## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
+### Added
+* Add global keyboard shortcut for Tweet NowPlaying.
+* Add Tweet Format's counter.
+
+### Changed
+* Minimum system version down 10.13 -> 10.11.
+* Disable sandbox.
+* Get out of editing state by escape key.
+
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
 ### Added
 * Support multiple account.
@@ -31,7 +41,8 @@ Changelog.
 * Tweet with artwork.
 * Customize tweet text.
 
-[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...HEAD
+[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...HEAD
+[0.4]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...0.4
 [0.3]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.2...0.3
 [0.2.2]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.1...0.2.2
 [0.2.1]: https://github.com/kPherox/NowPlayingTweet/compare/0.2...0.2.1

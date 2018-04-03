@@ -5,13 +5,20 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
-import AppKit
+import Cocoa
+
+extension NSStoryboard.Name {
+
+    static let main: NSStoryboard.Name = NSStoryboard.Name(Bundle.main.infoDictionary!["NSMainStoryboardFile"] as! String)
+
+}
 
 extension NSStoryboard.SceneIdentifier {
 
-    static let generalViewController = NSStoryboard.SceneIdentifier("GeneralViewController")
-    static let advancedViewController = NSStoryboard.SceneIdentifier("AdvancedViewController")
-    static let accountsViewController = NSStoryboard.SceneIdentifier("AccountsViewController")
+    static let preferencesWindowController = NSStoryboard.SceneIdentifier("PreferencesWindowController")
+    static let generalPaneController = NSStoryboard.SceneIdentifier("GeneralPaneController")
+    static let accountPaneController = NSStoryboard.SceneIdentifier("AccountPaneController")
+    static let advancedPaneController = NSStoryboard.SceneIdentifier("AdvancedPaneController")
+    static let keyEquivalentsPaneController = NSStoryboard.SceneIdentifier("KeyEquivalentsPaneController")
 
 }

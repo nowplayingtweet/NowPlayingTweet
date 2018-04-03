@@ -1,5 +1,5 @@
 /**
- *  AccountsViewController.swift
+ *  AccountPaneController.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -8,7 +8,7 @@
 import Cocoa
 import SwifterMac
 
-class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
@@ -17,37 +17,39 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     @IBOutlet weak var currentLabel: NSTextField!
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var removeButton: NSButton!
-    @IBOutlet weak var accountList: AccountsListView!
+    @IBOutlet weak var accountList: AccountListView!
 
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
-    let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults: UserDefaults = UserDefaults.standard
 
-    var twitterAccounts: TwitterAccounts {
-        get {
-            return self.appDelegate.twitterAccounts
-        }
-    }
+    static let shared: AccountPaneController = {
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
+        let windowController = storyboard.instantiateController(withIdentifier: .accountPaneController)
+        return windowController as! AccountPaneController
+    }()
 
-    var selected: TwitterAccount?
+    let twitterClient: TwitterClient = TwitterClient.shared
+
+    var selected: TwitterClient.Account?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-        if !self.twitterAccounts.existAccount {
+        if !self.twitterClient.existAccount {
             return
         }
 
-        self.selected = self.twitterAccounts.current
+        self.selected = self.twitterClient.current
         self.removeButton.enable()
 
         let userID = self.selected?.userID
-        let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+        let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-        let isCurrent = self.twitterAccounts.currentKey == userID
+        let isCurrent = self.twitterClient.currentID == userID
         self.currentLabel.isHidden = !isCurrent
         self.currentButton.isHidden = isCurrent
 
@@ -56,46 +58,36 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
         self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
-    @IBAction func setToCurrent(_ sender: NSButton) {
+    @IBAction private func setToCurrent(_ sender: NSButton) {
         let userID = self.selected?.userID
-        self.twitterAccounts.changeCurrent(userID: userID!)
-        self.appDelegate.updateCurrentAccount(to: true)
+        self.twitterClient.changeCurrent(userID: userID!)
+        self.appDelegate.updateTwitterAccount()
         self.currentLabel.isHidden = false
         self.currentButton.isHidden = true
     }
 
-    @IBAction func addAccount(_ sender: NSButton) {
-        self.twitterAccounts.login()
-
+    @IBAction private func addAccount(_ sender: NSButton) {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
-            self.removeButton.enable()
-            self.selected = notification.userInfo!["account"] as? TwitterAccount
+            self.selected = notification.userInfo!["account"] as? TwitterClient.Account
 
             self.accountList.reloadData()
 
             let userID = self.selected?.userID
             let name = self.selected?.name
 
-            let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+            let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-            let menuItem = NSMenuItem()
-            menuItem.title = name!
-            menuItem.action = #selector(self.appDelegate.tweetBySelectingAccount(_:))
+            self.appDelegate.updateTwitterAccount()
 
-            if self.twitterAccounts.listKeys.count == 1 {
-                let menu = NSMenu()
-                menu.addItem(menuItem)
-                self.appDelegate.tweetMenu?.submenu = menu
-                self.appDelegate.updateCurrentAccount(to: true)
+            if self.twitterClient.numberOfAccounts == 1 {
+                self.removeButton.enable()
                 self.currentLabel.isHidden = false
                 self.currentButton.isHidden = true
-
             } else {
-                self.appDelegate.tweetMenu?.submenu?.insertItem(menuItem, at: numberOfAccounts)
                 self.currentLabel.isHidden = true
                 self.currentButton.isHidden = false
             }
@@ -106,26 +98,24 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
 
             notificationCenter.removeObserver(observer)
         })
+
+        self.twitterClient.login()
     }
 
-    @IBAction func removeAccount(_ sender: NSButton) {
-        self.twitterAccounts.logout(account: self.selected!)
+    @IBAction private func removeAccount(_ sender: NSButton) {
+        self.twitterClient.logout(account: self.selected!)
 
         self.accountList.reloadData()
 
-        if self.twitterAccounts.existAccount {
-            let removedName = self.selected?.name
-            let menuItem = self.appDelegate.tweetMenu?.submenu?.item(withTitle: removedName!)
-            self.appDelegate.tweetMenu?.submenu?.removeItem(menuItem!)
-
-            self.selected = self.twitterAccounts.current
+        if self.twitterClient.existAccount {
+            self.selected = self.twitterClient.current
 
             let userID = self.selected?.userID
-            let numberOfAccounts = self.twitterAccounts.listKeys.index(of: userID!)!
+            let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-            let isCurrent = self.twitterAccounts.currentKey == userID
+            let isCurrent = self.twitterClient.currentID == userID
             self.currentLabel.isHidden = !isCurrent
             self.currentButton.isHidden = isCurrent
 
@@ -133,10 +123,8 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.set(screenName: self.selected?.screenName)
             self.set(avaterUrl: self.selected?.avaterUrl)
 
-            self.appDelegate.updateCurrentAccount(to: true)
+            self.appDelegate.updateTwitterAccount()
         } else {
-            self.appDelegate.tweetMenu?.submenu = nil
-
             self.removeButton.disable()
             self.selected = nil
             self.set(name: nil)
@@ -146,35 +134,34 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
             self.currentLabel.isHidden = true
             self.currentButton.isHidden = true
 
-            self.appDelegate.updateCurrentAccount(to: false)
+            self.appDelegate.updateTwitterAccount()
         }
     }
 
-    @IBAction func selectAccount(_ sender: AccountsListView) {
+    @IBAction private func selectAccount(_ sender: AccountListView) {
         let row = sender.selectedRow
-        let userID = self.twitterAccounts.listKeys[row]
-        let twitterAccount: TwitterAccount = self.twitterAccounts.list[userID]!
-        self.selected = twitterAccount
+        let userID = self.twitterClient.accountIDs[row]
+        self.selected = self.twitterClient.account(userID: userID)
 
-        let isCurrent = self.twitterAccounts.currentKey == userID
+        let isCurrent = self.twitterClient.currentID == self.selected?.userID
         self.currentLabel.isHidden = !isCurrent
         self.currentButton.isHidden = isCurrent
-        self.set(name: twitterAccount.name)
-        self.set(screenName: twitterAccount.screenName)
-        self.set(avaterUrl: twitterAccount.avaterUrl)
+        self.set(name: self.selected?.name)
+        self.set(screenName: self.selected?.screenName)
+        self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
-    func set(name string: String?) {
-        self.name.stringValue = string != nil ? string! : "Account Name"
+    private func set(name string: String?) {
+        self.name.stringValue = string != nil ? string! : "Not logged in..."
         self.name.textColor = string != nil ? .labelColor : .disabledControlTextColor
     }
 
-    func set(screenName string: String?) {
+    private func set(screenName string: String?) {
         self.screenName.stringValue = "@\(string != nil ? string! : "null")"
         self.screenName.textColor = string != nil ? .secondaryLabelColor : .disabledControlTextColor
     }
 
-    func set(avaterUrl url: URL?) {
+    private func set(avaterUrl url: URL?) {
         if url != nil {
             self.avater.fetchImage(url: url!, rounded: true)
             self.avater.enable()
@@ -185,18 +172,18 @@ class AccountsViewController: NSViewController, NSTableViewDelegate, NSTableView
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        if !self.twitterAccounts.existAccount {
+        if !self.twitterClient.existAccount {
             return 0
         }
-        let accountCount = self.twitterAccounts.list.count
+        let accountCount = self.twitterClient.numberOfAccounts
         return accountCount
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
 
-        let userID = self.twitterAccounts.listKeys[row]
-        let twitterAccount: TwitterAccount = self.twitterAccounts.list[userID]!
+        let userID = self.twitterClient.accountIDs[row]
+        let twitterAccount: TwitterClient.Account = self.twitterClient.account(userID: userID)!
 
         cellView.textField?.stringValue = twitterAccount.name
         cellView.screenName.stringValue = "@\(twitterAccount.screenName)"
