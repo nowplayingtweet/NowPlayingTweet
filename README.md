@@ -28,8 +28,12 @@ Released under the [MIT License][KeychainAccess-License].
 Copyright (c) 2016 Clipy Project.  
 Released under the [MIT License][Magnet-License].
 
+#### KeyHolder
+Copyright (c) 2016 Clipy Project.  
+Released under the [MIT License][KeyHolder-License].
+
 #### LaunchAtLogin
-Copyright (c) 2016 Sindre Sorhus.  
+Copyright (c) Sindre Sorhus.  
 Released under the [MIT License][LaunchAtLogin-License].
 
 [LICENSE]: https://github.com/kPherox/NowPlayingTweet/blob/master/LICENSE.txt
