@@ -31,6 +31,7 @@ class AdvancedPaneController: NSViewController {
         super.viewDidLoad()
 
         // Do view setup here.
+        self.userDefaults.set(LaunchAtLogin.isEnabled, forKey: "LaunchAtLogin")
         self.launchAtLogin.set(state: self.userDefaults.bool(forKey: "LaunchAtLogin"))
         self.useKeyShortcut.set(state: self.userDefaults.bool(forKey: "UseKeyShortcut"))
         self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
@@ -40,12 +41,18 @@ class AdvancedPaneController: NSViewController {
     }
 
     @IBAction private func switchSetting(_ sender: NSButton) {
-        let identifier: String = (sender.identifier?.rawValue)!
+        guard let identifier: String = sender.identifier?.rawValue else { return }
         let state = sender.state.toBool()
 
         switch identifier {
         case "LaunchAtLogin":
             LaunchAtLogin.isEnabled = state
+            if LaunchAtLogin.isEnabled != state {
+                self.userDefaults.set(false, forKey: "LaunchAtLogin")
+                self.userDefaults.synchronize()
+                self.launchAtLogin.set(state: false)
+                return
+            }
         case "UseKeyShortcut":
             self.keyEquivalents.isEnabled = state
         case "AutoTweet":

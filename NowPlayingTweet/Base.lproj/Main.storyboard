@@ -563,6 +563,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="switchSetting:" target="XEl-xh-gkm" id="CXQ-X0-Y6Y"/>
+                                </connections>
                             </button>
                             <button identifier="UseKeyShortcut" wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dW1-MJ-Gxa">
                                 <rect key="frame" x="63" y="123" width="164" height="24"/>
