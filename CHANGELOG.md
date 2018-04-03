@@ -2,6 +2,8 @@
 Changelog.
 
 ## [Unreleased]
+
+## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
 ### Added
 * Add global keyboard shortcut for Tweet NowPlaying.
 * Add Tweet Format's counter.
@@ -39,7 +41,8 @@ Changelog.
 * Tweet with artwork.
 * Customize tweet text.
 
-[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...HEAD
+[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...HEAD
+[0.4]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...0.4
 [0.3]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.2...0.3
 [0.2.2]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.1...0.2.2
 [0.2.1]: https://github.com/kPherox/NowPlayingTweet/compare/0.2...0.2.1
