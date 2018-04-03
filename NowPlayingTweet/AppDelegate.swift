@@ -32,9 +32,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
         let defaultSettings: [String : Any] = [
             "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
+            "LaunchAtLogin" : false,
+            "UseKeyShortcut" : false,
             "TweetWithImage" : true,
             "AutoTweet" : false,
-            "UseKeyShortcut" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
     }
@@ -66,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.statusItem.menu = self.menu
 
         if self.userDefaults.bool(forKey: "AutoTweet") {
-            self.switchAutoTweet(state: true)
+            self.manageAutoTweet(state: true)
         }
 
         self.keyEquivalents.set(delegate: self)
@@ -131,7 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
             let title: String = "Not logged in!"
             var informative: String = "Please login with Preferences -> Account."
             if auto {
-                self.switchAutoTweet(state: false)
+                self.manageAutoTweet(state: false)
                 informative.append("\n")
                 informative.append("Disable Auto Tweet.")
             }
@@ -232,7 +233,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
     }
 
-    func switchAutoTweet(state: Bool) {
+    func manageAutoTweet(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
         if state {
             notificationObserver.addObserver(self,
@@ -248,8 +249,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             notificationCenter.post(name: .disableAutoTweet, object: nil)
         }
-        self.userDefaults.set(state, forKey: "AutoTweet")
-        self.userDefaults.synchronize()
     }
 
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
