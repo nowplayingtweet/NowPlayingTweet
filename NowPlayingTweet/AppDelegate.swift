@@ -78,6 +78,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         HotKeyCenter.shared.unregisterAll()
     }
 
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
+            return self.twitterClient.existAccount
+        }
+
+        return true
+    }
+
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
         // Cell Swifter handleOpenURL
         Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
@@ -92,11 +100,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         self.tweetNowPlaying(by: self.twitterClient.current, auto: true)
     }
 
-    @IBAction func tweetByCurrentAccount(_ sender: NSMenuItem) {
+    @IBAction private func tweetByCurrentAccount(_ sender: NSMenuItem) {
         self.tweetNowPlaying(by: self.twitterClient.current)
     }
 
-    @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
+    @IBAction private func tweetBySelectingAccount(_ sender: NSMenuItem) {
         let account = self.twitterClient.account(name: sender.title)
         self.tweetNowPlaying(by: account)
     }
@@ -249,14 +257,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             notificationCenter.post(name: .disableAutoTweet, object: nil)
         }
-    }
-
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
-            return self.twitterClient.existAccount
-        }
-
-        return true
     }
 
     func tweetWithCurrent() {

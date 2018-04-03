@@ -13,14 +13,8 @@
 		3D5520D92022322300AAF108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D72022322300AAF108 /* Main.storyboard */; };
 		3D5520E52022322500AAF108 /* NowPlayingTweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520E42022322500AAF108 /* NowPlayingTweetTests.swift */; };
 		3D5520F02022322500AAF108 /* NowPlayingTweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */; };
-		3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
-		3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */; };
 		3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountPaneController.swift */; };
-		3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; };
-		3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
@@ -31,23 +25,31 @@
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
 		3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */; };
-		3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
-		3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B25202450D9000F7818 /* NSControl++.swift */; };
 		3DD88B282024974C000F7818 /* Notification++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B272024974C000F7818 /* Notification++.swift */; };
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
-		3DDCEF5F20739CE200BE649C /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; };
-		3DDCEF6020739CE200BE649C /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; };
+		3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF782073CDE300BE649C /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; };
+		3DDCEF792073CDE300BE649C /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF7A2073CDE900BE649C /* ScriptingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; };
+		3DDCEF7B2073CDE900BE649C /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF7C2073CDEF00BE649C /* iTunesScripting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; };
+		3DDCEF7D2073CDEF00BE649C /* iTunesScripting.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
+		3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
+		3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; };
+		3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
+		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
 		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
-		3DFF865A204718E8004FDD88 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; };
-		3DFF865B204718E8004FDD88 /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
-		3DFF865D204718F4004FDD88 /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3DFF865F204718F4004FDD88 /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DFF866320474754004FDD88 /* KeyEquivalentsPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */; };
 		3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF86642048710C004FDD88 /* UserDefaults++.swift */; };
 /* End PBXBuildFile section */
@@ -70,19 +72,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3D55210520223BBC00AAF108 /* Embed Frameworks */ = {
+		3DDCEF752073CDD600BE649C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */,
-				3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */,
-				3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */,
-				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
-				3DFF865F204718F4004FDD88 /* Magnet.framework in Embed Frameworks */,
-				3DFF865D204718F4004FDD88 /* KeyHolder.framework in Embed Frameworks */,
-				3DDCEF6020739CE200BE649C /* LaunchAtLogin.framework in Embed Frameworks */,
+				3DDCEF7D2073CDEF00BE649C /* iTunesScripting.framework in Embed Frameworks */,
+				3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */,
+				3DDCEF7B2073CDE900BE649C /* ScriptingUtilities.framework in Embed Frameworks */,
+				3DDCEF792073CDE300BE649C /* LaunchAtLogin.framework in Embed Frameworks */,
+				3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */,
+				3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */,
+				3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */,
+				3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +128,7 @@
 		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
+		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
@@ -140,13 +144,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */,
-				3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */,
-				3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */,
-				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
-				3DFF865A204718E8004FDD88 /* Magnet.framework in Frameworks */,
-				3DFF865B204718E8004FDD88 /* KeyHolder.framework in Frameworks */,
-				3DDCEF5F20739CE200BE649C /* LaunchAtLogin.framework in Frameworks */,
+				3DDCEF7C2073CDEF00BE649C /* iTunesScripting.framework in Frameworks */,
+				3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */,
+				3DDCEF7A2073CDE900BE649C /* ScriptingUtilities.framework in Frameworks */,
+				3DDCEF782073CDE300BE649C /* LaunchAtLogin.framework in Frameworks */,
+				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
+				3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */,
+				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
+				3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,13 +250,14 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */,
-				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
-				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
+				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
+				3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */,
 				3DFF8658204718E7004FDD88 /* Magnet.framework */,
+				3DDCEF612073CD4100BE649C /* TwitterText.framework */,
 				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
+				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -266,8 +272,8 @@
 				3D5520CA2022322100AAF108 /* Sources */,
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
-				3D55210520223BBC00AAF108 /* Embed Frameworks */,
 				3DFF1CDA2073663F00203224 /* Run Script */,
+				3DDCEF752073CDD600BE649C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

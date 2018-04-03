@@ -742,10 +742,20 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cn1-T2-q1J">
+                                <rect key="frame" x="264" y="72" width="58" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="counter" id="nZq-is-7Yw">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="editButton" destination="aEi-lM-AOB" id="VGc-gU-rI7"/>
+                        <outlet property="textCounter" destination="cn1-T2-q1J" id="XbR-49-ol5"/>
                         <outlet property="tweetFormat" destination="QrH-b0-mDd" id="HWZ-ug-oku"/>
                         <outlet property="tweetFormatView" destination="imN-Zb-vyA" id="8ZH-to-LJy"/>
                     </connections>
