@@ -29,35 +29,42 @@ class GeneralPaneController: NSViewController {
         self.updateTweetFormatLabel()
     }
 
-    @IBAction func editFormat(_ sender: NSButton) {
-        let isEditable = self.tweetFormat.isEditable
-        
-        self.editButton.keyEquivalent = isEditable ? "" : "\r"
-        self.tweetFormatView.borderType = isEditable ? .noBorder : .bezelBorder
-        self.tweetFormat.textColor = isEditable ? .labelColor : .textColor
-        self.tweetFormat.drawsBackground = isEditable ? false : true
+    override func cancelOperation(_ sender: Any?) {
+        self.updateTweetFormatLabel()
+    }
 
-        if isEditable {
-            self.change(format: self.tweetFormat.string)
-            self.tweetFormat.isSelectable = false
+    @IBAction private func editFormat(_ sender: NSButton) {
+        if self.tweetFormat.isEditable {
+            self.change()
         } else {
+            self.editButton.title = "Change"
+            self.editButton.keyEquivalent = "\r"
+            self.tweetFormatView.borderType = .bezelBorder
+            self.tweetFormat.textColor = .textColor
+            self.tweetFormat.drawsBackground = true
             self.tweetFormat.isEditable = true
         }
     }
 
-    @IBAction func resetFormat(_ sender: NSButton) {
+    @IBAction private func resetFormat(_ sender: NSButton) {
         self.userDefaults.removeObject(forKey: "TweetFormat")
         self.userDefaults.synchronize()
         self.updateTweetFormatLabel()
     }
 
-    func change(format: String) {
-        self.userDefaults.set(format, forKey: "TweetFormat")
+    private func change() {
+        self.userDefaults.set(self.tweetFormat.string, forKey: "TweetFormat")
         self.userDefaults.synchronize()
         self.updateTweetFormatLabel()
     }
 
     private func updateTweetFormatLabel() {
+        self.editButton.title = "Edit"
+        self.editButton.keyEquivalent = ""
+        self.tweetFormatView.borderType = .noBorder
+        self.tweetFormat.textColor = .labelColor
+        self.tweetFormat.drawsBackground = false
+        self.tweetFormat.isSelectable = false
         self.tweetFormat.string = (self.userDefaults.string(forKey: "TweetFormat"))!
     }
 
