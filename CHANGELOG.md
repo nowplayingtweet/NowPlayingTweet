@@ -3,10 +3,11 @@ Changelog.
 
 ## [Unreleased]
 ### Added
-* Add global keyboard shortcut for Tweet NowPlaying with Current Account.
+* Add global keyboard shortcut for Tweet NowPlaying.
 
 ### Changed
 * Minimum system version down 10.13 -> 10.11.
+* Disable sandbox.
 
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
 ### Added
