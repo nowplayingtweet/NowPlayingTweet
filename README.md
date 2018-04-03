@@ -36,11 +36,16 @@ Released under the [MIT License][KeyHolder-License].
 Copyright (c) Sindre Sorhus.  
 Released under the [MIT License][LaunchAtLogin-License].
 
+#### twitter-text
+Copyright 2011 Twitter, Inc.  
+Licensed under the [Apache License, Version 2.0][LaunchAtLogin-License].
+
 [LICENSE]: https://github.com/kPherox/NowPlayingTweet/blob/master/LICENSE.txt
 [SwiftScripting - GitHub]: https://github.com/tingraldi/SwiftScripting
 [Swifter-License]: https://github.com/kPherox/Swifter/blob/master/LICENSE
-[KeychainAccess-License]: https://github.com/kishikawakatsumi/KeychainAccess/blog/master/LICENSE
+[KeychainAccess-License]: https://github.com/kishikawakatsumi/KeychainAccess/blob/master/LICENSE
 [Magnet-License]: https://github.com/Clipy/Magnet/blob/master/LICENSE
 [KeyHolder-License]: https://github.com/Clipy/KeyHolder/blob/master/LICENSE
 [LaunchAtLogin-License]: https://github.com/sindresorhus/LaunchAtLogin/blob/master/license
+[twitter-text]: https://github.com/twitter/twitter-text/blob/master/LICENSE
 
