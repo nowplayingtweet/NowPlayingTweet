@@ -9,7 +9,6 @@ import Cocoa
 
 class AdvancedPaneController: NSViewController {
 
-    @IBOutlet weak var launchAtLogin: NSButton!
     @IBOutlet weak var useKeyShortcut: NSButton!
     @IBOutlet weak var tweetWithImage: NSButton!
     @IBOutlet weak var autoTweet: NSButton!

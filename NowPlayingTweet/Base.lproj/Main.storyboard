@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="10000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -366,7 +365,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="208" y="201"/>
+            <point key="canvasLocation" x="154" y="269"/>
         </scene>
         <!--Account-->
         <scene sceneID="f4J-kw-96r">
@@ -538,7 +537,7 @@
                 </viewController>
                 <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="714" y="438"/>
+            <point key="canvasLocation" x="657" y="499"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
@@ -564,9 +563,6 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="switchSetting:" target="XEl-xh-gkm" id="CXQ-X0-Y6Y"/>
-                                </connections>
                             </button>
                             <button identifier="UseKeyShortcut" wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dW1-MJ-Gxa">
                                 <rect key="frame" x="63" y="123" width="164" height="24"/>
@@ -614,14 +610,13 @@
                     </view>
                     <connections>
                         <outlet property="autoTweet" destination="txX-Xv-iSP" id="xpJ-zv-hYj"/>
-                        <outlet property="launchAtLogin" destination="LPQ-a4-pIN" id="X0K-3K-T4h"/>
                         <outlet property="tweetWithImage" destination="PHL-d0-AOk" id="aIu-ln-cuK"/>
                         <outlet property="useKeyShortcut" destination="dW1-MJ-Gxa" id="66U-Ur-asF"/>
                     </connections>
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="109" y="651"/>
+            <point key="canvasLocation" x="52" y="712"/>
         </scene>
         <!--General-->
         <scene sceneID="hIz-AP-VOD">
@@ -765,7 +760,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="208" y="373"/>
+            <point key="canvasLocation" x="151" y="434"/>
         </scene>
         <!--Key Equivalents-->
         <scene sceneID="eKO-wj-1Yb">
