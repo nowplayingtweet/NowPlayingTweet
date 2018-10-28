@@ -32,7 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
 
         let defaultSettings: [String : Any] = [
             "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
-            "LaunchAtLogin" : false,
             "UseKeyShortcut" : false,
             "TweetWithImage" : true,
             "AutoTweet" : false,

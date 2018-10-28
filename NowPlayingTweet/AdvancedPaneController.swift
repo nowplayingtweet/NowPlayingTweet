@@ -6,7 +6,6 @@
 **/
 
 import Cocoa
-import LaunchAtLogin
 
 class AdvancedPaneController: NSViewController {
 
@@ -31,8 +30,6 @@ class AdvancedPaneController: NSViewController {
         super.viewDidLoad()
 
         // Do view setup here.
-        self.userDefaults.set(LaunchAtLogin.isEnabled, forKey: "LaunchAtLogin")
-        self.launchAtLogin.set(state: self.userDefaults.bool(forKey: "LaunchAtLogin"))
         self.useKeyShortcut.set(state: self.userDefaults.bool(forKey: "UseKeyShortcut"))
         self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
         self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
@@ -45,20 +42,12 @@ class AdvancedPaneController: NSViewController {
         let state = sender.state.toBool()
 
         switch identifier {
-        case "LaunchAtLogin":
-            LaunchAtLogin.isEnabled = state
-            if LaunchAtLogin.isEnabled != state {
-                self.userDefaults.set(false, forKey: "LaunchAtLogin")
-                self.userDefaults.synchronize()
-                self.launchAtLogin.set(state: false)
-                return
-            }
-        case "UseKeyShortcut":
+          case "UseKeyShortcut":
             self.keyEquivalents.isEnabled = state
-        case "AutoTweet":
+          case "AutoTweet":
             self.appDelegate.manageAutoTweet(state: state)
             self.addDisableAutoTweetObserver(state: state)
-        default:
+          default:
             break
         }
         self.userDefaults.set(state, forKey: identifier)

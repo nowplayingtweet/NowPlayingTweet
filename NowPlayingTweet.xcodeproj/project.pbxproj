@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,8 +32,6 @@
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
 		3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; };
 		3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3DDCEF782073CDE300BE649C /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; };
-		3DDCEF792073CDE300BE649C /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF7A2073CDE900BE649C /* ScriptingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; };
 		3DDCEF7B2073CDE900BE649C /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF7C2073CDEF00BE649C /* iTunesScripting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; };
@@ -81,7 +79,6 @@
 				3DDCEF7D2073CDEF00BE649C /* iTunesScripting.framework in Embed Frameworks */,
 				3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */,
 				3DDCEF7B2073CDE900BE649C /* ScriptingUtilities.framework in Embed Frameworks */,
-				3DDCEF792073CDE300BE649C /* LaunchAtLogin.framework in Embed Frameworks */,
 				3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */,
 				3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */,
 				3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */,
@@ -93,7 +90,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneController.swift; sourceTree = "<group>"; };
@@ -147,7 +143,6 @@
 				3DDCEF7C2073CDEF00BE649C /* iTunesScripting.framework in Frameworks */,
 				3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */,
 				3DDCEF7A2073CDE900BE649C /* ScriptingUtilities.framework in Frameworks */,
-				3DDCEF782073CDE300BE649C /* LaunchAtLogin.framework in Frameworks */,
 				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
 				3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */,
 				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
@@ -253,7 +248,6 @@
 				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
 				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
-				3D21475120739C05005F0FF2 /* LaunchAtLogin.framework */,
 				3DFF8658204718E7004FDD88 /* Magnet.framework */,
 				3DDCEF612073CD4100BE649C /* TwitterText.framework */,
 				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
@@ -272,7 +266,6 @@
 				3D5520CA2022322100AAF108 /* Sources */,
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
-				3DFF1CDA2073663F00203224 /* Run Script */,
 				3DDCEF752073CDD600BE649C /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -352,7 +345,7 @@
 				};
 			};
 			buildConfigurationList = 3D5520C92022322100AAF108 /* Build configuration list for PBXProject "NowPlayingTweet" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -396,23 +389,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3DFF1CDA2073663F00203224 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D5520CA2022322100AAF108 /* Sources */ = {
@@ -540,7 +516,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -593,10 +569,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
@@ -608,7 +585,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -616,11 +593,13 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -633,7 +612,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -641,11 +620,13 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -657,9 +638,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -674,9 +659,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -690,9 +679,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -706,9 +699,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
