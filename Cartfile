@@ -1,5 +1,4 @@
-github "kPherox/Swifter" "master"
+github "mattdonnelly/Swifter"
 github "kishikawakatsumi/KeychainAccess"
 github "Clipy/KeyHolder"
-github "kPherox/Magnet" "master"
 github "twitter/twitter-text"

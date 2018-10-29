@@ -11,7 +11,7 @@ import SwifterMac
 import iTunesScripting
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {
 
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var currentAccount: NSMenuItem!
@@ -77,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
         HotKeyCenter.shared.unregisterAll()
     }
 
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
             return self.twitterClient.existAccount
         }
@@ -212,32 +212,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate {
     }
 
     func updateTwitterAccount() {
+        self.tweetMenu.submenu = nil
+
         if !self.twitterClient.existAccount {
             self.currentAccount.title = "Not Logged in..."
-            self.currentAccount.image = NSImage(named: .user)
-            self.tweetMenu.submenu = nil
+            self.currentAccount.image = NSImage(named: "NSUserGuest")
             return
         }
 
         self.currentAccount.title = self.twitterClient.current!.name
         self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+        self.currentAccount.image = NSImage(named: "NSUserGuest")
 
-        if self.twitterClient.numberOfAccounts > 1 {
-            let menu = NSMenu()
-            for userID in self.twitterClient.accountIDs {
-                let twitterAccount = self.twitterClient.account(userID: userID)
-                let menuItem = NSMenuItem()
-                menuItem.title = (twitterAccount?.name)!
-                menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
-                menu.addItem(menuItem)
-            }
-            self.tweetMenu.submenu = menu
-        } else {
-            self.tweetMenu.submenu = nil
+        if self.twitterClient.numberOfAccounts <= 1 {
+            return
         }
 
-        self.currentAccount.title = self.twitterClient.current!.name
-        self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+        let menu = NSMenu()
+        for userID in self.twitterClient.accountIDs {
+            let twitterAccount = self.twitterClient.account(userID: userID)
+            let menuItem = NSMenuItem()
+            menuItem.title = (twitterAccount?.name)!
+            menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
+            menu.addItem(menuItem)
+        }
+        self.tweetMenu.submenu = menu
     }
 
     func manageAutoTweet(state: Bool) {

@@ -158,7 +158,7 @@ class TwitterClient {
                             notificationName: .login)
         }
 
-        swifter.authorize(with: URL(string: "npt://success")!,
+        swifter.authorize(withCallback: URL(string: "npt://success")!,
                           forceLogin: true,
                           success: success,
                           failure: failure)
@@ -206,7 +206,7 @@ class TwitterClient {
     }
 
     private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
-        swifter.showUser(for: .id(userID), success: { json in
+        swifter.showUser(.id(userID), success: { json in
             let name = json.object!["name"]?.string
             let screenName = json.object!["screen_name"]?.string
             let avaterUrl = URL(string: (json.object!["profile_image_url_https"]?.string)!)

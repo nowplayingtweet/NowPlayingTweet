@@ -62,7 +62,7 @@ class GlobalKeyEquivalents: NSObject {
             return
         }
 
-        let hotKey: HotKey = HotKey(identifier: identifier, keyCombo: keyCombo, target: self, action: #selector(GlobalKeyEquivalents.handleHotKeyEvent(_:)))
+        let hotKey: HotKey = HotKey(identifier: identifier, keyCombo: keyCombo, handler: handleHotKeyEvent)
         hotKey.register()
     }
 
@@ -73,7 +73,7 @@ class GlobalKeyEquivalents: NSObject {
         self.hotKeyCenter.unregisterHotKey(with: identifier)
     }
 
-    @objc private func handleHotKeyEvent(_ hotKey: HotKey) {
+    private func handleHotKeyEvent(_ hotKey: HotKey) {
         let userID = hotKey.identifier
 
         if userID == "Current" {

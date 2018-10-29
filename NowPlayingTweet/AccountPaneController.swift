@@ -166,7 +166,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.avater.fetchImage(url: url!, rounded: true)
             self.avater.enable()
         } else {
-            self.avater.image = NSImage(named: .user)
+            self.avater.image = NSImage(named: "NSUserGuest")
             self.avater.disable()
         }
     }
