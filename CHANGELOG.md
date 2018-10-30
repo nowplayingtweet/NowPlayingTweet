@@ -4,9 +4,12 @@ Changelog.
 ## [Unreleased]
 ### Changed
 * Update frameworks version.
-* Minimum system version up 10.11 -> 10.12.
 * Support macOS 10.14 Mojave Dark Mode.
 * Disable "Launch at Login".
+
+### Fixed
+* Fix current account image size of menu in macOS Mojave.
+* Chnage account image to tint color when not logget in.
 
 ## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
 ### Added
