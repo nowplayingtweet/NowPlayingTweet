@@ -15,8 +15,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var screenName: NSTextField!
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
-    @IBOutlet weak var addButton: NSButton!
-    @IBOutlet weak var removeButton: NSButton!
+    @IBOutlet weak var accountControl: NSSegmentedControl!
     @IBOutlet weak var accountList: AccountListView!
 
     private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
@@ -42,7 +41,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
 
         self.selected = self.twitterClient.current
-        self.removeButton.enable()
+        self.accountControl.setEnabled(true, forSegment: 1)
 
         let userID = self.selected?.userID
         let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
@@ -66,7 +65,18 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.currentButton.isHidden = true
     }
 
-    @IBAction private func addAccount(_ sender: NSButton) {
+    @IBAction func manageAccount(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+          case 0:
+            self.addAccount()
+          case 1:
+            self.removeAccount()
+          default: // 2
+            break
+        }
+    }
+
+    private func addAccount() {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
@@ -84,7 +94,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.appDelegate.updateTwitterAccount()
 
             if self.twitterClient.numberOfAccounts == 1 {
-                self.removeButton.enable()
+                self.accountControl.setEnabled(true, forSegment: 1)
                 self.currentLabel.isHidden = false
                 self.currentButton.isHidden = true
             } else {
@@ -102,7 +112,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.twitterClient.login()
     }
 
-    @IBAction private func removeAccount(_ sender: NSButton) {
+    private func removeAccount() {
         self.twitterClient.logout(account: self.selected!)
 
         self.accountList.reloadData()
@@ -125,7 +135,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.appDelegate.updateTwitterAccount()
         } else {
-            self.removeButton.disable()
+            self.accountControl.setEnabled(false, forSegment: 1)
             self.selected = nil
             self.set(name: nil)
             self.set(avaterUrl: nil)
