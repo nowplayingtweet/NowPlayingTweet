@@ -790,7 +790,7 @@
                     <connections>
                         <outlet property="accountShortcutLabel" destination="mjN-5b-9MO" id="8Db-0a-Nq7"/>
                         <outlet property="currentRecordLabel" destination="EIz-L2-k7i" id="iMd-Sj-tfo"/>
-                        <outlet property="currentRecortView" destination="pak-9p-DEl" id="q9c-oz-oyq"/>
+                        <outlet property="currentRecordView" destination="pak-9p-DEl" id="Sdo-3m-pxR"/>
                     </connections>
                 </viewController>
                 <customObject id="65k-NB-Lx0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

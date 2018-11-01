@@ -24,7 +24,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     @IBOutlet weak var currentRecordLabel: NSTextField!
-    @IBOutlet weak var currentRecortView: RecordView!
+    @IBOutlet weak var currentRecordView: RecordView!
 
     @IBOutlet weak var accountShortcutLabel: NSTextField!
 
@@ -34,11 +34,11 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         super.viewDidLoad()
         // Do view setup here.
 
-        self.currentRecortView.tintColor = .systemBlue
-        self.currentRecortView.cornerRadius = 12
-        self.currentRecortView.delegate = self
-        self.currentRecortView.identifier = NSUserInterfaceItemIdentifier(rawValue: "Current")
-        self.currentRecortView.keyCombo = self.userDefaults.keyCombo(forKey: "Current")
+        self.currentRecordView.tintColor = .systemBlue
+        self.currentRecordView.cornerRadius = 12
+        self.currentRecordView.delegate = self
+        self.currentRecordView.identifier = NSUserInterfaceItemIdentifier(rawValue: "Current")
+        self.currentRecordView.keyCombo = self.userDefaults.keyCombo(forKey: "Current")
 
         self.reloadView()
 
@@ -61,7 +61,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     private func reloadView() {
         for subview in self.view.subviews {
             switch subview {
-            case self.currentRecordLabel, self.currentRecortView, self.accountShortcutLabel:
+            case self.currentRecordLabel, self.currentRecordView, self.accountShortcutLabel:
                 continue
             default:
                 subview.removeFromSuperview()
@@ -84,10 +84,10 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         }
 
         let labelSize = self.currentRecordLabel.frame.size
-        let viewSize = self.currentRecortView.frame.size
+        let viewSize = self.currentRecordView.frame.size
 
         let labelXPoint = self.currentRecordLabel.frame.origin.x
-        let viewXPoint = self.currentRecortView.frame.origin.x
+        let viewXPoint = self.currentRecordView.frame.origin.x
 
         var labelYPoint = 28 + accountRowsHeight
         var viewYPoint = 25 + accountRowsHeight
