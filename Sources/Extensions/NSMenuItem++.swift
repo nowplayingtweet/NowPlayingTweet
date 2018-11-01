@@ -24,23 +24,25 @@ extension NSMenuItem {
                 return
             }
 
-            if let imageData = data {
-                let image: NSImage? = NSImage(data: imageData)
-                self.setImage(rounded ? image?.toRoundCorners() : image)
+            guard let imageData = data, let image = NSImage(data: imageData, templated: false) else {
+                self.setGuestImage()
+                return
             }
+
+            self.setImage(rounded ? image.toRoundCorners() : image)
         }).resume()
     }
 
     func setGuestImage() {
-        self.setImage(NSImage(named: "NSUserGuest", templated: true))
+        self.setImage(NSImage(named: "NSUserGuest", templated: true)!)
     }
 
-    private func setImage(_ newImage: NSImage?) {
+    private func setImage(_ newImage: NSImage) {
         let size: NSSize      = NSSize(width: 24, height: 24)
         let rect: NSRect      = NSRect(x: 0, y: 0, width: size.width, height: size.height)
-        let image: NSImage    = NSImage(size: size, templated: newImage?.isTemplate ?? false)
+        let image: NSImage    = NSImage(size: size, templated: newImage.isTemplate)
         image.lockFocus()
-        newImage?.draw(in: rect)
+        newImage.draw(in: rect)
         image.unlockFocus()
         self.image = image
     }
