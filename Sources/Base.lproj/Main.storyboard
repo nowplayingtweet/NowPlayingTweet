@@ -380,6 +380,7 @@
                                 <rect key="frame" x="180" y="217" width="64" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="v1W-Vx-EGl"/>
+                                <color key="contentTintColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             </imageView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="oDZ-RU-JMr">
                                 <rect key="frame" x="20" y="40" width="150" height="261"/>

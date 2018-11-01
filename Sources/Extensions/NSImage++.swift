@@ -9,6 +9,20 @@ import Cocoa
 
 extension NSImage {
 
+    convenience init?(named name: NSImage.Name, templated: Bool) {
+        self.init(named: name)
+        self.isTemplate = templated
+    }
+
+    convenience init(size: NSSize, templated: Bool) {
+        self.init(size: size)
+        self.isTemplate = templated
+    }
+
+}
+
+extension NSImage {
+
     func toRoundCorners(width: CGFloat = 48, height: CGFloat = 48) -> NSImage? {
         let xRad = width / 2
         let yRad = height / 2

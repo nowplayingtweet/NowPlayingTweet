@@ -32,13 +32,13 @@ extension NSMenuItem {
     }
 
     func setGuestImage() {
-        self.setImage(NSImage(named: "NSUserGuest"))
+        self.setImage(NSImage(named: "NSUserGuest", templated: true))
     }
 
     private func setImage(_ newImage: NSImage?) {
         let size: NSSize      = NSSize(width: 24, height: 24)
         let rect: NSRect      = NSRect(x: 0, y: 0, width: size.width, height: size.height)
-        let image: NSImage    = NSImage(size: size)
+        let image: NSImage    = NSImage(size: size, templated: newImage?.isTemplate ?? false)
         image.lockFocus()
         newImage?.draw(in: rect)
         image.unlockFocus()
