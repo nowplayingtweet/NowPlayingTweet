@@ -34,7 +34,11 @@ class iTunesPlayerInfo {
     var currentTrack: iTunesPlayerInfo.Track?
 
     var isRunningiTunes: Bool {
-        return self.checkRunningiTunes()
+        let runningApps = NSWorkspace.shared.runningApplications
+
+        let appIDs = runningApps.map { $0.bundleIdentifier }
+
+        return appIDs.first(where: { $0 == "com.apple.iTunes" }) != nil
     }
 
     var existTrack: Bool {
@@ -46,32 +50,24 @@ class iTunesPlayerInfo {
     }
 
     func updateTrack() {
-        if !self.checkRunningiTunes() {
+        if !self.isRunningiTunes {
             self.cleanTrack()
             self.iTunes = nil
             return
         }
 
-        if self.iTunes == nil {
-            self.iTunes = ScriptingUtilities.application(name: "iTunes") as? iTunesApplication
-            //self.iTunes = ScriptingUtilities.application(bundleIdentifier: "com.apple.iTunes") as? iTunesApplication
-        }
-
-        let existTrack = self.iTunes?.currentTrack?.exists!()
-
-        if existTrack! {
-            self.convert(from: (self.iTunes?.currentTrack)!)
-        } else {
+        guard let ituens: iTunesApplication = self.iTunes ?? ScriptingUtilities.application(name: "iTunes") as? iTunesApplication else {
             self.cleanTrack()
+            return
         }
-    }
 
-    private func checkRunningiTunes() -> Bool {
-        let runningApps = NSWorkspace.shared.runningApplications
+        let existsCurrentTrack: () -> Bool = ituens.currentTrack?.exists ?? {
+            return false
+        }
 
-        let appIDs = runningApps.map { $0.bundleIdentifier }
-
-        return appIDs.first(where: { $0 == "com.apple.iTunes" }) != nil
+        if existsCurrentTrack() {
+            self.convert(from: ituens.currentTrack!)
+        }
     }
 
     private func cleanTrack() {
