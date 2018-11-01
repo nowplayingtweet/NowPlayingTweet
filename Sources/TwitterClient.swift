@@ -28,8 +28,8 @@ class TwitterClient {
 
     static let shared: TwitterClient = TwitterClient()
 
-    private let consumerKey: String = "lT580cWIob4JiEmydWrz3Lr3c"
-    private let consumerSecret: String = "tQbaxDRMSNebagQaa9RXtjQ9SskoNiwo8bBadP2y6aggFesDik"
+    private let consumerKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
+    private let consumerSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
 
     private let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
