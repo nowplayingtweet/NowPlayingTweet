@@ -216,13 +216,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
         if !self.twitterClient.existAccount {
             self.currentAccount.title = "Not Logged in..."
-            self.currentAccount.image = NSImage(named: "NSUserGuest")
+            self.currentAccount.setGuestImage()
             return
         }
 
         self.currentAccount.title = self.twitterClient.current!.name
         self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
-        self.currentAccount.image = NSImage(named: "NSUserGuest")
 
         if self.twitterClient.numberOfAccounts <= 1 {
             return
