@@ -170,7 +170,7 @@
 		3D5520C52022322100AAF108 = {
 			isa = PBXGroup;
 			children = (
-				3D5520D02022322100AAF108 /* NowPlayingTweet */,
+				3D5520D02022322100AAF108 /* Sources */,
 				3D5520E32022322500AAF108 /* NowPlayingTweetTests */,
 				3D5520EE2022322500AAF108 /* NowPlayingTweetUITests */,
 				3D5520CF2022322100AAF108 /* Products */,
@@ -188,9 +188,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3D5520D02022322100AAF108 /* NowPlayingTweet */ = {
+		3D5520D02022322100AAF108 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3D5A4B34218B492500775D4E /* Extensions */,
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
 				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
 				3D5520D32022322200AAF108 /* GeneralPaneController.swift */,
@@ -206,22 +207,12 @@
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
 				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
 				3DBBB9A8204AEF6100818352 /* Label.swift */,
-				3DD88B272024974C000F7818 /* Notification++.swift */,
-				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
-				3DD88B25202450D9000F7818 /* NSControl++.swift */,
-				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
-				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
-				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
-				3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */,
-				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
-				3DF4A6DB20277722007A7B29 /* NSEvent++.swift */,
-				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
 				3D5520DB2022322300AAF108 /* NowPlayingTweet.entitlements */,
 			);
-			path = NowPlayingTweet;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		3D5520E32022322500AAF108 /* NowPlayingTweetTests */ = {
@@ -254,6 +245,23 @@
 				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3D5A4B34218B492500775D4E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3DD88B272024974C000F7818 /* Notification++.swift */,
+				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
+				3DD88B25202450D9000F7818 /* NSControl++.swift */,
+				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
+				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
+				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
+				3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */,
+				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
+				3DF4A6DB20277722007A7B29 /* NSEvent++.swift */,
+				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -584,7 +592,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
@@ -595,7 +603,7 @@
 					"$(PROJECT_DIR)/Modules/SwiftScripting/Frameworks/Build",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -611,7 +619,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
@@ -622,7 +630,7 @@
 					"$(PROJECT_DIR)/Modules/SwiftScripting/Frameworks/Build",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
