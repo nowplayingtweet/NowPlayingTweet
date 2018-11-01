@@ -37,6 +37,9 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         // Do view setup here.
         if !self.twitterClient.existAccount {
+            self.set(name: nil)
+            self.set(screenName: nil)
+            self.set(avaterUrl: nil)
             return
         }
 
@@ -161,14 +164,14 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.set(avaterUrl: self.selected?.avaterUrl)
     }
 
-    private func set(name string: String?) {
-        self.name.stringValue = string != nil ? string! : "Not logged in..."
-        self.name.textColor = string != nil ? .labelColor : .disabledControlTextColor
+    private func set(name: String?) {
+        self.name.stringValue = name ?? "Not logged in..."
+        self.name.textColor = name != nil ? .labelColor : .disabledControlTextColor
     }
 
-    private func set(screenName string: String?) {
-        self.screenName.stringValue = "@\(string != nil ? string! : "null")"
-        self.screenName.textColor = string != nil ? .secondaryLabelColor : .disabledControlTextColor
+    private func set(screenName id: String?) {
+        self.screenName.stringValue = "@\(id ?? "null")"
+        self.screenName.textColor = id != nil ? .secondaryLabelColor : .disabledControlTextColor
     }
 
     private func set(avaterUrl url: URL?) {
