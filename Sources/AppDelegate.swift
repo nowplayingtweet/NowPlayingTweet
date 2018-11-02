@@ -102,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         self.tweetNowPlaying(by: self.twitterClient.current)
     }
 
-    @IBAction private func tweetBySelectingAccount(_ sender: NSMenuItem) {
+    @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
         let account = self.twitterClient.account(name: sender.title)
         self.tweetNowPlaying(by: account)
     }

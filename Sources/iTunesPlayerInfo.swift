@@ -22,10 +22,10 @@ class iTunesPlayerInfo {
 
         let bitRate: Int?
 
-        let artworks: [iTunesArtwork]?
+        let artworks: [iTunesArtwork]
 
         var artwork: NSImage? {
-            return self.artworks?[0].data
+            return self.artworks.isEmpty ? nil : self.artworks[0].data
         }
     }
 
