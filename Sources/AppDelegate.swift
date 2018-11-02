@@ -8,7 +8,6 @@
 import Cocoa
 import Magnet
 import SwifterMac
-import iTunesScripting
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {

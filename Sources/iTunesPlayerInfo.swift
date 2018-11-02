@@ -6,8 +6,8 @@
 **/
 
 import Foundation
-import iTunesScripting
-import ScriptingUtilities
+import iTunesBridge
+import ScriptingBridge
 
 class iTunesPlayerInfo {
 
@@ -34,11 +34,9 @@ class iTunesPlayerInfo {
     var currentTrack: iTunesPlayerInfo.Track?
 
     var isRunningiTunes: Bool {
-        let runningApps = NSWorkspace.shared.runningApplications
+        let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.iTunes")
 
-        let appIDs = runningApps.map { $0.bundleIdentifier }
-
-        return appIDs.first(where: { $0 == "com.apple.iTunes" }) != nil
+        return !runningApps.isEmpty
     }
 
     var existTrack: Bool {
