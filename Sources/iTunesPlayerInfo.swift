@@ -29,7 +29,30 @@ class iTunesPlayerInfo {
         }
     }
 
-    private var iTunes: iTunesApplication?
+    private var itunes: iTunesApplication? {
+        if #available(OSX 10.14, *) {
+            let targetAppEventDescriptor: NSAppleEventDescriptor = NSAppleEventDescriptor(bundleIdentifier: "com.apple.iTunes")
+            let status: OSStatus = AEDeterminePermissionToAutomateTarget(targetAppEventDescriptor.aeDesc, typeWildCard, typeWildCard, true)
+            switch status {
+              case noErr:
+                return SBApplication(bundleIdentifier: "com.apple.iTunes")
+              case OSStatus(procNotFound):
+                print("Not Running iTunes")
+              case OSStatus(errAEEventNotPermitted):
+                print("Has not permission iTunes.app")
+              default:
+                break
+            }
+
+            return nil
+        } else {
+            if !self.isRunningiTunes {
+                return nil
+            }
+
+            return SBApplication(bundleIdentifier: "com.apple.iTunes")
+        }
+    }
 
     var currentTrack: iTunesPlayerInfo.Track?
 
@@ -48,39 +71,28 @@ class iTunesPlayerInfo {
     }
 
     func updateTrack() {
-        if !self.isRunningiTunes {
-            self.cleanTrack()
-            self.iTunes = nil
+        if self.itunes == nil {
+            self.currentTrack = nil
             return
         }
 
-        guard let ituens: iTunesApplication = self.iTunes ?? ScriptingUtilities.application(name: "iTunes") as? iTunesApplication else {
-            self.cleanTrack()
+        guard let currentTrack = self.itunes!.currentTrack else {
+            self.currentTrack = nil
             return
         }
 
-        let existsCurrentTrack: () -> Bool = ituens.currentTrack?.exists ?? {
-            return false
-        }
-
-        if existsCurrentTrack() {
-            self.convert(from: ituens.currentTrack!)
-        }
+        self.currentTrack = self.convert(from: currentTrack)
     }
 
-    private func cleanTrack() {
-        self.currentTrack = nil
-    }
-
-    private func convert(from itunesTrack: iTunesTrack) {
+    private func convert(from itunesTrack: iTunesTrack) -> Track {
         let trackArtworks: [iTunesArtwork] = itunesTrack.artworks!() as! [iTunesArtwork]
 
-        self.currentTrack = Track(title: itunesTrack.name,
-                                  artist: itunesTrack.artist,
-                                  album: itunesTrack.album,
-                                  albumArtist: itunesTrack.albumArtist,
-                                  bitRate: itunesTrack.bitRate,
-                                  artworks: trackArtworks)
+        return Track(title: itunesTrack.name,
+                     artist: itunesTrack.artist,
+                     album: itunesTrack.album,
+                     albumArtist: itunesTrack.albumArtist,
+                     bitRate: itunesTrack.bitRate,
+                     artworks: trackArtworks)
     }
 
 }
