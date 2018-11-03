@@ -2,6 +2,9 @@
 Changelog.
 
 ## [Unreleased]
+
+
+## [Version 0.5 (Pre-Release)][0.5] - 2018-11-04
 ### Changed
 * Update frameworks version.
 * Support macOS 10.14 Mojave Dark Mode.
@@ -60,7 +63,9 @@ Changelog.
 [#5]: https://github.com/kPherox/NowPlayingTweet/issues/5
 [#4]: https://github.com/kPherox/NowPlayingTweet/issues/4
 [#1]: https://github.com/kPherox/NowPlayingTweet/issues/1
-[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...develop
+
+[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.5...develop
+[0.5]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...0.5
 [0.4]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...0.4
 [0.3]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.2...0.3
 [0.2.2]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.1...0.2.2
