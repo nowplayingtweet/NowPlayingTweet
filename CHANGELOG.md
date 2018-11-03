@@ -10,10 +10,13 @@ Changelog.
 ### Fixed
 * Fix current account image size of menu in macOS Mojave.
 * Chnage account image to tint color when not logget in.
+* [#4] Fix issue that was not working "add account" button.
+* [#5] Fix issue that could not fetch music info.
+
 
 ## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
 ### Added
-* Add global keyboard shortcut for Tweet NowPlaying.
+* [#1] Add global keyboard shortcut for Tweet NowPlaying.
 * Enable "Launch at Login".
 * Add Tweet Format's counter.
 
@@ -21,13 +24,16 @@ Changelog.
 * Minimum system version down 10.13 -> 10.11.
 * Get out of editing state by escape key.
 
+
 ## [Version 0.3 (Pre-Release)][0.3] - 2018-02-11
 ### Added
 * Support multiple account.
 
+
 ## [Version 0.2.2 (Pre-Release)][0.2.2] - 2018-02-08
 ### Added
 * Error handling and Popup NSAlert.
+
 
 ## [Version 0.2.1 (Pre-Release)][0.2.1] - 2018-02-06
 ### Changed
@@ -36,11 +42,13 @@ Changelog.
 ### Fixed
 * Fix statusbar icon name.
 
+
 ## [Version 0.2 (Pre-Release)][0.2] - 2018-02-05
 ### Added
 * Add avater image view.
 * Add label for to support format.
 * Add to support manual tweet.
+
 
 ## [Version 0.1 (Pre-Release)][0.1] - 2018-02-03
 **Initial release.**
@@ -49,7 +57,10 @@ Changelog.
 * Tweet with artwork.
 * Customize tweet text.
 
-[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...HEAD
+[#5]: https://github.com/kPherox/NowPlayingTweet/issues/5
+[#4]: https://github.com/kPherox/NowPlayingTweet/issues/4
+[#1]: https://github.com/kPherox/NowPlayingTweet/issues/1
+[Unreleased]: https://github.com/kPherox/NowPlayingTweet/compare/0.4...develop
 [0.4]: https://github.com/kPherox/NowPlayingTweet/compare/0.3...0.4
 [0.3]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.2...0.3
 [0.2.2]: https://github.com/kPherox/NowPlayingTweet/compare/0.2.1...0.2.2
