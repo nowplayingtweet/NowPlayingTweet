@@ -87,7 +87,11 @@ class GeneralPaneController: NSViewController {
 
     private func completeEditing() {
         self.updateCounter()
-        NSEvent.removeMonitor(self.keyUpMonitor)
+
+        if self.keyUpMonitor != nil {
+            NSEvent.removeMonitor(self.keyUpMonitor!)
+        }
+
         self.editButton.title = "Edit"
         self.editButton.keyEquivalent = ""
         self.tweetFormatView.borderType = .noBorder

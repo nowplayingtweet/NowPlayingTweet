@@ -1,6 +1,5 @@
-github "kPherox/Swifter" "master"
+github "MichaelRow/PlayerBridge"
+github "mattdonnelly/Swifter"
 github "kishikawakatsumi/KeychainAccess"
 github "Clipy/KeyHolder"
-github "kPherox/Magnet" "master"
-github "kPherox/LaunchAtLogin" "master"
 github "twitter/twitter-text"

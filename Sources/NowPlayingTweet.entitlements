@@ -8,11 +8,13 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
 	<true/>
-	<key>com.apple.security.network.server</key>
-	<true/>
-	<key>com.apple.security.temporary-exception.apple-events</key>
-	<array>
-		<string>com.apple.iTunes</string>
-	</array>
+	<key>com.apple.security.scripting-targets</key>
+	<dict>
+		<key>com.apple.iTunes</key>
+		<array>
+			<string>com.apple.iTunes.playback</string>
+			<string>com.apple.iTunes.library.read</string>
+		</array>
+	</dict>
 </dict>
 </plist>
