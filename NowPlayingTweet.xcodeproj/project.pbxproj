@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,38 +11,46 @@
 		3D1EAC5F202F2AE60005257E /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1EAC5C202F2AE10005257E /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D1EAC63202F550B0005257E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 3D1EAC62202F32540005257E /* dsa_pub.pem */; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
-		3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralViewController.swift */; };
+		3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralPaneController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
 		3D5520D92022322300AAF108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D72022322300AAF108 /* Main.storyboard */; };
 		3D5520E52022322500AAF108 /* NowPlayingTweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520E42022322500AAF108 /* NowPlayingTweetTests.swift */; };
 		3D5520F02022322500AAF108 /* NowPlayingTweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */; };
-		3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
-		3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */; };
-		3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountsViewController.swift */; };
-		3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; };
-		3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211920243BE500AAF108 /* iTunesScripting.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */; };
-		3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552129202442A200AAF108 /* TwitterAccount.swift */; };
+		3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountPaneController.swift */; };
+		3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
+		3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
-		3DAA09AE202C47EE00C6F449 /* TwitterAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */; };
-		3DAA09B0202C969D00C6F449 /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountsListView.swift */; };
+		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
+		3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AF202C969D00C6F449 /* AccountListView.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
 		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
+		3DBBB9A9204AEF6300818352 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBB9A8204AEF6100818352 /* Label.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
 		3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8172027014800D87CE5 /* NSButton++.swift */; };
-		3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */; };
-		3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
-		3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */; };
 		3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B25202450D9000F7818 /* NSControl++.swift */; };
 		3DD88B282024974C000F7818 /* Notification++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B272024974C000F7818 /* Notification++.swift */; };
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
-		3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */; };
+		3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; };
+		3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
+		3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
+		3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; };
+		3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
+		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
+		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
+		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
+		3DFF866320474754004FDD88 /* KeyEquivalentsPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */; };
+		3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF86642048710C004FDD88 /* UserDefaults++.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,17 +71,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3D55210520223BBC00AAF108 /* Embed Frameworks */ = {
+		3DDCEF752073CDD600BE649C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3D55212120243C6300AAF108 /* ScriptingUtilities.framework in Embed Frameworks */,
-				3D55211B20243C1500AAF108 /* iTunesScripting.framework in Embed Frameworks */,
+				3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */,
+				3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */,
+				3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */,
+				3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */,
+				3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */,
+				3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */,
 				3D1EAC5F202F2AE60005257E /* Sparkle.framework in Embed Frameworks */,
-				3DD88B2420244F49000F7818 /* KeychainAccess.framework in Embed Frameworks */,
-				3D55210420223BBC00AAF108 /* SwifterMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,7 +95,7 @@
 		3D1EAC62202F32540005257E /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3D5520D32022322200AAF108 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
+		3D5520D32022322200AAF108 /* GeneralPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneController.swift; sourceTree = "<group>"; };
 		3D5520D52022322200AAF108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D5520D82022322300AAF108 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3D5520DA2022322300AAF108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,27 +108,33 @@
 		3D5520F12022322500AAF108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D55210120223B8000AAF108 /* SwifterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifterMac.framework; path = Carthage/Build/Mac/SwifterMac.framework; sourceTree = "<group>"; };
 		3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
-		3D552110202329E900AAF108 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
-		3D55211920243BE500AAF108 /* iTunesScripting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesScripting.framework; path = Modules/SwiftScripting/Frameworks/Build/iTunesScripting.framework; sourceTree = "<group>"; };
-		3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingUtilities.framework; path = Modules/SwiftScripting/Frameworks/Build/ScriptingUtilities.framework; sourceTree = "<group>"; };
-		3D552129202442A200AAF108 /* TwitterAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccount.swift; sourceTree = "<group>"; };
+		3D552110202329E900AAF108 /* AccountPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPaneController.swift; sourceTree = "<group>"; };
+		3D5A4B42218C46F100775D4E /* iTunesBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesBridge.framework; path = Carthage/Build/Mac/iTunesBridge.framework; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
-		3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAccounts.swift; sourceTree = "<group>"; };
-		3DAA09AF202C969D00C6F449 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
+		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
+		3DAA09AF202C969D00C6F449 /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
+		3DBBB9A8204AEF6100818352 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
 		3DCEE8172027014800D87CE5 /* NSButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton++.swift"; sourceTree = "<group>"; };
-		3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
+		3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPaneController.swift; sourceTree = "<group>"; };
 		3DD88B2120244F40000F7818 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
 		3DD88B25202450D9000F7818 /* NSControl++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl++.swift"; sourceTree = "<group>"; };
 		3DD88B272024974C000F7818 /* Notification++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++.swift"; sourceTree = "<group>"; };
 		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
-		3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSToolbarItem++.swift"; sourceTree = "<group>"; };
+		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
+		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
+		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
+		3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsDelegate.swift; sourceTree = "<group>"; };
+		3DFF8658204718E7004FDD88 /* Magnet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Magnet.framework; path = Carthage/Build/Mac/Magnet.framework; sourceTree = "<group>"; };
+		3DFF8659204718E8004FDD88 /* KeyHolder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeyHolder.framework; path = Carthage/Build/Mac/KeyHolder.framework; sourceTree = "<group>"; };
+		3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsPaneController.swift; sourceTree = "<group>"; };
+		3DFF86642048710C004FDD88 /* UserDefaults++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,10 +142,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D55210320223BBC00AAF108 /* SwifterMac.framework in Frameworks */,
-				3D55212220243C7400AAF108 /* ScriptingUtilities.framework in Frameworks */,
-				3D55211A20243C1500AAF108 /* iTunesScripting.framework in Frameworks */,
-				3DD88B2320244F49000F7818 /* KeychainAccess.framework in Frameworks */,
+				3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */,
+				3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */,
+				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
+				3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */,
+				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
+				3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */,
 				3D1EAC5D202F2AE10005257E /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -154,7 +172,7 @@
 		3D5520C52022322100AAF108 = {
 			isa = PBXGroup;
 			children = (
-				3D5520D02022322100AAF108 /* NowPlayingTweet */,
+				3D5520D02022322100AAF108 /* Sources */,
 				3D5520E32022322500AAF108 /* NowPlayingTweetTests */,
 				3D5520EE2022322500AAF108 /* NowPlayingTweetUITests */,
 				3D5520CF2022322100AAF108 /* Products */,
@@ -172,37 +190,32 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3D5520D02022322100AAF108 /* NowPlayingTweet */ = {
+		3D5520D02022322100AAF108 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3D5A4B34218B492500775D4E /* Extensions */,
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
 				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
-				3D5520D32022322200AAF108 /* GeneralViewController.swift */,
-				3D552110202329E900AAF108 /* AccountsViewController.swift */,
-				3DCEE819202747F800D87CE5 /* AdvancedViewController.swift */,
-				3DAA09AF202C969D00C6F449 /* AccountsListView.swift */,
+				3D5520D32022322200AAF108 /* GeneralPaneController.swift */,
+				3D552110202329E900AAF108 /* AccountPaneController.swift */,
+				3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */,
+				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
+				3DAA09AF202C969D00C6F449 /* AccountListView.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
-				3DAA09AD202C47EE00C6F449 /* TwitterAccounts.swift */,
-				3D552129202442A200AAF108 /* TwitterAccount.swift */,
+				3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
+				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
+				3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */,
 				3DD88B2D2024C852000F7818 /* NotificationObserver.swift */,
 				3DAA09A9202B103F00C6F449 /* NPTError.swift */,
-				3DD88B272024974C000F7818 /* Notification++.swift */,
-				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
-				3DD88B25202450D9000F7818 /* NSControl++.swift */,
-				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
-				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
-				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
-				3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */,
-				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
-				3DF4A6DB20277722007A7B29 /* NSToolbarItem++.swift */,
+				3DBBB9A8204AEF6100818352 /* Label.swift */,
 				3D5520D52022322200AAF108 /* Assets.xcassets */,
 				3D5520D72022322300AAF108 /* Main.storyboard */,
 				3D5520DA2022322300AAF108 /* Info.plist */,
 				3D5520DB2022322300AAF108 /* NowPlayingTweet.entitlements */,
 				3D1EAC62202F32540005257E /* dsa_pub.pem */,
 			);
-			path = NowPlayingTweet;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		3D5520E32022322500AAF108 /* NowPlayingTweetTests */ = {
@@ -226,13 +239,32 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D5A4B42218C46F100775D4E /* iTunesBridge.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
-				3D55211C20243C3400AAF108 /* ScriptingUtilities.framework */,
-				3D55211920243BE500AAF108 /* iTunesScripting.framework */,
+				3DFF8658204718E7004FDD88 /* Magnet.framework */,
+				3DDCEF612073CD4100BE649C /* TwitterText.framework */,
+				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
 				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 				3D1EAC5C202F2AE10005257E /* Sparkle.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3D5A4B34218B492500775D4E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3DD88B272024974C000F7818 /* Notification++.swift */,
+				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
+				3DD88B25202450D9000F7818 /* NSControl++.swift */,
+				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
+				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
+				3DCEE8102026409E00D87CE5 /* NSImageView++.swift */,
+				3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */,
+				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
+				3DF4A6DB20277722007A7B29 /* NSEvent++.swift */,
+				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,7 +277,7 @@
 				3D5520CA2022322100AAF108 /* Sources */,
 				3D5520CB2022322100AAF108 /* Frameworks */,
 				3D5520CC2022322100AAF108 /* Resources */,
-				3D55210520223BBC00AAF108 /* Embed Frameworks */,
+				3DDCEF752073CDD600BE649C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -298,8 +330,8 @@
 		3D5520C62022322100AAF108 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = kPherox;
 				TargetAttributes = {
 					3D5520CD2022322100AAF108 = {
@@ -313,18 +345,20 @@
 					};
 					3D5520DF2022322500AAF108 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3D5520CD2022322100AAF108;
 					};
 					3D5520EA2022322500AAF108 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3D5520CD2022322100AAF108;
 					};
 				};
 			};
 			buildConfigurationList = 3D5520C92022322100AAF108 /* Build configuration list for PBXProject "NowPlayingTweet" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -378,21 +412,25 @@
 				3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */,
 				3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */,
 				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,
-				3D5520D42022322200AAF108 /* GeneralViewController.swift in Sources */,
-				3D55212A202442A200AAF108 /* TwitterAccount.swift in Sources */,
-				3D552111202329E900AAF108 /* AccountsViewController.swift in Sources */,
+				3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */,
+				3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
-				3DAA09B0202C969D00C6F449 /* AccountsListView.swift in Sources */,
+				3DAA09B0202C969D00C6F449 /* AccountListView.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
-				3DF4A6DC20277722007A7B29 /* NSToolbarItem++.swift in Sources */,
-				3DAA09AE202C47EE00C6F449 /* TwitterAccounts.swift in Sources */,
+				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
+				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
+				3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
 				3DD88B282024974C000F7818 /* Notification++.swift in Sources */,
-				3DCEE81A202747F800D87CE5 /* AdvancedViewController.swift in Sources */,
+				3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */,
+				3DFF866320474754004FDD88 /* KeyEquivalentsPaneController.swift in Sources */,
+				3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
+				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
+				3DBBB9A9204AEF6300818352 /* Label.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
@@ -456,6 +494,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -463,6 +502,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -490,7 +530,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -513,6 +553,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -520,6 +561,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -541,33 +583,36 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
 		3D5520F52022322500AAF108 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Modules/SwiftScripting/Frameworks/Build",
-					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				INFOPLIST_FILE = "Sources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -576,22 +621,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NowPlayingTweet/NowPlayingTweet.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Modules/SwiftScripting/Frameworks/Build",
-					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = NowPlayingTweet/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				INFOPLIST_FILE = "Sources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -603,12 +649,16 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NowPlayingTweet.app/Contents/MacOS/NowPlayingTweet";
 			};
 			name = Debug;
@@ -620,12 +670,16 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NowPlayingTweet.app/Contents/MacOS/NowPlayingTweet";
 			};
 			name = Release;
@@ -636,12 +690,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = NowPlayingTweet;
 			};
 			name = Debug;
@@ -652,12 +710,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = CH8HD88FJ3;
+				DEVELOPMENT_TEAM = TZD4EE242K;
 				INFOPLIST_FILE = NowPlayingTweetUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweetUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = NowPlayingTweet;
 			};
 			name = Release;

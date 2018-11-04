@@ -1,3 +1,6 @@
-github "kPherox/Swifter"
+github "MichaelRow/PlayerBridge"
+github "mattdonnelly/Swifter"
 github "kishikawakatsumi/KeychainAccess"
+github "Clipy/KeyHolder"
+github "twitter/twitter-text"
 github "sparkle-project/Sparkle"

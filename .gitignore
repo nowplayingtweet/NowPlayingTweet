@@ -29,7 +29,10 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
-#Carthage
+# Carthage
 Carthage/Build
 Carthage/Checkouts
+
+# Command-line build
+build/
 
