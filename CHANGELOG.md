@@ -8,6 +8,7 @@ Changelog.
 ### Changed
 * Update frameworks version.
 * Support macOS 10.14 Mojave Dark Mode.
+* Change Add/Remove account button to `NSSegmentedControl` from `NSButton`.
 * Disable "Launch at Login".
 
 ### Fixed
