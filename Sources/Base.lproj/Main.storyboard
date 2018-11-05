@@ -21,12 +21,6 @@
                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="GEm-OZ-h5k"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Check for Updates…" id="mCz-r2-YwV">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                            <connections>
-                                <action selector="checkForUpdates:" target="sOh-le-0AT" id="2wH-Cv-yY6"/>
-                            </connections>
-                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
                         <menuItem title="Tweet NowPlaying" enabled="NO" identifier="TweetNowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -39,6 +33,12 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <segue destination="B8D-0N-5wS" kind="show" id="scp-6k-rp7"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Check for Updates…" id="mCz-r2-YwV">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="checkForUpdates:" target="sOh-le-0AT" id="2wH-Cv-yY6"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="iTY-jt-etY"/>
