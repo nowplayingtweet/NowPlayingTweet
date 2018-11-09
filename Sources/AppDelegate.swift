@@ -26,7 +26,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     let playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
+    let swifterCallback: String
+
     override init() {
+        let urltypes: [Dictionary] = Bundle.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [Dictionary<String, Any>] ?? []
+        let urlschemes: [String] = urltypes[safe: 0]?["CFBundleURLSchemes"] as? [String] ?? []
+
+        self.swifterCallback = (urlschemes[safe: 0] ?? "npt") + "://swifter/"
+
         super.init()
 
         let defaultSettings: [String : Any] = [
@@ -85,8 +92,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        // Cell Swifter handleOpenURL
-        Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
+        guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue else {
+            return
+        }
+
+        if urlString.hasPrefix(self.swifterCallback) {
+            // Handle swifter callback URL.
+            Swifter.handleOpenURL(URL(string: urlString)!)
+            return
+        }
     }
 
     @objc func handleNowPlaying(_ notification: Notification) {

@@ -25,7 +25,7 @@ class iTunesPlayerInfo {
         let artworks: [iTunesArtwork]
 
         var artwork: NSImage? {
-            return self.artworks.isEmpty ? nil : self.artworks[0].data
+            return self.artworks[safe: 0]?.data
         }
     }
 

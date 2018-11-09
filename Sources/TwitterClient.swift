@@ -162,7 +162,7 @@ class TwitterClient {
                             notificationName: .login)
         }
 
-        swifter.authorize(withCallback: URL(string: "nowplayingtweet://success")!,
+        swifter.authorize(withCallback: URL(string: (NSApplication.shared.delegate as! AppDelegate).swifterCallback + "success")!,
                           forceLogin: true,
                           success: success,
                           failure: failure)

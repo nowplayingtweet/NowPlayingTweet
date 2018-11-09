@@ -153,7 +153,8 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction private func selectAccount(_ sender: NSTableView) {
         let row = sender.selectedRow
 
-        guard let selected = self.twitterClient.account(userID: self.twitterClient.accountIDs[row]) else {
+        guard let userId = self.twitterClient.accountIDs[safe :row], let selected = self.twitterClient.account(userID: userId) else {
+            self.accountList.reloadData()
             return
         }
 

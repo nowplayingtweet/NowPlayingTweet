@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0BC996219194E4008E860E /* Collection++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BC995219194E4008E860E /* Collection++.swift */; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
 		3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralPaneController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D0BC995219194E4008E860E /* Collection++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection++.swift"; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralPaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		3D5A4B34218B492500775D4E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3D0BC995219194E4008E860E /* Collection++.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
 				3DD88B25202450D9000F7818 /* NSControl++.swift */,
@@ -402,6 +405,7 @@
 				3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
+				3D0BC996219194E4008E860E /* Collection++.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
