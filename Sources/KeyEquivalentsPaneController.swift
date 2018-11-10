@@ -19,7 +19,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
     private let userDefaults: UserDefaults = UserDefaults.standard
 
-    private let twitterClient: TwitterClient = TwitterClient.shared
+    private let accounts: SocialAccounts = SocialAccounts.shared
 
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
@@ -68,11 +68,11 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             }
         }
 
-        let existAccount = self.twitterClient.existAccount
+        let existAccount = self.accounts.existsAccount
 
         self.accountShortcutLabel.isHidden = !existAccount
 
-        let accountRowsHeight = 32 * self.twitterClient.numberOfAccounts
+        let accountRowsHeight = 32 * self.accounts.count
         let frameHeight: CGFloat = CGFloat(existAccount ? 64 + 44 + accountRowsHeight : 64)
         let frameSize: CGSize = CGSize(width: 500, height: frameHeight)
 
@@ -92,7 +92,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         var labelYPoint = 28 + accountRowsHeight
         var viewYPoint = 25 + accountRowsHeight
 
-        for accountID in self.twitterClient.accountIDs {
+        for account in self.accounts.all() {
             labelYPoint -= 32
             viewYPoint -= 32
             let labelPoint = CGPoint(x: labelXPoint, y: CGFloat(labelYPoint))
@@ -101,7 +101,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             let labelFrame = CGRect(origin: labelPoint, size: labelSize)
             let viewFrame = CGRect(origin: viewPoint, size: viewSize)
 
-            let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
+            let accountName: String = account.screenName ?? "null"
             let recordLabel: NSTextField = Label(with: "Tweet with @\(accountName):",
                                                  frame: labelFrame,
                                                  alignment: .right) as NSTextField
@@ -110,8 +110,8 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
             recordView.delegate = self
-            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: accountID)
-            recordView.keyCombo = self.userDefaults.keyCombo(forKey: accountID)
+            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: account.userID)
+            recordView.keyCombo = self.userDefaults.keyCombo(forKey: account.userID)
 
             self.view.addSubview(recordLabel)
             self.view.addSubview(recordView)

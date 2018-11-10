@@ -77,11 +77,16 @@ class GlobalKeyEquivalents: NSObject {
         let userID = hotKey.identifier
 
         if userID == "Current" {
-            self.delegate?.tweetWithCurrent()
+            self.delegate?.postWithCurrent()
             return
         }
 
-        self.delegate?.tweet(with: userID)
+        let id: [String] = userID.split(separator: "-").map { String($0) }
+        if id.indices.contains(1) {
+            self.delegate?.post(with: id[1], by: Provider.Name(rawValue: id[0]))
+        } else {
+            self.delegate?.post(with: id[0], by: .twitter)
+        }
     }
 
 }

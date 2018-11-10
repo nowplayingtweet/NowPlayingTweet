@@ -18,6 +18,10 @@
 		3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountPaneController.swift */; };
 		3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
 		3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DA1050C2195FFB200F7C845 /* SocialAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA1050B2195FFB200F7C845 /* SocialAccount.swift */; };
+		3DA1050E2196030100F7C845 /* SocialClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA1050D2196030000F7C845 /* SocialClient.swift */; };
+		3DA105102196919700F7C845 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA1050F2196919700F7C845 /* Provider.swift */; };
+		3DA1051221969D4A00F7C845 /* SocialAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA1051121969D4A00F7C845 /* SocialAccounts.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
@@ -109,6 +113,10 @@
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
+		3DA1050B2195FFB200F7C845 /* SocialAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialAccount.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		3DA1050D2196030000F7C845 /* SocialClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialClient.swift; sourceTree = "<group>"; };
+		3DA1050F2196919700F7C845 /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		3DA1051121969D4A00F7C845 /* SocialAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialAccounts.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
 		3DBBB9A8204AEF6100818352 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
@@ -194,6 +202,10 @@
 				3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */,
 				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
+				3DA1050F2196919700F7C845 /* Provider.swift */,
+				3DA1051121969D4A00F7C845 /* SocialAccounts.swift */,
+				3DA1050B2195FFB200F7C845 /* SocialAccount.swift */,
+				3DA1050D2196030000F7C845 /* SocialClient.swift */,
 				3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
@@ -332,6 +344,9 @@
 							com.apple.Keychain = {
 								enabled = 0;
 							};
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
 						};
 					};
 					3D5520DF2022322500AAF108 = {
@@ -416,8 +431,12 @@
 				3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */,
 				3DFF866320474754004FDD88 /* KeyEquivalentsPaneController.swift in Sources */,
 				3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */,
+				3DA105102196919700F7C845 /* Provider.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
+				3DA1050C2195FFB200F7C845 /* SocialAccount.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
+				3DA1051221969D4A00F7C845 /* SocialAccounts.swift in Sources */,
+				3DA1050E2196030100F7C845 /* SocialClient.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
 				3DBBB9A9204AEF6300818352 /* Label.swift in Sources */,
