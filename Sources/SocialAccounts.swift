@@ -5,7 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
+import Cocoa
 import KeychainAccess
 
 class SocialAccounts {
@@ -14,13 +14,34 @@ class SocialAccounts {
 
     let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
-    var current: SocialAccount? {
+    private(set) var current: SocialAccount? {
         get {
-            return self.accounts[safe: 0]
+            guard let currentID = UserDefaults.standard.string(forKey: "CurrentAccount") else {
+                let accountID = self.accountIDs[safe: 0]
+                if accountID == nil { return nil }
+
+                let account = self.accounts[accountID!]!
+                let name = account.providerName.rawValue + "-" + account.userID
+                UserDefaults.standard.set(name, forKey: "CurrentAccount")
+
+                return account
+            }
+            let currentName: [String] = currentID.split(separator: "-").map { String($0) }
+
+            if currentName.indices.contains(1) {
+                return self.get(Provider.Name(currentName[0]), userID: currentName[1])
+            } else {
+                UserDefaults.standard.set(Provider.Name.twitter.rawValue + "-" + currentName[0], forKey: "CurrentAccount")
+                return self.get(.twitter, userID: currentName[0])
+            }
+
         }
         
         set {
-            
+            guard let account = newValue else {
+                return
+            }
+            UserDefaults.standard.set(account.providerName.rawValue + "-" + account.userID, forKey: "CurrentAccount")
         }
     }
 
@@ -32,10 +53,14 @@ class SocialAccounts {
         return self.accounts.count
     }
 
-    private var accounts: [SocialAccount] = []
+    private var accountIDs: [String] {
+        return self.accounts.keys.sorted()
+    }
+
+    private var accounts: [String:SocialAccount] = [:]
 
     private init() {
-        let accountIDs = self.keychain.allKeys()
+        let accountIDs = self.keychain.allKeys().sorted()
 
         for accountID in accountIDs {
             guard let data: Data? = try? self.keychain.getData(accountID), let accountData: Data = data else {
@@ -60,33 +85,44 @@ class SocialAccounts {
                                         screenName: screenName,
                                         avaterUrl: avaterUrl)
 
-            self.accounts.append(account)
+            self.accounts[account.providerName.rawValue + "-" + account.userID] = account
         }
     }
 
     func all() -> [SocialAccount] {
-        return self.accounts
+        return self.accounts.values.map { $0 }
     }
 
     subscript (index: Int) -> SocialAccount? {
-        return self.accounts[safe: index]
+        guard let accountID = self.accountIDs[safe: index] else {
+            return nil
+        }
+
+        return self.accounts[accountID]
     }
 
     func index(of account: SocialAccount) -> Int? {
-        return self.accounts.firstIndex(where: { $0.providerName == account.providerName && $0.userID == account.userID })
+        let key = self.accounts.first { arg in
+            let (_, value) = arg
+            return value.providerName == account.providerName && value.userID == account.userID
+        }?.key
+        return self.accountIDs.index(of: key ?? "")
     }
 
     func get(_ provider: Provider.Name, userID: String) -> SocialAccount? {
-        return self.accounts.first { $0.providerName == provider && $0.userID == userID }
+        return self.accounts.first { _, value in
+            return value.providerName == provider && value.userID == userID
+        }?.value
     }
 
     func get(_ provider: Provider.Name, screenName: String) -> SocialAccount? {
-        return self.accounts.first { $0.providerName == provider && $0.screenName == screenName }
+        return self.accounts.first { _, value in
+            return value.providerName == provider && value.screenName == screenName
+        }?.value
     }
 
     func changeCurrent(to account: SocialAccount) {
-        let name = account.providerName.rawValue + "-" + account.userID
-        UserDefaults.standard.set(name, forKey: "CurrentAccount")
+        self.current = account
     }
 
 }

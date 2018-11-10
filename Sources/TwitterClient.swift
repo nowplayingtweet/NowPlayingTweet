@@ -22,13 +22,17 @@ class TwitterClient: SocialClient {
                                oauthTokenSecret: oauthSecret)
     }
 
-    func tweet(_ text: String, with artwork: NSImage? = nil, failure: Swifter.FailureHandler? = nil, success: @escaping Swifter.SuccessHandler) {
+    func post(_ text: String, with artwork: NSImage? = nil, failure: Swifter.FailureHandler? = nil, success: @escaping Swifter.SuccessHandler) {
         guard let image = artwork?.toData(from: .jpeg) else {
             self.swifter.postTweet(status: text, success: success, failure: failure)
             return
         }
 
         self.swifter.postTweet(status: text, media: image, success: success, failure: failure)
+    }
+
+    func profile(account: SocialAccount, failure: Swifter.FailureHandler? = nil, success: @escaping Swifter.SuccessHandler) {
+        self.swifter.showUser(.id(account.userID), success: success, failure: failure)
     }
 
 }
