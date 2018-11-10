@@ -59,4 +59,39 @@ struct SocialAccount {
         }
     }
 
+    func updateProfile(failure: ((Error) -> Void)? = nil, success: @escaping (SocialAccount) -> Void) {
+        (self.client as? TwitterClient)?.profile(account: self, failure: failure) { json in
+            let name = json.object!["name"]?.string
+            let screenName = json.object!["screen_name"]?.string
+            let avaterUrl = json.object?["profile_image_url_https"]?.string
+
+            success(self.set(name: name, screenName: screenName, avaterUrl: avaterUrl))
+        }
+    }
+
+    func set(name: String? = nil, screenName: String? = nil, avaterUrl: String? = nil) -> SocialAccount {
+        let newName: String? = name ?? self.name
+        let newScreenName: String? = screenName ?? self.screenName
+        let newAvater: String? = avaterUrl ?? self.avaterUrl?.absoluteString
+        let accountsKeychain = SocialAccounts.shared.keychain
+        try? accountsKeychain.remove(self.userID)
+        let account: [String:String] = ["providerName" : self.providerName.rawValue,
+                                        "oauthToken" : self.oauthToken,
+                                        "oauthSecret" : self.oauthSecret ?? "",
+                                        "userID" : self.userID,
+                                        "name" : newName ?? "",
+                                        "screenName" : newScreenName ?? "",
+                                        "avaterUrl" : newAvater ?? ""]
+        let accountData: Data = NSKeyedArchiver.archivedData(withRootObject: account)
+        try? accountsKeychain.set(accountData, key: self.providerName.rawValue + "-" + self.userID)
+
+        return SocialAccount(self.providerName,
+                             oauthToken: self.oauthToken,
+                             oauthSecret: self.oauthSecret,
+                             userID: self.userID,
+                             name: newName,
+                             screenName: newScreenName,
+                             avaterUrl: newAvater)
+    }
+
 }

@@ -86,6 +86,11 @@ class SocialAccounts {
                                         avaterUrl: avaterUrl)
 
             self.accounts[account.providerName.rawValue + "-" + account.userID] = account
+
+            account.updateProfile { account in
+                (NSApplication.shared.delegate as! AppDelegate).updateTwitterAccount()
+                self.accounts[account.providerName.rawValue + "-" + account.userID] = account
+            }
         }
     }
 
