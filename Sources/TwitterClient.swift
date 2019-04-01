@@ -177,13 +177,13 @@ class TwitterClient {
                                      userInfo: ["oldUserID" : account.userID])
     }
 
-    func tweet(account: TwitterClient.Account, text: String, with artwork: NSImage? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
+    func tweet(account: TwitterClient.Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
         if artwork == nil {
             account.swifter.postTweet(status: text, success: success, failure: failure)
             return
         }
-        let image = artwork?.toData(from: .jpeg)
-        account.swifter.postTweet(status: text, media: image!, success: success, failure: failure)
+
+        account.swifter.postTweet(status: text, media: artwork!, success: success, failure: failure)
     }
 
     private func updateCurrentAccount() {
