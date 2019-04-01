@@ -16,7 +16,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
     @IBOutlet weak var accountControl: NSSegmentedControl!
-    @IBOutlet weak var accountList: AccountListView!
+    @IBOutlet weak var accountList: NSTableView!
 
     private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -151,7 +151,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    @IBAction private func selectAccount(_ sender: AccountListView) {
+    @IBAction private func selectAccount(_ sender: NSTableView) {
         let row = sender.selectedRow
         let userID = self.twitterClient.accountIDs[row]
         self.selected = self.twitterClient.account(userID: userID)
@@ -203,10 +203,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         cellView.imageView?.fetchImage(url: twitterAccount.avaterUrl, rounded: true)
 
         return cellView
-    }
-
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return CGFloat(50)
     }
 
 }
