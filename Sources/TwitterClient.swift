@@ -24,6 +24,10 @@ class TwitterClient {
         let screenName: String
 
         let avaterUrl: URL
+
+        var isCurrent: Bool {
+            return TwitterClient.shared.currentID == self.userID
+        }
     }
 
     static let shared: TwitterClient = TwitterClient()
