@@ -8,18 +8,19 @@ Changelog.
 ### Changed
 * Update frameworks version.
 * Support macOS 10.14 Mojave Dark Mode.
+* Change Add/Remove account button to `NSSegmentedControl` from `NSButton`.
 * Disable "Launch at Login".
 
 ### Fixed
 * Fix current account image size of menu in macOS Mojave.
 * Chnage account image to tint color when not logget in.
-* [#4] Fix issue that was not working "add account" button.
-* [#5] Fix issue that could not fetch music info.
+* Fixed [#4]: Change consumerKey & consumerSecret.
+* Fixed [#5]: Support Mojave privacy automation.
 
 
 ## [Version 0.4 (Pre-Release)][0.4] - 2018-04-04
 ### Added
-* [#1] Add global keyboard shortcut for Tweet NowPlaying.
+* Added [#1]: Add global keyboard shortcut for Tweet NowPlaying.
 * Enable "Launch at Login".
 * Add Tweet Format's counter.
 
