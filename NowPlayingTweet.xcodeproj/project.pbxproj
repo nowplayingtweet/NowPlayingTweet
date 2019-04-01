@@ -589,7 +589,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 0.6.0d1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -614,7 +614,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/NowPlayingTweet.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 0.6.0d1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
