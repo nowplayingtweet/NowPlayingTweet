@@ -52,10 +52,4 @@ extension NSImage {
         return composedImage
     }
 
-    func toData(from fileType: NSBitmapImageRep.FileType, quality: CGFloat = 1) -> Data? {
-        let dict: Dictionary<NSBitmapImageRep.PropertyKey, Any> = [NSBitmapImageRep.PropertyKey.compressionFactor: NSNumber(value: Float(quality))]
-        let imageRep: NSBitmapImageRep = NSBitmapImageRep(data: self.tiffRepresentation!)!
-        return imageRep.representation(using: fileType, properties: dict)
-    }
-
 }
