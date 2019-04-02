@@ -46,7 +46,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.selected = current
         self.accountControl.setEnabled(true, forSegment: 1)
 
-        let numberOfAccounts = self.twitterClient.accountIDs.index(of: current.userID)!
+        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: current.userID)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
@@ -91,7 +91,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.accountList.reloadData()
 
-            let numberOfAccounts = self.twitterClient.accountIDs.index(of: selected.userID)!
+            let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
@@ -137,7 +137,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         self.selected = selected
 
-        let numberOfAccounts = self.twitterClient.accountIDs.index(of: selected.userID)!
+        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 

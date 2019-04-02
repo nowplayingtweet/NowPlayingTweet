@@ -27,7 +27,7 @@ extension UserDefaults {
         var identifiers: [String] = self.dictionary(forKey: "KeyEquivalents")?.map { $0.key } ?? []
         identifiers = identifiers.sorted()
 
-        guard let index = identifiers.index(of: "Current") else {
+        guard let index = identifiers.firstIndex(of: "Current") else {
             return identifiers
         }
 
