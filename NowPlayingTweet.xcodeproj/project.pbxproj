@@ -41,6 +41,8 @@
 		3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
 		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DEF425D2252748C008E977A /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425C2252748C008E977A /* Account.swift */; };
+		3DEF425F22527526008E977A /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Provider.swift */; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
@@ -119,6 +121,8 @@
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
 		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
+		3DEF425C2252748C008E977A /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		3DEF425E22527526008E977A /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
@@ -160,6 +164,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D17E792225371F400AF0E70 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				3DEF425C2252748C008E977A /* Account.swift */,
+				3DEF425E22527526008E977A /* Provider.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
 		3D5520C52022322100AAF108 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +197,7 @@
 		3D5520D02022322100AAF108 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3D17E792225371F400AF0E70 /* Social */,
 				3D5A4B34218B492500775D4E /* Extensions */,
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
 				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
@@ -417,8 +431,10 @@
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
+				3DEF425D2252748C008E977A /* Account.swift in Sources */,
 				3DBBB9A9204AEF6300818352 /* Label.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
+				3DEF425F22527526008E977A /* Provider.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
 			);
