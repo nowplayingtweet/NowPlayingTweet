@@ -51,9 +51,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            self.updateTwitterAccount()
+            notificationCenter.removeObserver(observer!)
 
-            notificationCenter.removeObserver(observer)
+            self.updateTwitterAccount()
         })
 
         self.updateTwitterAccount()

@@ -81,15 +81,16 @@ class TwitterClient {
         var observer: NSObjectProtocol!
         observer = self.notificationCenter.addObserver(forName: .initializeAccounts, object: nil, queue: nil, using: { _ in
             numOfAccounts -= 1
-            if numOfAccounts != 0 {
+            if numOfAccounts > 0 {
                 return
             }
+
+            self.notificationCenter.removeObserver(observer!)
 
             self.updateCurrentAccount()
 
             self.notificationCenter.post(name: .alreadyAccounts,
                                          object: nil)
-            self.notificationCenter.removeObserver(observer)
         })
 
         //for account in accounts {

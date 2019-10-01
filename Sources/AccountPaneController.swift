@@ -46,7 +46,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.selected = current
         self.accountControl.setEnabled(true, forSegment: 1)
 
-        let numberOfAccounts = self.twitterClient.accountIDs.index(of: current.userID)!
+        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: current.userID)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
@@ -82,8 +82,9 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
+            notificationCenter.removeObserver(observer!)
+
             guard let selected: TwitterClient.Account = notification.userInfo!["account"] as? TwitterClient.Account else {
-                notificationCenter.removeObserver(observer)
                 return
             }
 
@@ -91,7 +92,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.accountList.reloadData()
 
-            let numberOfAccounts = self.twitterClient.accountIDs.index(of: selected.userID)!
+            let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
             let index = IndexSet(integer: numberOfAccounts)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
@@ -109,8 +110,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.set(name: selected.name)
             self.set(screenName: selected.screenName)
             self.set(avaterUrl: selected.avaterUrl)
-
-            notificationCenter.removeObserver(observer)
         })
 
         self.twitterClient.login()
@@ -137,7 +136,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         self.selected = selected
 
-        let numberOfAccounts = self.twitterClient.accountIDs.index(of: selected.userID)!
+        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
         let index = IndexSet(integer: numberOfAccounts)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
