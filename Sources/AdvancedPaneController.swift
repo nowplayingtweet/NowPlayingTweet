@@ -58,10 +58,11 @@ class AdvancedPaneController: NSViewController {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             var observer: NSObjectProtocol!
             observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
+                notificationCenter.removeObserver(observer!)
+
                 self.userDefaults.set(false, forKey: "AutoTweet")
                 self.userDefaults.synchronize()
                 self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
-                notificationCenter.removeObserver(observer)
             })
         }
     }

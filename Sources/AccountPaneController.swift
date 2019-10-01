@@ -82,8 +82,9 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
+            notificationCenter.removeObserver(observer!)
+
             guard let selected: TwitterClient.Account = notification.userInfo!["account"] as? TwitterClient.Account else {
-                notificationCenter.removeObserver(observer)
                 return
             }
 
@@ -109,8 +110,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.set(name: selected.name)
             self.set(screenName: selected.screenName)
             self.set(avaterUrl: selected.avaterUrl)
-
-            notificationCenter.removeObserver(observer)
         })
 
         self.twitterClient.login()
