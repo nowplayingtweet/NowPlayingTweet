@@ -11,9 +11,11 @@ protocol Account {
     var provider: Provider { get }
 
     var id: String { get }
-    var name: String { get }
-    var screenName: String { get }
-    var avaterUrl: URL { get }
+    var name: String { get set }
+    var screenName: String { get set }
+    var avaterUrl: URL { get set }
 
-    var client: Client? { get }
+    var authToken: AuthToken { get }
+
+    init(id: String, name: String, screenName: String, avaterUrl: URL, token: AuthToken)
 }
