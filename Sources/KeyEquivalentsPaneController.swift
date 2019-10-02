@@ -102,9 +102,9 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             let viewFrame = CGRect(origin: viewPoint, size: viewSize)
 
             let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
-            let recordLabel: NSTextField = Label(with: "Tweet with @\(accountName):",
-                                                 frame: labelFrame,
-                                                 alignment: .right) as NSTextField
+            let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
+            recordLabel.alignment = .right
+            recordLabel.frame = labelFrame
 
             let recordView: RecordView = RecordView(frame: viewFrame)
             recordView.tintColor = .systemBlue
