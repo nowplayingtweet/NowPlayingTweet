@@ -12,8 +12,7 @@ import KeyHolder
 class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
     static let shared: KeyEquivalentsPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .keyEquivalentsPaneController)
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .keyEquivalentsPaneController)
         return windowController as! KeyEquivalentsPaneController
     }()
 
