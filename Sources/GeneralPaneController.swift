@@ -23,7 +23,18 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
 
     @IBOutlet weak var tweetFormat: NSTextField!
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private var userDefaultsTweetFormat: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "TweetFormat")
+        }
+        set(newValue) {
+            if let stringValue = newValue, !stringValue.isEmpty {            UserDefaults.standard.set(stringValue, forKey: "TweetFormat")
+            } else {
+                UserDefaults.standard.removeObject(forKey: "TweetFormat")
+            }
+            UserDefaults.standard.synchronize()
+        }
+    }
 
     @IBOutlet weak var gridView: NSGridView!
 
@@ -39,26 +50,17 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
             variableRow.yPlacement = .top
         }
 
-        self.tweetFormat.stringValue = (self.userDefaults.string(forKey: "TweetFormat"))!
+        self.tweetFormat.stringValue = self.userDefaultsTweetFormat!
     }
 
     @IBAction private func resetFormat(_ sender: NSButton) {
-        self.userDefaults.removeObject(forKey: "TweetFormat")
-        self.userDefaults.synchronize()
-        self.tweetFormat.stringValue = (self.userDefaults.string(forKey: "TweetFormat"))!
+        self.userDefaultsTweetFormat = nil
+        self.tweetFormat.stringValue = self.userDefaultsTweetFormat!
     }
 
     func controlTextDidChange(_ notification: Notification) {
-        guard let textField = notification.object as? NSTextField else {
-            return
-        }
-
-        self.userDefaults.set(textField.stringValue, forKey: "TweetFormat")
-    }
-
-    func controlTextDidEndEditing(_ notification: Notification) {
-        if let _ = notification.object as? NSTextField {
-            self.userDefaults.synchronize()
+        if let textField = notification.object as? NSTextField {
+            self.userDefaultsTweetFormat = textField.stringValue
         }
     }
 

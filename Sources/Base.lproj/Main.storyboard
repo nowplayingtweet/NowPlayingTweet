@@ -602,9 +602,9 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="autoTweet" destination="txX-Xv-iSP" id="xpJ-zv-hYj"/>
-                        <outlet property="tweetWithImage" destination="PHL-d0-AOk" id="aIu-ln-cuK"/>
-                        <outlet property="useKeyShortcut" destination="dW1-MJ-Gxa" id="66U-Ur-asF"/>
+                        <outlet property="autoTweetButton" destination="txX-Xv-iSP" id="ids-zK-Iif"/>
+                        <outlet property="tweetWithImageButton" destination="PHL-d0-AOk" id="xLi-fb-Oug"/>
+                        <outlet property="useKeyShortcutButton" destination="dW1-MJ-Gxa" id="77v-oG-PDL"/>
                     </connections>
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -642,8 +642,9 @@
                                         </textField>
                                     </gridCell>
                                     <gridCell row="h7u-Yv-mBq" column="Glb-iZ-jJH" yPlacement="fill" id="Cec-4T-dJ8">
-                                        <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ue2-BO-0Jx">
+                                        <textField key="contentView" verticalHuggingPriority="750" id="ue2-BO-0Jx">
                                             <rect key="frame" x="110" y="29" width="354" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                             <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" placeholderString="#NowPlaying Format" drawsBackground="YES" id="c9J-FC-6x2">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
