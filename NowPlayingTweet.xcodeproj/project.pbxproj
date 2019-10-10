@@ -316,7 +316,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = kPherox;
 				TargetAttributes = {
 					3D5520CD2022322100AAF108 = {
@@ -585,6 +585,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.6.0d1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -611,6 +612,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.6.0d1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
