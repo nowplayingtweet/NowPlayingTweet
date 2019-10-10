@@ -20,8 +20,7 @@ class AdvancedPaneController: NSViewController {
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     static let shared: AdvancedPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .advancedPaneController)
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .advancedPaneController)
         return windowController as! AdvancedPaneController
     }()
 

@@ -23,8 +23,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     private let userDefaults: UserDefaults = UserDefaults.standard
 
     static let shared: AccountPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .accountPaneController)
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .accountPaneController)
         return windowController as! AccountPaneController
     }()
 

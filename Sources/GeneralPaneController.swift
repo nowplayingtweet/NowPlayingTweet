@@ -11,8 +11,7 @@ import TwitterText
 class GeneralPaneController: NSViewController {
 
     static let shared: GeneralPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .generalPaneController)
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .generalPaneController)
         return windowController as! GeneralPaneController
     }()
 

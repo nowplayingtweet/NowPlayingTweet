@@ -7,12 +7,6 @@
 
 import Cocoa
 
-extension NSStoryboard.Name {
-
-    static let main: NSStoryboard.Name = NSStoryboard.Name(Bundle.main.infoDictionary!["NSMainStoryboardFile"] as! String)
-
-}
-
 extension NSStoryboard.SceneIdentifier {
 
     static let preferencesWindowController = NSStoryboard.SceneIdentifier("PreferencesWindowController")
