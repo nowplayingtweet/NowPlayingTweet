@@ -642,22 +642,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="504" height="89"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="8" id="CvH-ys-Hor">
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="8" columnSpacing="8" id="CvH-ys-Hor">
                                 <rect key="frame" x="20" y="20" width="464" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <rows>
-                                    <gridRow yPlacement="top" id="h7u-Yv-mBq"/>
-                                    <gridRow yPlacement="top" height="21" id="oBc-kC-6oy"/>
+                                    <gridRow id="h7u-Yv-mBq"/>
+                                    <gridRow yPlacement="bottom" height="21" id="oBc-kC-6oy"/>
                                 </rows>
                                 <columns>
-                                    <gridColumn xPlacement="fill" id="cFf-4Y-RMH"/>
+                                    <gridColumn xPlacement="trailing" width="128" id="cFf-4Y-RMH"/>
                                     <gridColumn xPlacement="fill" id="Glb-iZ-jJH"/>
                                 </columns>
                                 <gridCells>
                                     <gridCell row="h7u-Yv-mBq" column="cFf-4Y-RMH" id="lwh-W5-mSG">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wNg-Sc-qSS">
-                                            <rect key="frame" x="-2" y="33" width="106" height="16"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet format:" id="FcB-aN-OHa">
+                                            <rect key="frame" x="42" y="33" width="88" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tweet format:" id="FcB-aN-OHa">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -666,7 +666,7 @@
                                     </gridCell>
                                     <gridCell row="h7u-Yv-mBq" column="Glb-iZ-jJH" yPlacement="fill" id="Cec-4T-dJ8">
                                         <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ue2-BO-0Jx">
-                                            <rect key="frame" x="110" y="29" width="354" height="20"/>
+                                            <rect key="frame" x="136" y="29" width="328" height="20"/>
                                             <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" placeholderString="#NowPlaying Format" drawsBackground="YES" id="c9J-FC-6x2">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -677,9 +677,9 @@
                                             </connections>
                                         </textField>
                                     </gridCell>
-                                    <gridCell row="oBc-kC-6oy" column="cFf-4Y-RMH" xPlacement="leading" id="XSh-Qa-SOT">
+                                    <gridCell row="oBc-kC-6oy" column="cFf-4Y-RMH" xPlacement="center" id="XSh-Qa-SOT">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B54-5L-KMW">
-                                            <rect key="frame" x="-2" y="5" width="106" height="16"/>
+                                            <rect key="frame" x="11" y="0.0" width="106" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Format Variables" id="UMb-kc-rzl">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -687,7 +687,7 @@
                                             </textFieldCell>
                                         </textField>
                                     </gridCell>
-                                    <gridCell row="oBc-kC-6oy" column="Glb-iZ-jJH" xPlacement="trailing" id="2Mz-nX-x2J">
+                                    <gridCell row="oBc-kC-6oy" column="Glb-iZ-jJH" xPlacement="trailing" yPlacement="fill" id="2Mz-nX-x2J">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RnN-pU-Ygw">
                                             <rect key="frame" x="395" y="-7" width="75" height="32"/>
                                             <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7rh-hO-deR">

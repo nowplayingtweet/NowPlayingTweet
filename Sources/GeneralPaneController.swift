@@ -42,13 +42,13 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        for (name, desc) in Self.formatVariables {
+        for (name, description) in Self.formatVariables {
             let nameLabel = NSTextField(labelWithString: name + ":")
-            nameLabel.alignment = .right
-            let descLabel = NSTextField(labelWithString: desc)
-            let variableRow = self.gridView.addRow(with: [nameLabel, descLabel])
+
+            let descriptionLabel = NSTextField(labelWithString: description)
+
+            let variableRow = self.gridView.addRow(with: [nameLabel, descriptionLabel])
             variableRow.height = 17
-            variableRow.yPlacement = .top
         }
 
         self.tweetFormat.stringValue = self.userDefaultsTweetFormat!
