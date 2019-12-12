@@ -12,8 +12,7 @@ import KeyHolder
 class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
     static let shared: KeyEquivalentsPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .keyEquivalentsPaneController)
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .keyEquivalentsPaneController)
         return windowController as! KeyEquivalentsPaneController
     }()
 
@@ -23,10 +22,9 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
-    @IBOutlet weak var currentRecordLabel: NSTextField!
     @IBOutlet weak var currentRecordView: RecordView!
 
-    @IBOutlet weak var accountShortcutLabel: NSTextField!
+    @IBOutlet weak var gridView: NSGridView!
 
     private var selectedRecortView: RecordView?
 
@@ -49,72 +47,49 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: nil, using: reloadView)
     }
 
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        self.reloadView()
-    }
-
     override func cancelOperation(_ sender: Any?) {
         self.selectedRecortView?.endRecording()
     }
 
     private func reloadView() {
-        for subview in self.view.subviews {
-            switch subview {
-            case self.currentRecordLabel, self.currentRecordView, self.accountShortcutLabel:
-                continue
-            default:
-                subview.removeFromSuperview()
-            }
+        for _ in 2..<self.gridView.numberOfRows {
+            self.gridView.removeRowWithView(at: 2)
         }
 
-        let existAccount = self.twitterClient.existAccount
+        let accountKeyShortcut = self.gridView.row(at: 1)
 
-        self.accountShortcutLabel.isHidden = !existAccount
+        if !self.twitterClient.existAccount {
+            if #available(OSX 10.14, *) {
+                accountKeyShortcut.isHidden = true
+            } else {
+                accountKeyShortcut.height = 0
+                self.gridView.rowSpacing = 0
+            }
 
-        let accountRowsHeight = 32 * self.twitterClient.numberOfAccounts
-        let frameHeight: CGFloat = CGFloat(existAccount ? 64 + 44 + accountRowsHeight : 64)
-        let frameSize: CGSize = CGSize(width: 500, height: frameHeight)
-
-        self.view.setFrameSize(frameSize)
-        self.view.window?.setContentSize(frameSize)
-
-        if !existAccount {
             return
         }
 
-        let labelSize = self.currentRecordLabel.frame.size
-        let viewSize = self.currentRecordView.frame.size
-
-        let labelXPoint = self.currentRecordLabel.frame.origin.x
-        let viewXPoint = self.currentRecordView.frame.origin.x
-
-        var labelYPoint = 28 + accountRowsHeight
-        var viewYPoint = 25 + accountRowsHeight
+        if #available(OSX 10.14, *) {
+            accountKeyShortcut.isHidden = false
+        } else {
+            accountKeyShortcut.height = 21
+            self.gridView.rowSpacing = 8
+        }
 
         for accountID in self.twitterClient.accountIDs {
-            labelYPoint -= 32
-            viewYPoint -= 32
-            let labelPoint = CGPoint(x: labelXPoint, y: CGFloat(labelYPoint))
-            let viewPoint = CGPoint(x: viewXPoint, y: CGFloat(viewYPoint))
-
-            let labelFrame = CGRect(origin: labelPoint, size: labelSize)
-            let viewFrame = CGRect(origin: viewPoint, size: viewSize)
-
             let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
-            let recordLabel: NSTextField = Label(with: "Tweet with @\(accountName):",
-                                                 frame: labelFrame,
-                                                 alignment: .right) as NSTextField
+            let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
 
-            let recordView: RecordView = RecordView(frame: viewFrame)
+            let recordView = RecordView()
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
             recordView.delegate = self
             recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: accountID)
             recordView.keyCombo = self.userDefaults.keyCombo(forKey: accountID)
 
-            self.view.addSubview(recordLabel)
-            self.view.addSubview(recordView)
+            let recordRow = self.gridView.addRow(with: [recordLabel, recordView])
+            recordRow.height = 24
+            recordRow.cell(at: 0).yPlacement = .center
         }
     }
 

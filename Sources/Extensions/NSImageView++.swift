@@ -12,8 +12,8 @@ extension NSImageView {
     static let session: URLSession = {
         let conf =  URLSessionConfiguration.default
         return URLSession(configuration: conf,
-                             delegate: nil,
-                             delegateQueue: OperationQueue.main)
+                          delegate: nil,
+                          delegateQueue: OperationQueue.main)
     }()
 
     func fetchImage(url: URL, rounded: Bool = false) {
