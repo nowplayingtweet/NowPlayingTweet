@@ -54,7 +54,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.level = .floating
     }
 
-    @IBAction func cancel(_ sender: Any?) {
+    @objc func cancel(_ sender: Any?) {
         self.close()
     }
 

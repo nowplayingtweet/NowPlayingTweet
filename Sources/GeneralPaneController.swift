@@ -23,20 +23,21 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
 
     @IBOutlet weak var tweetFormat: NSTextField!
 
+    @IBOutlet weak var gridView: NSGridView!
+
     private var userDefaultsTweetFormat: String? {
         get {
             return UserDefaults.standard.string(forKey: "TweetFormat")
         }
         set(newValue) {
-            if let stringValue = newValue, !stringValue.isEmpty {            UserDefaults.standard.set(stringValue, forKey: "TweetFormat")
+            if let stringValue = newValue, !stringValue.isEmpty {
+                UserDefaults.standard.set(stringValue, forKey: "TweetFormat")
             } else {
                 UserDefaults.standard.removeObject(forKey: "TweetFormat")
             }
             UserDefaults.standard.synchronize()
         }
     }
-
-    @IBOutlet weak var gridView: NSGridView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
