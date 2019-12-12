@@ -15,7 +15,15 @@ class PreferencesWindowController: NSWindowController {
     @IBOutlet weak var advancedPane: NSToolbarItem!
     @IBOutlet weak var keyEquivalentsPane: NSToolbarItem!
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private var lastViewItemIdentifier: String {
+        get {
+            return UserDefaults.standard.string(forKey: "lastViewItemIdentifier") ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: "lastViewItemIdentifier")
+            UserDefaults.standard.synchronize()
+        }
+    }
 
     private let viewControllers: [NSViewController] = [
         GeneralPaneController.shared,
@@ -34,12 +42,9 @@ class PreferencesWindowController: NSWindowController {
             self.keyEquivalentsPane,
             ]
 
-        let lastViewItemIdentifier = NSToolbarItem.Identifier(self.userDefaults.string(forKey: "lastViewItemIdentifier") ?? "")
+        let lastViewItemIdentifier = NSToolbarItem.Identifier(self.lastViewItemIdentifier)
 
-        guard let item = items.first(where: { $0.itemIdentifier == lastViewItemIdentifier }) ?? self.generalPane else {
-            self.window?.center()
-            return
-        }
+        let item: NSToolbarItem = items.first(where: { $0.itemIdentifier == lastViewItemIdentifier }) ?? self.generalPane
 
         self.toolbar.selectedItemIdentifier = item.itemIdentifier
 
@@ -49,7 +54,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.level = .floating
     }
 
-    @IBAction func cancel(_ sender: Any?) {
+    @objc func cancel(_ sender: Any?) {
         self.close()
     }
 
@@ -66,7 +71,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.setFrame(newWindowFrame, display: true, animate: true)
         self.window?.contentViewController = viewController
 
-        self.userDefaults.set(toolbarItem.itemIdentifier.rawValue, forKey: "lastViewItemIdentifier")
+        self.lastViewItemIdentifier = toolbarItem.itemIdentifier.rawValue
     }
 
 }
