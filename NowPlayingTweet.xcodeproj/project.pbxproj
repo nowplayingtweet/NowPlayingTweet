@@ -17,6 +17,7 @@
 		3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountPaneController.swift */; };
 		3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
 		3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294423A2E3030031505C /* NSGridView++.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
@@ -102,6 +103,7 @@
 		3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		3D552110202329E900AAF108 /* AccountPaneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPaneController.swift; sourceTree = "<group>"; };
 		3D5A4B42218C46F100775D4E /* iTunesBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesBridge.framework; path = Carthage/Build/Mac/iTunesBridge.framework; sourceTree = "<group>"; };
+		3D9D294423A2E3030031505C /* NSGridView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSGridView++.swift"; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
+				3D9D294423A2E3030031505C /* NSGridView++.swift */,
 				3DD88B25202450D9000F7818 /* NSControl++.swift */,
 				3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */,
 				3DD88B292024BBFE000F7818 /* NSImage++.swift */,
@@ -399,6 +402,7 @@
 				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,
 				3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */,
+				3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
