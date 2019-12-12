@@ -372,15 +372,9 @@
             <objects>
                 <viewController title="Account" storyboardIdentifier="AccountPaneController" showSeguePresentationStyle="single" id="eLk-Pt-GjP" customClass="AccountPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ymK-C2-fHY">
-                        <rect key="frame" x="0.0" y="0.0" width="470" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="520" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Bkt-C4-jwP">
-                                <rect key="frame" x="178" y="196" width="64" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="v1W-Vx-EGl"/>
-                                <color key="contentTintColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                            </imageView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="oDZ-RU-JMr">
                                 <rect key="frame" x="20" y="20" width="150" height="260"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -463,35 +457,6 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dyC-FG-YZu">
-                                <rect key="frame" x="250" y="229" width="202" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Account Name" id="gwA-dv-9Pb">
-                                    <font key="font" metaFont="system" size="16"/>
-                                    <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="yw8-j5-9ue">
-                                <rect key="frame" x="250" y="207" width="202" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="@null" id="IJt-DK-cr9">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button hidden="YES" verticalHuggingPriority="750" id="d1K-MF-mBA">
-                                <rect key="frame" x="330" y="160" width="126" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Set to Current" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ujT-go-VXo">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="setToCurrent:" target="eLk-Pt-GjP" id="ZtI-kh-kC9"/>
-                                </connections>
-                            </button>
                             <segmentedControl verticalHuggingPriority="750" id="y5s-25-d85">
                                 <rect key="frame" x="20" y="19" width="150" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -507,15 +472,61 @@
                                     <action selector="manageAccount:" target="eLk-Pt-GjP" id="byz-kI-mIb"/>
                                 </connections>
                             </segmentedControl>
-                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rwE-oK-OmT">
-                                <rect key="frame" x="178" y="170" width="152" height="16"/>
+                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="3Gf-b9-Gav">
+                                <rect key="frame" x="177" y="16" width="326" height="266"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="This account is current." id="Xyb-IH-Nsp">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                                <view key="contentView" ambiguous="YES" id="wya-Xq-29t">
+                                    <rect key="frame" x="3" y="3" width="320" height="260"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" id="Bkt-C4-jwP">
+                                            <rect key="frame" x="20" y="176" width="64" height="64"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="v1W-Vx-EGl"/>
+                                            <color key="contentTintColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                        </imageView>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="dyC-FG-YZu">
+                                            <rect key="frame" x="92" y="213" width="208" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Account Name" id="gwA-dv-9Pb">
+                                                <font key="font" metaFont="system" size="16"/>
+                                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="yw8-j5-9ue">
+                                            <rect key="frame" x="92" y="187" width="208" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="@null" id="IJt-DK-cr9">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button hidden="YES" verticalHuggingPriority="750" ambiguous="YES" id="d1K-MF-mBA">
+                                            <rect key="frame" x="172" y="140" width="126" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Set to Current" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ujT-go-VXo">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="setToCurrent:" target="eLk-Pt-GjP" id="ZtI-kh-kC9"/>
+                                            </connections>
+                                        </button>
+                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="rwE-oK-OmT">
+                                            <rect key="frame" x="20" y="150" width="152" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="This account is current." id="Xyb-IH-Nsp">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                                <font key="titleFont" metaFont="message" size="11"/>
+                            </box>
                         </subviews>
                     </view>
                     <connections>
@@ -530,7 +541,7 @@
                 </viewController>
                 <customObject id="FdA-kh-U7B" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="655" y="238"/>
+            <point key="canvasLocation" x="680" y="238"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="Scy-Sz-n3s">
