@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -716,43 +716,60 @@
         <scene sceneID="eKO-wj-1Yb">
             <objects>
                 <viewController title="Key Equivalents" storyboardIdentifier="KeyEquivalentsPaneController" showSeguePresentationStyle="single" id="T2M-SU-Aw3" customClass="KeyEquivalentsPaneController" customModule="NowPlayingTweet" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="hCd-Gk-XHS">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="64"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="hCd-Gk-XHS">
+                        <rect key="frame" x="0.0" y="0.0" width="445" height="93"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <customView id="pak-9p-DEl" customClass="RecordView" customModule="KeyHolder">
-                                <rect key="frame" x="280" y="20" width="158" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="EIz-L2-k7i">
-                                <rect key="frame" x="60" y="23" width="214" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet NowPlaying with Current:" id="rLl-O0-VcT">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="mjN-5b-9MO">
-                                <rect key="frame" x="48" y="-19" width="404" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Account Key Shortcut" id="yxA-6N-yK3">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                            <gridView xPlacement="fill" yPlacement="fill" rowAlignment="none" rowSpacing="8" columnSpacing="8" id="fzK-Xs-yTV">
+                                <rect key="frame" x="20" y="20" width="405" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                <rows>
+                                    <gridRow height="24" id="Vtq-Fl-LYS"/>
+                                    <gridRow yPlacement="bottom" height="21" id="7mT-pW-Nsu"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" id="r7P-pK-A1U"/>
+                                    <gridColumn width="158" id="AmX-oF-x05"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="Vtq-Fl-LYS" column="r7P-pK-A1U" yPlacement="center" id="leU-qS-QXM">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O2c-X5-Xhx">
+                                            <rect key="frame" x="44" y="33" width="197" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tweet NowPlaying with Current:" id="ugA-vX-y66">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="Vtq-Fl-LYS" column="AmX-oF-x05" id="dGS-NH-b3D">
+                                        <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Qjk-XU-bef" customClass="RecordView" customModule="KeyHolder">
+                                            <rect key="frame" x="247" y="29" width="158" height="24"/>
+                                        </customView>
+                                    </gridCell>
+                                    <gridCell row="7mT-pW-Nsu" column="r7P-pK-A1U" xPlacement="leading" id="39g-X8-iAJ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="riK-ux-tcd">
+                                            <rect key="frame" x="-2" y="0.0" width="136" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Account Key Shortcut" id="hCH-Gr-OcP">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="7mT-pW-Nsu" column="AmX-oF-x05" id="r7F-He-kIg"/>
+                                </gridCells>
+                            </gridView>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="accountShortcutLabel" destination="mjN-5b-9MO" id="8Db-0a-Nq7"/>
-                        <outlet property="currentRecordLabel" destination="EIz-L2-k7i" id="iMd-Sj-tfo"/>
-                        <outlet property="currentRecordView" destination="pak-9p-DEl" id="Sdo-3m-pxR"/>
+                        <outlet property="currentRecordView" destination="Qjk-XU-bef" id="mOp-p8-xoZ"/>
+                        <outlet property="gridView" destination="fzK-Xs-yTV" id="396-eq-Wej"/>
                     </connections>
                 </viewController>
                 <customObject id="65k-NB-Lx0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="151" y="648"/>
+            <point key="canvasLocation" x="145.5" y="800.5"/>
         </scene>
     </scenes>
     <resources>
