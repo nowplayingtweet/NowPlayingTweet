@@ -8,4 +8,5 @@
 import Foundation
 
 protocol Credentials {
+    static var oauthVersion: OAuth { get }
 }
