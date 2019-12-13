@@ -8,11 +8,17 @@
 import Foundation
 
 protocol Client {
-    static func authorize(handler: @escaping (Account) -> Void)
+    static func authorize(handler: @escaping (Client) -> Void)
 
-    static func revoke(authToken: AuthToken)
+    var credentials: Credentials { get }
 
-    static func verify(authToken: AuthToken, handler: @escaping (Account) -> Void)
+    init(credentials: Credentials)
 
-    static func post(authToken: AuthToken)
+    func revoke(handler: @escaping () -> Void)
+
+    func verify(handler: @escaping (Account) -> Void)
+
+    func post(text: String, handler: @escaping () -> Void)
+
+    func post(text: String, image: Data, handler: @escaping () -> Void)
 }

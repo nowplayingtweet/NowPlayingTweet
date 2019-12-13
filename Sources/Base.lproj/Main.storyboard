@@ -525,7 +525,6 @@
                                         </textField>
                                     </subviews>
                                 </view>
-                                <font key="titleFont" metaFont="message" size="11"/>
                             </box>
                         </subviews>
                     </view>

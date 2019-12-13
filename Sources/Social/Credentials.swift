@@ -1,5 +1,5 @@
 /**
- *  AuthToken.swift
+ *  Credentials.swift
  *  NowPlayingTweet
  *
  *  © 2019 kPherox.
@@ -7,5 +7,5 @@
 
 import Foundation
 
-protocol AuthToken {
+protocol Credentials {
 }
