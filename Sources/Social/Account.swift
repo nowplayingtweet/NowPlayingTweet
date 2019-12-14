@@ -8,8 +8,7 @@
 import Foundation
 
 protocol Account {
-    static var provider: Provider { get }
-    static var keychainName: String { get }
+    static var provider: Providers { get }
 
     var id: String { get }
 
