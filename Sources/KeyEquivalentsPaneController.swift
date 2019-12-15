@@ -76,7 +76,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
         for account in Accounts.shared.sortedAccounts {
             let accountName: String = account.username
-            let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
+            let recordLabel: NSTextField = NSTextField(labelWithString: "Post with \(type(of: account).provider) @\(accountName):")
 
             let recordView = RecordView()
             recordView.tintColor = .systemBlue

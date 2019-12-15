@@ -77,11 +77,11 @@ class GlobalKeyEquivalents: NSObject {
         let id = hotKey.identifier
 
         if id == "Current" {
-            self.delegate?.tweetWithCurrent()
+            self.delegate?.postWithCurrent()
             return
         }
 
-        self.delegate?.tweet(with: id, of: .Twitter)
+        self.delegate?.post(with: id, of: .Twitter)
     }
 
 }

@@ -9,8 +9,8 @@ import Foundation
 
 protocol KeyEquivalentsDelegate: NSObjectProtocol {
 
-    func tweetWithCurrent() -> Void
+    func postWithCurrent()
 
-    func tweet(with: String, of: Provider) -> Void
+    func post(with: String, of: Provider)
 
 }

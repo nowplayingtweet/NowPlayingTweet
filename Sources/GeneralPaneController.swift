@@ -21,19 +21,19 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
         "{{AlbumArtist}}": "Album Artist Name",
     ]
 
-    @IBOutlet weak var tweetFormat: NSTextField!
+    @IBOutlet weak var postFormat: NSTextField!
 
     @IBOutlet weak var gridView: NSGridView!
 
-    private var userDefaultsTweetFormat: String? {
+    private var userDefaultsPostFormat: String? {
         get {
-            return UserDefaults.standard.string(forKey: "TweetFormat")
+            return UserDefaults.standard.string(forKey: "PostFormat")
         }
         set(newValue) {
             if let stringValue = newValue, !stringValue.isEmpty {
-                UserDefaults.standard.set(stringValue, forKey: "TweetFormat")
+                UserDefaults.standard.set(stringValue, forKey: "PostFormat")
             } else {
-                UserDefaults.standard.removeObject(forKey: "TweetFormat")
+                UserDefaults.standard.removeObject(forKey: "PostFormat")
             }
             UserDefaults.standard.synchronize()
         }
@@ -51,17 +51,17 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
             variableRow.height = 17
         }
 
-        self.tweetFormat.stringValue = self.userDefaultsTweetFormat!
+        self.postFormat.stringValue = self.userDefaultsPostFormat!
     }
 
     @IBAction private func resetFormat(_ sender: NSButton) {
-        self.userDefaultsTweetFormat = nil
-        self.tweetFormat.stringValue = self.userDefaultsTweetFormat!
+        self.userDefaultsPostFormat = nil
+        self.postFormat.stringValue = self.userDefaultsPostFormat!
     }
 
     func controlTextDidChange(_ notification: Notification) {
         if let textField = notification.object as? NSTextField {
-            self.userDefaultsTweetFormat = textField.stringValue
+            self.userDefaultsPostFormat = textField.stringValue
         }
     }
 

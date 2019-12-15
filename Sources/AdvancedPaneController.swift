@@ -10,8 +10,8 @@ import Cocoa
 class AdvancedPaneController: NSViewController {
 
     @IBOutlet weak var useKeyShortcutButton: NSButton!
-    @IBOutlet weak var tweetWithImageButton: NSButton!
-    @IBOutlet weak var autoTweetButton: NSButton!
+    @IBOutlet weak var postWithImageButton: NSButton!
+    @IBOutlet weak var autoPostButton: NSButton!
 
     private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -25,22 +25,22 @@ class AdvancedPaneController: NSViewController {
         }
     }
 
-    private var tweetWithImage: Bool {
+    private var postWithImage: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "TweetWithImage")
+            return UserDefaults.standard.bool(forKey: "PostWithImage")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "TweetWithImage")
+            UserDefaults.standard.set(newValue, forKey: "PostWithImage")
             UserDefaults.standard.synchronize()
         }
     }
 
-    private var autoTweet: Bool {
+    private var autoPost: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "AutoTweet")
+            return UserDefaults.standard.bool(forKey: "AutoPost")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "AutoTweet")
+            UserDefaults.standard.set(newValue, forKey: "AutoPost")
             UserDefaults.standard.synchronize()
         }
     }
@@ -57,10 +57,10 @@ class AdvancedPaneController: NSViewController {
 
         // Do view setup here.
         self.useKeyShortcutButton.set(state: self.useKeyShortcut)
-        self.tweetWithImageButton.set(state: self.tweetWithImage)
-        self.autoTweetButton.set(state: self.autoTweet)
+        self.postWithImageButton.set(state: self.postWithImage)
+        self.autoPostButton.set(state: self.autoPost)
 
-        self.addDisableAutoTweetObserver(state: self.autoTweet)
+        self.addDisableAutoPostObserver(state: self.autoPost)
     }
 
     @IBAction private func switchSetting(_ sender: NSButton) {
@@ -71,25 +71,25 @@ class AdvancedPaneController: NSViewController {
           case "UseKeyShortcut":
             self.useKeyShortcut = state
             self.keyEquivalents.isEnabled = state
-          case "TweetWithImage":
-            self.tweetWithImage = state
-          case "AutoTweet":
-            self.addDisableAutoTweetObserver(state: state)
-            self.appDelegate.manageAutoTweet(state: state)
+          case "PostWithImage":
+            self.postWithImage = state
+          case "AutoPost":
+            self.addDisableAutoPostObserver(state: state)
+            self.appDelegate.manageAutoPost(state: state)
           default:
             break
         }
     }
 
-    private func addDisableAutoTweetObserver(state: Bool) {
+    private func addDisableAutoPostObserver(state: Bool) {
         if state {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             var observer: NSObjectProtocol!
-            observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
+            observer = notificationCenter.addObserver(forName: .disableAutoPost, object: nil, queue: nil, using: { notification in
                 notificationCenter.removeObserver(observer!)
 
-                self.autoTweet = false
-                self.autoTweetButton.set(state: self.autoTweet)
+                self.autoPost = false
+                self.autoPostButton.set(state: self.autoPost)
             })
         }
     }

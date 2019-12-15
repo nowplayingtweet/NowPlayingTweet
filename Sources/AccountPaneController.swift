@@ -56,7 +56,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction private func setToCurrent(_ sender: NSButton) {
         let selected = self.selected!
         Accounts.shared.current = selected
-        self.appDelegate.updateTwitterAccount()
+        self.appDelegate.updateSocialAccount()
         self.currentLabel.isHidden = false
         self.currentButton.isEnabled = false
     }
@@ -93,7 +93,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) } ?? 0)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-            self.appDelegate.updateTwitterAccount()
+            self.appDelegate.updateSocialAccount()
 
             let isCurrent = selected.isEqual(Accounts.shared.current)
             if isCurrent {
@@ -116,7 +116,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         Accounts.shared.logout(account: self.selected!)
 
         self.accountList.reloadData()
-        self.appDelegate.updateTwitterAccount()
+        self.appDelegate.updateSocialAccount()
 
         guard let selected = Accounts.shared.current else {
             self.accountControl.setEnabled(false, forSegment: 1)

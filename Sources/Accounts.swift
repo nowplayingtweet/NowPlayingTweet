@@ -11,12 +11,7 @@ import KeychainAccess
 
 class Accounts {
 
-    static let shared: Accounts = Accounts()
-
-    private let consumerKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
-    private let consumerSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
-
-    private let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
+    static let shared = Accounts()
 
     private var storage: [Provider : ProviderAccounts] = [:]
 

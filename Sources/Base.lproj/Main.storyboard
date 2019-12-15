@@ -22,10 +22,10 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="4K1-rt-P6O"/>
-                        <menuItem title="Tweet NowPlaying" enabled="NO" identifier="TweetNowPlaying" id="Jpx-zD-RJg">
+                        <menuItem title="Post NowPlaying" enabled="NO" identifier="PostNowPlaying" id="Jpx-zD-RJg">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="tweetByCurrentAccount:" target="Voe-Tx-rLC" id="89o-hV-ezm"/>
+                                <action selector="postByCurrentAccount:" target="Voe-Tx-rLC" id="Pr6-rA-XOW"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="gVa-7w-528"/>
@@ -48,7 +48,7 @@
                     <connections>
                         <outlet property="currentAccount" destination="n9w-bL-8rt" id="t4X-oy-1Df"/>
                         <outlet property="menu" destination="MHr-w1-nK8" id="ZPJ-5F-mFY"/>
-                        <outlet property="tweetMenu" destination="Jpx-zD-RJg" id="eek-t3-fH5"/>
+                        <outlet property="postMenu" destination="Jpx-zD-RJg" id="AdZ-Sa-ue4"/>
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -551,7 +551,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FxV-R4-yds">
-                                <rect key="frame" x="20" y="20" width="261" height="92"/>
+                                <rect key="frame" x="20" y="20" width="259" height="92"/>
                                 <rows>
                                     <gridRow yPlacement="top" height="16" id="Hiy-oF-lXL"/>
                                     <gridRow yPlacement="top" height="16" id="t0N-F7-dDB"/>
@@ -565,8 +565,8 @@
                                 <gridCells>
                                     <gridCell row="Hiy-oF-lXL" column="LgX-Ft-oC3" id="OHN-bB-r3B">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6lD-nU-zdu">
-                                            <rect key="frame" x="-2" y="76" width="98" height="16"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tweet Settings:" id="L2B-EQ-5jC">
+                                            <rect key="frame" x="-2" y="76" width="96" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Post Settings:" id="L2B-EQ-5jC">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -574,9 +574,9 @@
                                         </textField>
                                     </gridCell>
                                     <gridCell row="Hiy-oF-lXL" column="UVv-1U-MzJ" yPlacement="fill" id="Kjt-4i-9dH">
-                                        <button key="contentView" identifier="TweetWithImage" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PHL-d0-AOk">
-                                            <rect key="frame" x="100" y="74" width="128" height="20"/>
-                                            <buttonCell key="cell" type="check" title="Tweet with Image" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oX0-bn-xzs">
+                                        <button key="contentView" identifier="PostWithImage" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PHL-d0-AOk">
+                                            <rect key="frame" x="98" y="74" width="119" height="20"/>
+                                            <buttonCell key="cell" type="check" title="Post with Image" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oX0-bn-xzs">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -587,9 +587,9 @@
                                     </gridCell>
                                     <gridCell row="t0N-F7-dDB" column="LgX-Ft-oC3" id="Xjo-Pn-pfb"/>
                                     <gridCell row="t0N-F7-dDB" column="UVv-1U-MzJ" yPlacement="fill" id="owW-PQ-l1m">
-                                        <button key="contentView" identifier="AutoTweet" wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txX-Xv-iSP">
-                                            <rect key="frame" x="100" y="50" width="91" height="20"/>
-                                            <buttonCell key="cell" type="check" title="Auto Tweet" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="i1c-a3-FDK">
+                                        <button key="contentView" identifier="AutoPost" wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txX-Xv-iSP">
+                                            <rect key="frame" x="98" y="50" width="81" height="20"/>
+                                            <buttonCell key="cell" type="check" title="Auto Post" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="i1c-a3-FDK">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -600,7 +600,7 @@
                                     </gridCell>
                                     <gridCell row="aow-1J-AMe" column="LgX-Ft-oC3" id="wXd-Iu-pQX">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v2m-LP-OdQ">
-                                            <rect key="frame" x="-2" y="24" width="98" height="16"/>
+                                            <rect key="frame" x="-2" y="24" width="96" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Other Settings:" id="phP-pl-Dwp">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -610,7 +610,7 @@
                                     </gridCell>
                                     <gridCell row="aow-1J-AMe" column="UVv-1U-MzJ" yPlacement="fill" id="EHa-bk-0Nb">
                                         <button key="contentView" identifier="UseKeyShortcut" wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dW1-MJ-Gxa">
-                                            <rect key="frame" x="100" y="22" width="163" height="20"/>
+                                            <rect key="frame" x="98" y="22" width="163" height="20"/>
                                             <buttonCell key="cell" type="check" title="Use Keyboard Shortcut" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="HZO-SU-nmG">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -623,7 +623,7 @@
                                     <gridCell row="Yaa-Wo-zSp" column="LgX-Ft-oC3" id="drH-28-Nbk"/>
                                     <gridCell row="Yaa-Wo-zSp" column="UVv-1U-MzJ" yPlacement="fill" id="NVJ-RF-tZc">
                                         <button key="contentView" identifier="LaunchAtLogin" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LPQ-a4-pIN">
-                                            <rect key="frame" x="100" y="-2" width="119" height="20"/>
+                                            <rect key="frame" x="98" y="-2" width="119" height="20"/>
                                             <buttonCell key="cell" type="check" title="Launch at Login" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="1uw-IO-wgz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -635,9 +635,9 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="autoTweetButton" destination="txX-Xv-iSP" id="ids-zK-Iif"/>
-                        <outlet property="tweetWithImageButton" destination="PHL-d0-AOk" id="xLi-fb-Oug"/>
-                        <outlet property="useKeyShortcutButton" destination="dW1-MJ-Gxa" id="77v-oG-PDL"/>
+                        <outlet property="autoPostButton" destination="txX-Xv-iSP" id="3ux-Cy-Bzj"/>
+                        <outlet property="postWithImageButton" destination="PHL-d0-AOk" id="Nof-cY-oR3"/>
+                        <outlet property="useKeyShortcutButton" destination="dW1-MJ-Gxa" id="wQd-uV-X51"/>
                     </connections>
                 </viewController>
                 <customObject id="cls-2p-8yC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -666,8 +666,8 @@
                                 <gridCells>
                                     <gridCell row="h7u-Yv-mBq" column="cFf-4Y-RMH" id="lwh-W5-mSG">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wNg-Sc-qSS">
-                                            <rect key="frame" x="42" y="33" width="88" height="16"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tweet format:" id="FcB-aN-OHa">
+                                            <rect key="frame" x="51" y="33" width="79" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Post format:" id="FcB-aN-OHa">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -715,7 +715,7 @@
                     </view>
                     <connections>
                         <outlet property="gridView" destination="CvH-ys-Hor" id="rc3-MD-7ns"/>
-                        <outlet property="tweetFormat" destination="ue2-BO-0Jx" id="DzD-Pv-mFg"/>
+                        <outlet property="postFormat" destination="ue2-BO-0Jx" id="vpE-Hb-nSm"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -744,8 +744,8 @@
                                 <gridCells>
                                     <gridCell row="Vtq-Fl-LYS" column="r7P-pK-A1U" yPlacement="center" id="leU-qS-QXM">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O2c-X5-Xhx">
-                                            <rect key="frame" x="44" y="33" width="197" height="16"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tweet NowPlaying with Current:" id="ugA-vX-y66">
+                                            <rect key="frame" x="53" y="33" width="188" height="16"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Post NowPlaying with Current:" id="ugA-vX-y66">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
