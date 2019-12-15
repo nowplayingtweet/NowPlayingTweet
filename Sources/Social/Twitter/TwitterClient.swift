@@ -89,11 +89,19 @@ class TwitterClient: Client, CallbackHandler {
             return
         }
 
-        if let image = image {
-            swifter.postTweet(status: text, media: image, success: { _ in handler?() }, failure: failure)
-        } else {
+        if image == nil {
             swifter.postTweet(status: text, success:  { _ in handler?() }, failure: failure)
+            return
         }
+
+        swifter.postMedia(image!, success: { json in
+            guard let object = json.object
+                , let mediaID = object["media_id_string"]?.string else {
+                    failure?(SocialError.FailedPost("Invalid response."))
+                    return
+            }
+            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in handler?() }, failure: failure)
+        }, failure: failure)
     }
 
 }
