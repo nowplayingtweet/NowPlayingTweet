@@ -21,6 +21,8 @@
 		3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294423A2E3030031505C /* NSGridView++.swift */; };
 		3D9D294723A38E710031505C /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294623A38E710031505C /* OAuth.swift */; };
 		3D9D294923A38F550031505C /* OAuth1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294823A38F550031505C /* OAuth1.swift */; };
+		3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */; };
+		3D9D295223A61B720031505C /* NotificationName++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295123A61B720031505C /* NotificationName++.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
@@ -46,7 +48,7 @@
 		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DEEED95234496EE003B2AD2 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEEED94234496EE003B2AD2 /* Credentials.swift */; };
 		3DEF425D2252748C008E977A /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425C2252748C008E977A /* Account.swift */; };
-		3DEF425F22527526008E977A /* Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Providers.swift */; };
+		3DEF425F22527526008E977A /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Provider.swift */; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
@@ -113,6 +115,8 @@
 		3D9D294423A2E3030031505C /* NSGridView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSGridView++.swift"; sourceTree = "<group>"; };
 		3D9D294623A38E710031505C /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		3D9D294823A38F550031505C /* OAuth1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1.swift; sourceTree = "<group>"; };
+		3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderAccounts.swift; sourceTree = "<group>"; };
+		3D9D295123A61B720031505C /* NotificationName++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationName++.swift"; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
@@ -130,7 +134,7 @@
 		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
 		3DEEED94234496EE003B2AD2 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		3DEF425C2252748C008E977A /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		3DEF425E22527526008E977A /* Providers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Providers.swift; sourceTree = "<group>"; };
+		3DEF425E22527526008E977A /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
@@ -175,7 +179,9 @@
 		3D17E792225371F400AF0E70 /* Social */ = {
 			isa = PBXGroup;
 			children = (
-				3DEF425E22527526008E977A /* Providers.swift */,
+				3D9D295023A61AB00031505C /* Extensions */,
+				3DEF425E22527526008E977A /* Provider.swift */,
+				3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */,
 				3DEF425C2252748C008E977A /* Account.swift */,
 				3D17E78E225364A900AF0E70 /* Client.swift */,
 				3DEEED94234496EE003B2AD2 /* Credentials.swift */,
@@ -278,6 +284,14 @@
 				3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */,
 				3DF4A6DB20277722007A7B29 /* NSEvent++.swift */,
 				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3D9D295023A61AB00031505C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3D9D295123A61B720031505C /* NotificationName++.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -442,6 +456,7 @@
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3D9D294923A38F550031505C /* OAuth1.swift in Sources */,
+				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
@@ -454,11 +469,12 @@
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
+				3D9D295223A61B720031505C /* NotificationName++.swift in Sources */,
 				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
 				3DEEED95234496EE003B2AD2 /* Credentials.swift in Sources */,
 				3DEF425D2252748C008E977A /* Account.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
-				3DEF425F22527526008E977A /* Providers.swift in Sources */,
+				3DEF425F22527526008E977A /* Provider.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
 			);

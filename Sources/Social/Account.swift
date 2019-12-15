@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Account {
-    static var provider: Providers { get }
+    static var provider: Provider { get }
 
     var id: String { get }
 

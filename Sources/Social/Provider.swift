@@ -1,5 +1,5 @@
 /**
- *  Providers.swift
+ *  Provider.swift
  *  NowPlayingTweet
  *
  *  © 2019 kPherox.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum Providers: String, CaseIterable {
+enum Provider: String, CaseIterable {
     case Twitter
 }
