@@ -11,7 +11,7 @@ protocol Client {
     typealias Success = () -> Void
     typealias Failure = (Error) -> Void
 
-    static func authorize(handler: ((Credentials) -> Void)?, failure: Failure?)
+    static func authorize(callbackURLScheme: String?, handler: ((Credentials) -> Void)?, failure: Failure?)
 
     var credentials: Credentials { get }
 
@@ -25,8 +25,8 @@ protocol Client {
 }
 
 extension Client {
-    static func authorize(handler: ((Credentials) -> Void)? = nil, failure: Failure? = nil) {
-        return Self.authorize(handler: handler, failure: failure)
+    static func authorize(callbackURLScheme urlScheme: String? = nil, handler: ((Credentials) -> Void)? = nil, failure: Failure? = nil) {
+        return Self.authorize(callbackURLScheme: urlScheme, handler: handler, failure: failure)
     }
 
     func revoke(handler: Success? = nil, failure: Failure? = nil) {
