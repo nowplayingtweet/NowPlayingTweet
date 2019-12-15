@@ -18,8 +18,6 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
     private let userDefaults: UserDefaults = UserDefaults.standard
 
-    private let twitterClient: TwitterClient = TwitterClient.shared
-
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     @IBOutlet weak var currentRecordView: RecordView!
@@ -58,7 +56,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
         let accountKeyShortcut = self.gridView.row(at: 1)
 
-        if !self.twitterClient.existAccount {
+        if !Accounts.shared.existAccount {
             if #available(OSX 10.14, *) {
                 accountKeyShortcut.isHidden = true
             } else {
@@ -76,8 +74,8 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             self.gridView.rowSpacing = 8
         }
 
-        for accountID in self.twitterClient.accountIDs {
-            let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
+        for accountID in Accounts.shared.accountIDs {
+            let accountName: String = Accounts.shared.account(userID: accountID)?.screenName ?? "null"
             let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
 
             let recordView = RecordView()
@@ -101,24 +99,24 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     }
 
     func recordView(_ recordView: RecordView, canRecordKeyCombo keyCombo: KeyCombo) -> Bool {
-        guard let identifier: String = recordView.identifier?.rawValue else { return false }
+        guard let identifier = recordView.identifier?.rawValue else { return false }
         self.keyEquivalents.unregister(identifier)
         return true
     }
 
     func recordViewDidClearShortcut(_ recordView: RecordView) {
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         self.keyEquivalents.unregister(identifier)
     }
 
     func recordView(_ recordView: RecordView, didChangeKeyCombo keyCombo: KeyCombo) {
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         self.keyEquivalents.register(identifier, keyCombo: keyCombo)
     }
 
     func recordViewDidEndRecording(_ recordView: RecordView) {
         self.selectedRecortView = nil
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         recordView.keyCombo = self.userDefaults.keyCombo(forKey: identifier)
     }
 

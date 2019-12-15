@@ -25,15 +25,13 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         return windowController as! AccountPaneController
     }()
 
-    let twitterClient: TwitterClient = TwitterClient.shared
-
-    var selected: TwitterClient.Account?
+    var selected: Accounts.Account?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-        guard let current: TwitterClient.Account = self.twitterClient.current else {
+        guard let current = Accounts.shared.current else {
             self.set(name: nil)
             self.set(screenName: nil)
             self.set(avaterUrl: nil)
@@ -43,8 +41,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.selected = current
         self.accountControl.setEnabled(true, forSegment: 1)
 
-        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: current.userID)!
-        let index = IndexSet(integer: numberOfAccounts)
+        let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: current.userID) ?? 0)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
         self.currentLabel.isHidden = false
@@ -58,7 +55,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
     @IBAction private func setToCurrent(_ sender: NSButton) {
         let selected = self.selected!
-        self.twitterClient.changeCurrent(userID: selected.userID)
+        Accounts.shared.changeCurrent(userID: selected.userID)
         self.appDelegate.updateTwitterAccount()
         self.currentLabel.isHidden = false
         self.currentButton.isEnabled = false
@@ -81,7 +78,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
             notificationCenter.removeObserver(observer!)
 
-            guard let selected: TwitterClient.Account = notification.userInfo!["account"] as? TwitterClient.Account else {
+            guard let selected = notification.userInfo!["account"] as? Accounts.Account else {
                 return
             }
 
@@ -89,8 +86,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.accountList.reloadData()
 
-            let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
-            let index = IndexSet(integer: numberOfAccounts)
+            let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: selected.userID) ?? 0)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
             self.appDelegate.updateTwitterAccount()
@@ -109,16 +105,16 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.set(avaterUrl: selected.avaterUrl)
         })
 
-        self.twitterClient.login()
+        Accounts.shared.login()
     }
 
     private func removeAccount() {
-        self.twitterClient.logout(account: self.selected!)
+        Accounts.shared.logout(account: self.selected!)
 
         self.accountList.reloadData()
         self.appDelegate.updateTwitterAccount()
 
-        guard let selected = self.twitterClient.current else {
+        guard let selected = Accounts.shared.current else {
             self.accountControl.setEnabled(false, forSegment: 1)
             self.selected = nil
             self.set(name: nil)
@@ -133,8 +129,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         self.selected = selected
 
-        let numberOfAccounts = self.twitterClient.accountIDs.firstIndex(of: selected.userID)!
-        let index = IndexSet(integer: numberOfAccounts)
+        let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: selected.userID) ?? 0)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
         let isCurrent = selected.isCurrent
@@ -149,7 +144,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction private func selectAccount(_ sender: NSTableView) {
         let row = sender.selectedRow
 
-        guard let selected = self.twitterClient.account(userID: self.twitterClient.accountIDs[row]) else {
+        guard let selected = Accounts.shared.account(userID: Accounts.shared.accountIDs[row]) else {
             return
         }
 
@@ -184,21 +179,21 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        if !self.twitterClient.existAccount {
+        if !Accounts.shared.existAccount {
             return 0
         }
-        let accountCount = self.twitterClient.numberOfAccounts
+        let accountCount = Accounts.shared.numberOfAccounts
         return accountCount
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
 
-        let twitterAccount = self.twitterClient.account(userID: self.twitterClient.accountIDs[row])!
+        let account = Accounts.shared.account(userID: Accounts.shared.accountIDs[row])!
 
-        cellView.textField?.stringValue = twitterAccount.name
-        cellView.screenName.stringValue = "@" + twitterAccount.screenName
-        cellView.imageView?.fetchImage(url: twitterAccount.avaterUrl, rounded: true)
+        cellView.textField?.stringValue = account.name
+        cellView.screenName.stringValue = "@\(account.screenName)"
+        cellView.imageView?.fetchImage(url: account.avaterUrl, rounded: true)
 
         return cellView
     }

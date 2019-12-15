@@ -20,8 +20,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     let userDefaults: UserDefaults = UserDefaults.standard
 
-    let twitterClient: TwitterClient = TwitterClient.shared
-
     let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
     let playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
@@ -78,7 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
-            return self.twitterClient.existAccount
+            return Accounts.shared.existAccount
         }
 
         return true
@@ -95,19 +93,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             return
         }
 
-        self.tweetNowPlaying(by: self.twitterClient.current, auto: true)
+        self.tweetNowPlaying(by: Accounts.shared.current, auto: true)
     }
 
     @IBAction private func tweetByCurrentAccount(_ sender: NSMenuItem) {
-        self.tweetNowPlaying(by: self.twitterClient.current)
+        self.tweetNowPlaying(by: Accounts.shared.current)
     }
 
     @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
-        let account = self.twitterClient.account(name: sender.title)
+        let account = Accounts.shared.account(name: sender.title)
         self.tweetNowPlaying(by: account)
     }
 
-    func tweetNowPlaying(by twitterAccounts: TwitterClient.Account?, auto: Bool = false) {
+    func tweetNowPlaying(by twitterAccounts: Accounts.Account?, auto: Bool = false) {
         let tweetFailureHandler: Swifter.FailureHandler = { error in
             let err = error as! SwifterError
 
@@ -161,11 +159,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         }
     }
 
-    private func postTweet(with twitterAccount: TwitterClient.Account?, failure: Swifter.FailureHandler? = nil) throws {
-        if !self.twitterClient.existAccount {
+    private func postTweet(with account: Accounts.Account?, failure: Swifter.FailureHandler? = nil) throws {
+        if !Accounts.shared.existAccount {
             throw NPTError.NotLogin
         }
-        guard let twitterAccount = twitterAccount else {
+        guard let account = account else {
             throw NPTError.Unknown("Hasn't account")
         }
 
@@ -184,9 +182,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let tweetText = self.createTweetText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterClient.tweet(account: twitterAccount, text: tweetText, with: currentTrack.artwork, failure: failure)
+            Accounts.shared.tweet(account: account, text: tweetText, with: currentTrack.artwork, failure: failure)
         } else {
-            self.twitterClient.tweet(account: twitterAccount, text: tweetText, failure: failure)
+            Accounts.shared.tweet(account: account, text: tweetText, failure: failure)
         }
     }
 
@@ -213,24 +211,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     func updateTwitterAccount() {
         self.tweetMenu.submenu = nil
 
-        if !self.twitterClient.existAccount {
+        if !Accounts.shared.existAccount {
             self.currentAccount.title = "Not Logged in..."
             self.currentAccount.setGuestImage()
+            self.tweetMenu.isEnabled = false
             return
         }
 
-        self.currentAccount.title = self.twitterClient.current!.name
-        self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+        self.currentAccount.title = Accounts.shared.current!.name
+        self.currentAccount.fetchImage(url: Accounts.shared.current!.avaterUrl, rounded: true)
+        self.tweetMenu.isEnabled = true
 
-        if self.twitterClient.numberOfAccounts <= 1 {
+        if Accounts.shared.numberOfAccounts <= 1 {
             return
         }
 
         let menu = NSMenu()
-        for userID in self.twitterClient.accountIDs {
-            let twitterAccount = self.twitterClient.account(userID: userID)
+        for userID in Accounts.shared.accountIDs {
+            let account = Accounts.shared.account(userID: userID)
             let menuItem = NSMenuItem()
-            menuItem.title = (twitterAccount?.name)!
+            menuItem.title = (account?.name)!
             menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
             menu.addItem(menuItem)
         }
@@ -256,11 +256,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func tweetWithCurrent() {
-        self.tweetNowPlaying(by: self.twitterClient.current)
+        self.tweetNowPlaying(by: Accounts.shared.current)
     }
 
     func tweet(with userID: String) {
-        self.tweetNowPlaying(by: self.twitterClient.account(userID: userID))
+        self.tweetNowPlaying(by: Accounts.shared.account(userID: userID))
     }
 
 }

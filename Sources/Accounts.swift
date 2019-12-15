@@ -1,5 +1,5 @@
 /**
- *  TwitterClient.swift
+ *  Accounts.swift
  *  NowPlayingTweet
  *
  *  © 2018 kPherox.
@@ -9,7 +9,7 @@ import Cocoa
 import SwifterMac
 import KeychainAccess
 
-class TwitterClient {
+class Accounts {
 
     struct Account {
         let swifter: Swifter
@@ -26,11 +26,11 @@ class TwitterClient {
         let avaterUrl: URL
 
         var isCurrent: Bool {
-            return TwitterClient.shared.currentID == self.userID
+            return Accounts.shared.currentID == self.userID
         }
     }
 
-    static let shared: TwitterClient = TwitterClient()
+    static let shared: Accounts = Accounts()
 
     private let consumerKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
     private let consumerSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
@@ -41,7 +41,7 @@ class TwitterClient {
 
     private let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    private var accounts: [String : TwitterClient.Account] = [:]
+    private var accounts: [String : Accounts.Account] = [:]
 
     var accountIDs: [String] {
         return self.accounts.keys.sorted()
@@ -55,7 +55,7 @@ class TwitterClient {
         return self.numberOfAccounts > 0
     }
 
-    var current: TwitterClient.Account? {
+    var current: Accounts.Account? {
         if !self.existAccount {
             return nil
         }
@@ -122,15 +122,15 @@ class TwitterClient {
         }
     }
 
-    func account(name: String) -> TwitterClient.Account? {
+    func account(name: String) -> Accounts.Account? {
         return self.accounts.first { $0.value.name == name }?.value
     }
 
-    func account(screenName: String) -> TwitterClient.Account? {
+    func account(screenName: String) -> Accounts.Account? {
         return self.accounts.first { $0.value.screenName == screenName }?.value
     }
 
-    func account(userID: String) -> TwitterClient.Account? {
+    func account(userID: String) -> Accounts.Account? {
         return self.accounts[userID]
     }
 
@@ -169,7 +169,7 @@ class TwitterClient {
                           failure: failure)
     }
 
-    func logout(account: TwitterClient.Account) {
+    func logout(account: Accounts.Account) {
         self.accounts.removeValue(forKey: account.userID)
         try? self.keychain.remove(account.userID)
 
@@ -182,7 +182,7 @@ class TwitterClient {
                                      userInfo: ["oldUserID" : account.userID])
     }
 
-    func tweet(account: TwitterClient.Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
+    func tweet(account: Accounts.Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
         if artwork == nil {
             account.swifter.postTweet(status: text, success: success, failure: failure)
             return
@@ -216,13 +216,13 @@ class TwitterClient {
             let screenName = json.object!["screen_name"]?.string
             let avaterUrl = URL(string: (json.object!["profile_image_url_https"]?.string)!)
 
-            let account = TwitterClient.Account(swifter: swifter,
-                                         userID: userID,
-                                         oauthToken: oauthToken,
-                                         oauthSecret: oauthSecret,
-                                         name: name!,
-                                         screenName: screenName!,
-                                         avaterUrl: avaterUrl!)
+            let account = Accounts.Account(swifter: swifter,
+                                           userID: userID,
+                                           oauthToken: oauthToken,
+                                           oauthSecret: oauthSecret,
+                                           name: name!,
+                                           screenName: screenName!,
+                                           avaterUrl: avaterUrl!)
             self.accounts[userID] = account
 
             if notificationName != nil {

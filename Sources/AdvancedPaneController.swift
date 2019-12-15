@@ -64,7 +64,7 @@ class AdvancedPaneController: NSViewController {
     }
 
     @IBAction private func switchSetting(_ sender: NSButton) {
-        guard let identifier: String = sender.identifier?.rawValue else { return }
+        guard let identifier = sender.identifier?.rawValue else { return }
         let state = sender.state.toBool()
 
         switch identifier {

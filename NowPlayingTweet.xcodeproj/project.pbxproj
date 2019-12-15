@@ -25,7 +25,7 @@
 		3D9D295223A61B720031505C /* NotificationName++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295123A61B720031505C /* NotificationName++.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
-		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
+		3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* Accounts.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
 		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
@@ -119,7 +119,7 @@
 		3D9D295123A61B720031505C /* NotificationName++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationName++.swift"; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
-		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
+		3DAA09AD202C47EE00C6F449 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
@@ -225,7 +225,7 @@
 				3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */,
 				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
-				3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */,
+				3DAA09AD202C47EE00C6F449 /* Accounts.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
 				3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */,
@@ -458,7 +458,7 @@
 				3D9D294923A38F550031505C /* OAuth1.swift in Sources */,
 				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
-				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
+				3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 				3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
