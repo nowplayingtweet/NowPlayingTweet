@@ -43,6 +43,7 @@
 		3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
 		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DEEED95234496EE003B2AD2 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEEED94234496EE003B2AD2 /* AuthToken.swift */; };
+		3DEEED9723449724003B2AD2 /* Providers+Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEEED9623449724003B2AD2 /* Providers+Twitter.swift */; };
 		3DEF425D2252748C008E977A /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425C2252748C008E977A /* Account.swift */; };
 		3DEF425F22527526008E977A /* Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Providers.swift */; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
@@ -125,6 +126,7 @@
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
 		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
 		3DEEED94234496EE003B2AD2 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
+		3DEEED9623449724003B2AD2 /* Providers+Twitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Providers+Twitter.swift"; sourceTree = "<group>"; };
 		3DEF425C2252748C008E977A /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		3DEF425E22527526008E977A /* Providers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Providers.swift; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				3DEF425C2252748C008E977A /* Account.swift */,
 				3D17E78E225364A900AF0E70 /* Client.swift */,
 				3DEEED94234496EE003B2AD2 /* AuthToken.swift */,
+				3DEEED9A2344A538003B2AD2 /* Twitter */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -273,6 +276,14 @@
 				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3DEEED9A2344A538003B2AD2 /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				3DEEED9623449724003B2AD2 /* Providers+Twitter.swift */,
+			);
+			path = Twitter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,6 +456,7 @@
 				3DEF425F22527526008E977A /* Providers.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
+				3DEEED9723449724003B2AD2 /* Providers+Twitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
