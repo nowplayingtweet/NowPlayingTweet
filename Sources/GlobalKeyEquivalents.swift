@@ -73,14 +73,23 @@ class GlobalKeyEquivalents: NSObject {
     }
 
     private func handleHotKeyEvent(_ hotKey: HotKey) {
-        let id = hotKey.identifier
+        let identifier = hotKey.identifier
 
-        if id == "Current" {
+        if identifier == "Current" {
             self.delegate?.postWithCurrent()
             return
         }
 
-        self.delegate?.post(with: id, of: .Twitter)
+        let pattern = "^(\(Provider.allCases.map({ String(describing: $0) }).joined(separator: "|")))_(.*)"
+        guard let regexp = try? NSRegularExpression(pattern: pattern, options: [])
+            , let match = regexp.firstMatch(in: identifier, range: NSRange(identifier.startIndex..., in: identifier))
+            , let providerNameRange = Range(match.range(at: 1), in: identifier)
+            , let idRange = Range(match.range(at: 2), in: identifier)
+            , let provider = Provider(rawValue: String(identifier[providerNameRange])) else {
+                return
+        }
+
+        self.delegate?.post(with: String(identifier[idRange]), of: provider)
     }
 
 }

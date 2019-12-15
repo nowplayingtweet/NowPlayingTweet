@@ -23,8 +23,9 @@ class Accounts {
             }
 
             for id in accounts.storage.keys.sorted() {
-                let (account, _) = accounts.storage[id]!
-                result.append(account)
+                if let (account, _) = accounts.storage[id] {
+                    result.append(account)
+                }
             }
         }
 
@@ -39,7 +40,7 @@ class Accounts {
         get {
             guard let provider = UserDefaults.standard.provider(forKey: "CurrentProvider")
                 , let id = UserDefaults.standard.string(forKey: "CurrentAccountID")
-                , let (account, _) = self.storage[provider]!.storage[id] else {
+                , let (account, _) = self.storage[provider]?.storage[id] else {
                     return nil
             }
 
@@ -50,11 +51,13 @@ class Accounts {
             guard let current = newValue else {
                 UserDefaults.standard.removeObject(forKey: "CurrentProvider")
                 UserDefaults.standard.removeObject(forKey: "CurrentAccountID")
+                UserDefaults.standard.synchronize()
                 return
             }
 
             UserDefaults.standard.set(type(of: current).provider, forKey: "CurrentProvider")
             UserDefaults.standard.set(current.id, forKey: "CurrentAccountID")
+            UserDefaults.standard.synchronize()
         }
     }
 
@@ -88,7 +91,7 @@ class Accounts {
     }
 
     func accountAndCredentials(_ provider: Provider, id: String) -> (Account, Credentials)? {
-        return self.storage[provider]!.storage[id]
+        return self.storage[provider]?.storage[id]
     }
 
     func account(_ provider: Provider, id: String) -> Account? {
@@ -115,7 +118,7 @@ class Accounts {
             provider.client.init(credentials)?.verify(handler: { account in
                 let provider = type(of: account).provider
 
-                self.storage[provider]!.saveToKeychain(account: account, credentials: credentials)
+                self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
 
                 if self.current == nil {
                     self.current = self.sortedAccounts.first
@@ -132,7 +135,7 @@ class Accounts {
         let provider = type(of: account).provider
         let id = account.id
 
-        self.storage[provider]!.deleteFromKeychain(id: id)
+        self.storage[provider]?.deleteFromKeychain(id: id)
 
         if self.current == nil {
             self.current = self.sortedAccounts.first

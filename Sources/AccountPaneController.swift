@@ -169,8 +169,8 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     private func set(avaterUrl url: URL?) {
-        if url != nil {
-            self.avater.fetchImage(url: url!, rounded: true)
+        if let url = url {
+            self.avater.fetchImage(url: url, rounded: true)
             self.avater.enable()
         } else {
             self.avater.image = NSImage(named: "NSUserGuest", templated: true)

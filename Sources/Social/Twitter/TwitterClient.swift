@@ -70,7 +70,7 @@ class TwitterClient: Client, CallbackHandler {
 
         swifter.verifyAccountCredentials(includeEntities: false, skipStatus: true, includeEmail: false, success: { json in
             guard let object = json.object
-                , let id = object["id"]?.integer
+                , let id = object["id_str"]?.string
                 , let name = object["name"]?.string
                 , let screenName = object["screen_name"]?.string
                 , let avaterURL = object["profile_image_url_https"]?.string else {
@@ -78,7 +78,7 @@ class TwitterClient: Client, CallbackHandler {
                     return
             }
 
-            let account = TwitterAccount(id: String(id), name: name, username: screenName, avaterUrl: URL(string: avaterURL)!)
+            let account = TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!)
             handler?(account)
         }, failure: failure)
     }

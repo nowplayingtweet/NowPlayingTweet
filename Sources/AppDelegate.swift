@@ -30,6 +30,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
         // Remove old accounts
         try? Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken").removeAll()
+
+        let pattern = "^(\(Provider.allCases.map({ String(describing: $0) }).joined(separator: "|")))"
+        if let regexp = try? NSRegularExpression(pattern: pattern, options: []) {
+            for identifier in self.userDefaults.keyComboIdentifier() {
+                if identifier == "Current"
+                    || regexp.firstMatch(in: identifier, range: NSRange(identifier.startIndex..., in: identifier)) != nil {
+                    continue
+                }
+
+                self.userDefaults.removeKeyCombo(forKey: identifier)
+            }
+        }
+
         self.userDefaults.removeObject(forKey: "CurrentAccount")
 
         if let tweetFormat = self.userDefaults.string(forKey: "TweetFormat") {
@@ -54,6 +67,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             "AutoPost" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
+
+        self.userDefaults.synchronize()
     }
 
     func applicationWillFinishLaunching(_ aNotification: Notification) {
@@ -125,7 +140,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func postBySelectingAccount(_ sender: NSMenuItem) {
         let account = Accounts.shared.sortedAccounts.first(where: { account in
-            return "\(type(of: account).provider)-\(account.id)" == sender.identifier?.rawValue
+            return "\(type(of: account).provider)_\(account.id)" == sender.identifier?.rawValue
         })
         self.postNowPlaying(by: account)
     }
@@ -277,7 +292,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         for account in Accounts.shared.sortedAccounts {
             let menuItem = NSMenuItem()
             menuItem.title = "\(type(of: account).provider) @\(account.username)"
-            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)-\(account.id)")
+            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
             menuItem.action = #selector(AppDelegate.postBySelectingAccount(_:))
             menu.addItem(menuItem)
         }
