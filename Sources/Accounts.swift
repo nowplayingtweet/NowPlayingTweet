@@ -5,8 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Cocoa
-import SwifterMac
+import Foundation
 import KeychainAccess
 
 class Accounts {

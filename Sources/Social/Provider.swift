@@ -8,7 +8,9 @@
 import Foundation
 
 enum Provider: String, CaseIterable {
+
     case Twitter
+
 }
 
 extension Provider {

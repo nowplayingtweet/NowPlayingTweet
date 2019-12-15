@@ -5,8 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Cocoa
-import Carbon
+import Foundation
 import Magnet
 
 class GlobalKeyEquivalents: NSObject {

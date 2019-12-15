@@ -9,6 +9,7 @@ import Foundation
 import KeychainAccess
 
 class TwitterAccounts: ProviderAccounts {
+
     private(set) var storage: [String : (Account, Credentials)] = [:]
 
     private let keychainPrefix: String

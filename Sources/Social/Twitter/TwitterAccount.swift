@@ -6,7 +6,6 @@
 **/
 
 import Foundation
-import Magnet
 
 struct TwitterAccount: Account, Equatable {
 

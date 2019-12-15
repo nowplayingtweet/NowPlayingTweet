@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ProviderAccounts {
+
     var storage: [String : (Account, Credentials)] { get }
 
     init(keychainPrefix: String)
@@ -15,4 +16,5 @@ protocol ProviderAccounts {
     func saveToKeychain(account: Account, credentials: Credentials)
 
     func deleteFromKeychain(id: String)
+
 }

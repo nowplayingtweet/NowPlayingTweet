@@ -6,7 +6,6 @@
 **/
 
 import Cocoa
-import SwifterMac
 
 class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
@@ -193,7 +192,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let account = Accounts.shared.sortedAccounts[row]
 
         cellView.textField?.stringValue = account.name
-        cellView.screenName.stringValue = "@\(account.username)"
+        cellView.screenName?.stringValue = "@\(account.username)"
         cellView.imageView?.fetchImage(url: account.avaterUrl, rounded: true)
 
         return cellView

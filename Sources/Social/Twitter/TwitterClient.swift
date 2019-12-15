@@ -9,6 +9,7 @@ import Foundation
 import SwifterMac
 
 class TwitterClient: Client, CallbackHandler {
+
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue else { return }
 

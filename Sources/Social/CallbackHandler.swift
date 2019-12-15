@@ -8,5 +8,7 @@
 import Foundation
 
 protocol CallbackHandler {
+
     static func handleCallback(_: NSAppleEventDescriptor)
+
 }

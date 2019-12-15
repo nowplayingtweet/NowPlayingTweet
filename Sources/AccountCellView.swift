@@ -9,7 +9,7 @@ import Cocoa
 
 class AccountCellView: NSTableCellView {
 
-    @IBOutlet weak var screenName: NSTextField!
+    var screenName: NSTextField?
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

@@ -5,7 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Cocoa
+import Foundation
 import Magnet
 import KeyHolder
 
