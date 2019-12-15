@@ -61,9 +61,10 @@ class TwitterAccounts: ProviderAccounts {
 
     private func initializeNotification(_ count: Int) {
         if count == 0 {
-            NotificationCenter.default.post(name: .socialAccountsInitialize,
-                                            object: nil,
-                                            userInfo: ["provider": Provider.Twitter])
+            NotificationQueue.default.enqueue(.init(name: .socialAccountsInitialize,
+                                                    object: nil,
+                                                    userInfo: ["provider": Provider.Twitter]),
+                                              postingStyle: .whenIdle)
         }
     }
 

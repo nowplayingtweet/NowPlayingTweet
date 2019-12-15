@@ -69,7 +69,7 @@ class Accounts {
 
             providers.removeAll { $0 == initalizedProvider }
 
-            if providers.count != 0 {
+            if providers.count > 0 {
                 return
             }
 
@@ -77,8 +77,7 @@ class Accounts {
                 self.current = self.sortedAccounts.first
             }
 
-            NotificationCenter.default.post(name: .alreadyAccounts,
-                                            object: nil)
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .whenIdle)
 
             NotificationCenter.default.removeObserver(observer!)
         })

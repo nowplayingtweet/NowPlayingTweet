@@ -254,15 +254,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     func updateSocialAccount() {
         self.postMenu.submenu = nil
 
-        guard let current = Accounts.shared.current else {
+        if let current = Accounts.shared.current {
+            self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
+            self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
+        } else {
             self.currentAccount.title = "Not Logged in..."
             self.currentAccount.setGuestImage()
+        }
+
+        if !Accounts.shared.existsAccounts {
             self.postMenu.isEnabled = false
             return
         }
 
-        self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
-        self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
         self.postMenu.isEnabled = true
 
         if Accounts.shared.sortedAccounts.count <= 1 {
