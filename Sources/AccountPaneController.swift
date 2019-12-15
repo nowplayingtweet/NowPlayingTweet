@@ -55,7 +55,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
     @IBAction private func setToCurrent(_ sender: NSButton) {
         let selected = self.selected!
-        Accounts.shared.changeCurrent(userID: selected.userID)
+        Accounts.shared.current = selected
         self.appDelegate.updateTwitterAccount()
         self.currentLabel.isHidden = false
         self.currentButton.isEnabled = false

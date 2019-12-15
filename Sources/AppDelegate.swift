@@ -8,6 +8,7 @@
 import Cocoa
 import Magnet
 import SwifterMac
+import KeychainAccess
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {
@@ -26,6 +27,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     override init() {
         super.init()
+
+        // Remove old accounts
+        try? Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken").removeAll()
+        self.userDefaults.removeObject(forKey: "CurrentAccount")
 
         let defaultSettings: [String : Any] = [
             "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",

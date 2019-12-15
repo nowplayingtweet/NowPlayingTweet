@@ -18,8 +18,6 @@ class Accounts {
 
     private let keychain = Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken")
 
-    private var userDefaults: UserDefaults = UserDefaults.standard
-
     private var storage: [Provider : ProviderAccounts] = [:]
 
     var sortedAccounts: [Account] {
@@ -44,17 +42,26 @@ class Accounts {
     }
 
     var current: Account? {
-        if !self.existsAccounts {
-            return nil
+        get {
+            guard let provider = UserDefaults.standard.provider(forKey: "CurrentProvider")
+                , let id = UserDefaults.standard.string(forKey: "CurrentAccountID")
+                , let (account, _) = self.storage[provider]!.storage[id] else {
+                    return nil
+            }
+
+            return account
         }
 
-        return self.accounts[self.currentID!]
-    }
+        set {
+            guard let current = newValue else {
+                UserDefaults.standard.removeObject(forKey: "CurrentProvider")
+                UserDefaults.standard.removeObject(forKey: "CurrentAccountID")
+                return
+            }
 
-    var currentID: String? {
-        self.updateCurrentAccount()
-
-        return self.userDefaults.string(forKey: "CurrentAccount")
+            UserDefaults.standard.set(type(of: current).provider, forKey: "CurrentProvider")
+            UserDefaults.standard.set(current.id, forKey: "CurrentAccountID")
+        }
     }
 
     private init() {
@@ -76,7 +83,9 @@ class Accounts {
                 return
             }
 
-            self.updateCurrentAccount()
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
 
             NotificationCenter.default.post(name: .alreadyAccounts,
                                             object: nil)
@@ -110,7 +119,9 @@ class Accounts {
 
                 self.storage[provider]!.saveToKeychain(account: account, credentials: credentials)
 
-                self.updateCurrentAccount()
+                if self.current == nil {
+                    self.current = self.sortedAccounts.first
+                }
 
                 NotificationCenter.default.post(name: .login,
                                                 object: nil,
@@ -125,7 +136,9 @@ class Accounts {
 
         self.storage[provider]!.deleteFromKeychain(id: id)
 
-        self.updateCurrentAccount()
+        if self.current == nil {
+            self.current = self.sortedAccounts.first
+        }
 
         NotificationCenter.default.post(name: .logout,
                                         object: nil)
@@ -140,21 +153,6 @@ class Accounts {
 
         account.swifter.postTweet(status: text, media: artwork!, success: success, failure: failure)
          */
-    }
-
-    private func updateCurrentAccount() {
-        if self.existsAccounts {
-            let userID = self.sortedAccounts.first
-            self.changeCurrent(userID: userID!)
-        } else {
-            self.userDefaults.removeObject(forKey: "CurrentAccount")
-            self.userDefaults.synchronize()
-        }
-    }
-
-    func changeCurrent(userID: String) {
-        self.userDefaults.set(userID, forKey: "CurrentAccount")
-        self.userDefaults.synchronize()
     }
 
 }
