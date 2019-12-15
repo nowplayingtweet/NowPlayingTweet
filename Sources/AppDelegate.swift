@@ -76,7 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
-            return Accounts.shared.existAccount
+            return Accounts.shared.existsAccounts
         }
 
         return true
@@ -105,7 +105,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         self.tweetNowPlaying(by: account)
     }
 
-    func tweetNowPlaying(by twitterAccounts: Accounts.Account?, auto: Bool = false) {
+    func tweetNowPlaying(by account: Account?, auto: Bool = false) {
         let tweetFailureHandler: Swifter.FailureHandler = { error in
             let err = error as! SwifterError
 
@@ -131,7 +131,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         }
 
         do {
-            try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
+            try self.postTweet(with: account, failure: tweetFailureHandler)
         } catch NPTError.NotLogin {
             let title: String = "Not logged in!"
             var informative: String = "Please login with Preferences -> Account."
@@ -159,8 +159,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         }
     }
 
-    private func postTweet(with account: Accounts.Account?, failure: Swifter.FailureHandler? = nil) throws {
-        if !Accounts.shared.existAccount {
+    private func postTweet(with account: Account?, failure: Swifter.FailureHandler? = nil) throws {
+        if !Accounts.shared.existsAccounts {
             throw NPTError.NotLogin
         }
         guard let account = account else {
@@ -211,18 +211,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     func updateTwitterAccount() {
         self.tweetMenu.submenu = nil
 
-        if !Accounts.shared.existAccount {
+        guard let current = Accounts.shared.current else {
             self.currentAccount.title = "Not Logged in..."
             self.currentAccount.setGuestImage()
             self.tweetMenu.isEnabled = false
             return
         }
 
-        self.currentAccount.title = Accounts.shared.current!.name
-        self.currentAccount.fetchImage(url: Accounts.shared.current!.avaterUrl, rounded: true)
+        self.currentAccount.title = current.name
+        self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
         self.tweetMenu.isEnabled = true
 
-        if Accounts.shared.numberOfAccounts <= 1 {
+        if Accounts.shared.accounts.count <= 1 {
             return
         }
 

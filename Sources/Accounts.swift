@@ -11,25 +11,6 @@ import KeychainAccess
 
 class Accounts {
 
-    struct Account {
-        let swifter: Swifter
-
-        let userID: String
-
-        let oauthToken: String
-        let oauthSecret: String
-
-        let name: String
-
-        let screenName: String
-
-        let avaterUrl: URL
-
-        var isCurrent: Bool {
-            return Accounts.shared.currentID == self.userID
-        }
-    }
-
     static let shared: Accounts = Accounts()
 
     private let consumerKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
@@ -41,22 +22,19 @@ class Accounts {
 
     private let notificationCenter: NotificationCenter = NotificationCenter.default
 
-    private var accounts: [String : Accounts.Account] = [:]
+    private var accounts: [String : Account] = [:]
 
     var accountIDs: [String] {
         return self.accounts.keys.sorted()
     }
 
-    var numberOfAccounts: Int {
-        return self.accounts.count
+    var existsAccounts: Bool {
+        return self.accounts.count > 0
     }
 
-    var existAccount: Bool {
-        return self.numberOfAccounts > 0
-    }
 
-    var current: Accounts.Account? {
-        if !self.existAccount {
+    var current: Account? {
+        if !self.existsAccounts {
             return nil
         }
 
@@ -122,15 +100,15 @@ class Accounts {
         }
     }
 
-    func account(name: String) -> Accounts.Account? {
+    func account(name: String) -> Account? {
         return self.accounts.first { $0.value.name == name }?.value
     }
 
-    func account(screenName: String) -> Accounts.Account? {
-        return self.accounts.first { $0.value.screenName == screenName }?.value
+    func account(screenName: String) -> Account? {
+        return self.accounts.first { $0.value.username == screenName }?.value
     }
 
-    func account(userID: String) -> Accounts.Account? {
+    func account(userID: String) -> Account? {
         return self.accounts[userID]
     }
 
@@ -169,26 +147,28 @@ class Accounts {
                           failure: failure)
     }
 
-    func logout(account: Accounts.Account) {
-        self.accounts.removeValue(forKey: account.userID)
-        try? self.keychain.remove(account.userID)
+    func logout(account: Account) {
+        self.accounts.removeValue(forKey: account.id)
+        try? self.keychain.remove(account.id)
 
-        if self.existAccount {
+        if self.existsAccounts {
             self.updateCurrentAccount()
         }
 
         self.notificationCenter.post(name: .logout,
                                      object: nil,
-                                     userInfo: ["oldUserID" : account.userID])
+                                     userInfo: ["oldUserID" : account.id])
     }
 
-    func tweet(account: Accounts.Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
+    func tweet(account: Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
+        /*
         if artwork == nil {
             account.swifter.postTweet(status: text, success: success, failure: failure)
             return
         }
 
         account.swifter.postTweet(status: text, media: artwork!, success: success, failure: failure)
+         */
     }
 
     private func updateCurrentAccount() {
@@ -196,7 +176,7 @@ class Accounts {
             return
         }
 
-        if self.existAccount {
+        if self.existsAccounts {
             let userID = self.accountIDs.first
             self.changeCurrent(userID: userID!)
         } else {
@@ -211,6 +191,7 @@ class Accounts {
     }
 
     private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
+        /*
         swifter.showUser(.id(userID), success: { json in
             let name = json.object!["name"]?.string
             let screenName = json.object!["screen_name"]?.string
@@ -231,6 +212,7 @@ class Accounts {
                                              userInfo: ["account" : account])
             }
         }, failure: failure)
+         */
     }
 
 }

@@ -25,7 +25,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         return windowController as! AccountPaneController
     }()
 
-    var selected: Accounts.Account?
+    var selected: Account?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.currentButton.isEnabled = false
 
         self.set(name: current.name)
-        self.set(screenName: current.screenName)
+        self.set(screenName: current.username)
         self.set(avaterUrl: current.avaterUrl)
     }
 
@@ -78,7 +78,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
             notificationCenter.removeObserver(observer!)
 
-            guard let selected = notification.userInfo!["account"] as? Accounts.Account else {
+            guard let selected = notification.userInfo!["account"] as? Account else {
                 return
             }
 
@@ -91,7 +91,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.appDelegate.updateTwitterAccount()
 
-            let isCurrent = selected.isCurrent
+            let isCurrent = selected.isEqual(Accounts.shared.current)
             if isCurrent {
                 self.accountControl.setEnabled(true, forSegment: 1)
                 self.currentButton.isHidden = false
@@ -101,7 +101,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.currentButton.isEnabled = !isCurrent
 
             self.set(name: selected.name)
-            self.set(screenName: selected.screenName)
+            self.set(screenName: selected.username)
             self.set(avaterUrl: selected.avaterUrl)
         })
 
@@ -132,12 +132,12 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: selected.userID) ?? 0)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
-        let isCurrent = selected.isCurrent
+        let isCurrent = selected.isEqual(Accounts.shared.current)
         self.currentLabel.isHidden = !isCurrent
         self.currentButton.isEnabled = !isCurrent
 
         self.set(name: selected.name)
-        self.set(screenName: selected.screenName)
+        self.set(screenName: selected.username)
         self.set(avaterUrl: selected.avaterUrl)
     }
 
@@ -150,11 +150,11 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         self.selected = selected
 
-        let isCurrent = selected.isCurrent
+        let isCurrent = selected.isEqual(Accounts.shared.current)
         self.currentLabel.isHidden = !isCurrent
         self.currentButton.isEnabled = !isCurrent
         self.set(name: selected.name)
-        self.set(screenName: selected.screenName)
+        self.set(screenName: selected.username)
         self.set(avaterUrl: selected.avaterUrl)
     }
 
@@ -179,10 +179,10 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        if !Accounts.shared.existAccount {
+        if !Accounts.shared.existsAccounts {
             return 0
         }
-        let accountCount = Accounts.shared.numberOfAccounts
+        let accountCount = Accounts.shared.accounts.count
         return accountCount
     }
 
@@ -192,7 +192,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         let account = Accounts.shared.account(userID: Accounts.shared.accountIDs[row])!
 
         cellView.textField?.stringValue = account.name
-        cellView.screenName.stringValue = "@\(account.screenName)"
+        cellView.screenName.stringValue = "@\(account.username)"
         cellView.imageView?.fetchImage(url: account.avaterUrl, rounded: true)
 
         return cellView

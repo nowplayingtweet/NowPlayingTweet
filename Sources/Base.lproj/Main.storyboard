@@ -383,14 +383,14 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="50" viewBased="YES" floatsGroupRows="NO" id="Nsg-BV-1xH">
-                                            <rect key="frame" x="0.0" y="0.0" width="148" height="258"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="258"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="0.0" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                             <color key="gridColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="148" minWidth="145" maxWidth="150" id="paq-oN-bBs">
+                                                <tableColumn width="150" minWidth="150" maxWidth="150" id="paq-oN-bBs">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -403,7 +403,7 @@
                                                     </textFieldCell>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Yw2-ul-X98" customClass="AccountCellView" customModule="NowPlayingTweet" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="1" width="148" height="50"/>
+                                                            <rect key="frame" x="0.0" y="1" width="150" height="50"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7jF-qL-fci">
@@ -412,7 +412,7 @@
                                                                     <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSUser" id="DP3-my-xaQ"/>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="XoJ-qw-fel">
-                                                                    <rect key="frame" x="41" y="21" width="103" height="20"/>
+                                                                    <rect key="frame" x="41" y="21" width="105" height="20"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Account Name" id="zBh-qV-jNP">
                                                                         <font key="font" metaFont="system"/>
@@ -448,8 +448,8 @@
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="PzJ-in-rrx">
-                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="PzJ-in-rrx">
+                                    <rect key="frame" x="1" y="243" width="148" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="vMw-f6-U91">
@@ -486,7 +486,7 @@
                                             <color key="contentTintColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                         </imageView>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="dyC-FG-YZu">
-                                            <rect key="frame" x="92" y="213" width="208" height="20"/>
+                                            <rect key="frame" x="92" y="213" width="210" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Account Name" id="gwA-dv-9Pb">
                                                 <font key="font" metaFont="system" size="16"/>
@@ -495,7 +495,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="yw8-j5-9ue">
-                                            <rect key="frame" x="92" y="187" width="208" height="18"/>
+                                            <rect key="frame" x="92" y="187" width="210" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="@null" id="IJt-DK-cr9">
                                                 <font key="font" metaFont="system"/>
@@ -504,7 +504,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button hidden="YES" verticalHuggingPriority="750" ambiguous="YES" id="d1K-MF-mBA">
-                                            <rect key="frame" x="172" y="140" width="126" height="32"/>
+                                            <rect key="frame" x="180" y="140" width="126" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="push" title="Set to Current" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ujT-go-VXo">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -515,7 +515,7 @@
                                             </connections>
                                         </button>
                                         <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" id="rwE-oK-OmT">
-                                            <rect key="frame" x="20" y="150" width="152" height="16"/>
+                                            <rect key="frame" x="18" y="150" width="162" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="This account is current." id="Xyb-IH-Nsp">
                                                 <font key="font" metaFont="system"/>

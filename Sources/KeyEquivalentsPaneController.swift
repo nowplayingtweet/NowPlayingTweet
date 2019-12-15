@@ -56,7 +56,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
         let accountKeyShortcut = self.gridView.row(at: 1)
 
-        if !Accounts.shared.existAccount {
+        if !Accounts.shared.existsAccounts {
             if #available(OSX 10.14, *) {
                 accountKeyShortcut.isHidden = true
             } else {
@@ -75,7 +75,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         }
 
         for accountID in Accounts.shared.accountIDs {
-            let accountName: String = Accounts.shared.account(userID: accountID)?.screenName ?? "null"
+            let accountName: String = Accounts.shared.account(userID: accountID)?.username ?? "null"
             let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
 
             let recordView = RecordView()
