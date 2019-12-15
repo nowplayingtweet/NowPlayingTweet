@@ -74,14 +74,14 @@ class GlobalKeyEquivalents: NSObject {
     }
 
     private func handleHotKeyEvent(_ hotKey: HotKey) {
-        let userID = hotKey.identifier
+        let id = hotKey.identifier
 
-        if userID == "Current" {
+        if id == "Current" {
             self.delegate?.tweetWithCurrent()
             return
         }
 
-        self.delegate?.tweet(with: userID)
+        self.delegate?.tweet(with: id, of: .Twitter)
     }
 
 }

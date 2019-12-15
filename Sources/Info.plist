@@ -28,7 +28,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>nowplayingtweet</string>
-				<string>npt</string>
 			</array>
 		</dict>
 	</array>

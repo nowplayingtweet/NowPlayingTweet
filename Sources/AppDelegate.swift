@@ -116,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func tweetNowPlaying(by account: Account?, auto: Bool = false) {
-        let tweetFailureHandler: Swifter.FailureHandler = { error in
+        let tweetFailureHandler: Client.Failure = { error in
             let err = error as! SwifterError
 
             let errMsg = err.message.components(separatedBy: ", ")
@@ -169,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         }
     }
 
-    private func postTweet(with account: Account?, failure: Swifter.FailureHandler? = nil) throws {
+    private func postTweet(with account: Account?, failure: Client.Failure? = nil) throws {
         if !Accounts.shared.existsAccounts {
             throw NPTError.NotLogin
         }
@@ -192,9 +192,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let tweetText = self.createTweetText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "TweetWithImage") {
-            Accounts.shared.tweet(account: account, text: tweetText, with: currentTrack.artwork, failure: failure)
+            Accounts.shared.client(for: account).post(text: tweetText, image: currentTrack.artwork, failure: failure)
         } else {
-            Accounts.shared.tweet(account: account, text: tweetText, failure: failure)
+            Accounts.shared.client(for: account).post(text: tweetText, failure: failure)
         }
     }
 
@@ -269,8 +269,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         self.tweetNowPlaying(by: Accounts.shared.current)
     }
 
-    func tweet(with userID: String) {
-        self.tweetNowPlaying(by: Accounts.shared.account(userID: userID))
+    func tweet(with id: String, of provider: Provider) {
+        self.tweetNowPlaying(by: Accounts.shared.account(provider, id: id))
     }
 
 }

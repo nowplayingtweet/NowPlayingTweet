@@ -83,7 +83,16 @@ class TwitterClient: Client, CallbackHandler {
     }
 
     func post(text: String, image: Data?, handler: Client.Success?, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
+        guard let swifter = self.getSwifter() else {
+            failure?(SocialError.FailedPost("Cannot get client."))
+            return
+        }
+
+        if let image = image {
+            swifter.postTweet(status: text, media: image, success: { _ in handler?() }, failure: failure)
+        } else {
+            swifter.postTweet(status: text, success:  { _ in handler?() }, failure: failure)
+        }
     }
 
 }

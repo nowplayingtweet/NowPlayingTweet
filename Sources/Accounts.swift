@@ -112,6 +112,11 @@ class Accounts {
         return credentials
     }
 
+    func client(for account: Account) -> Client {
+        let provider = type(of: account).provider
+        return provider.client.init(self.credentials(provider, id: account.id)!)!
+    }
+
     func login(provider: Provider) {
         provider.client.authorize(callbackURLScheme: "nowplayingtweet", handler: { credentials in
             provider.client.init(credentials)?.verify(handler: { account in
@@ -142,17 +147,6 @@ class Accounts {
 
         NotificationCenter.default.post(name: .logout,
                                         object: nil)
-    }
-
-    func tweet(account: Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
-        /*
-        if artwork == nil {
-            account.swifter.postTweet(status: text, success: success, failure: failure)
-            return
-        }
-
-        account.swifter.postTweet(status: text, media: artwork!, success: success, failure: failure)
-         */
     }
 
 }

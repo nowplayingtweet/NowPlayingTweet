@@ -11,6 +11,6 @@ protocol KeyEquivalentsDelegate: NSObjectProtocol {
 
     func tweetWithCurrent() -> Void
 
-    func tweet(with userID: String) -> Void
+    func tweet(with: String, of: Provider) -> Void
 
 }
