@@ -38,10 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     func applicationWillFinishLaunching(_ aNotification: Notification) {
         // Handle get url event
-        NSAppleEventManager.shared().setEventHandler(self,
-                                                     andSelector: #selector(AppDelegate.handleGetURLEvent(_:withReplyEvent:)),
-                                                     forEventClass: AEEventClass(kInternetEventClass),
-                                                     andEventID: AEEventID(kAEGetURL))
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(AppDelegate.handleGetURLEvent(_:with:)),
+                                                     forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -82,9 +80,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         return true
     }
 
-    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        // Cell Swifter handleOpenURL
-        Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
+    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, with _: NSAppleEventDescriptor) {
+        for provider in Provider.allCases {
+            guard let client = provider.client as? CallbackHandler.Type else {
+                continue
+            }
+
+            client.handleCallback(event)
+        }
     }
 
     @objc func handleNowPlaying(_ notification: Notification) {
@@ -101,7 +104,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
-        let account = Accounts.shared.account(name: sender.title)
+        let account = Accounts.shared.sortedAccounts.first(where: { account in
+            return "\(type(of: account).provider)-\(account.id)" == sender.identifier?.rawValue
+        })
         self.tweetNowPlaying(by: account)
     }
 
@@ -218,19 +223,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             return
         }
 
-        self.currentAccount.title = current.name
+        self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
         self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
         self.tweetMenu.isEnabled = true
 
-        if Accounts.shared.accounts.count <= 1 {
+        if Accounts.shared.sortedAccounts.count <= 1 {
             return
         }
 
         let menu = NSMenu()
-        for userID in Accounts.shared.accountIDs {
-            let account = Accounts.shared.account(userID: userID)
+        for account in Accounts.shared.sortedAccounts {
             let menuItem = NSMenuItem()
-            menuItem.title = (account?.name)!
+            menuItem.title = "\(type(of: account).provider) @\(account.username)"
+            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)-\(account.id)")
             menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
             menu.addItem(menuItem)
         }

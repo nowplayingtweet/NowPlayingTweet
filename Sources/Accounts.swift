@@ -20,18 +20,28 @@ class Accounts {
 
     private var userDefaults: UserDefaults = UserDefaults.standard
 
-    private let notificationCenter: NotificationCenter = NotificationCenter.default
+    private var storage: [Provider : ProviderAccounts] = [:]
 
-    private var accounts: [String : Account] = [:]
+    var sortedAccounts: [Account] {
+        var result: [Account] = []
 
-    var accountIDs: [String] {
-        return self.accounts.keys.sorted()
+        for provider in Provider.allCases {
+            guard let accounts = self.storage[provider] else {
+                continue
+            }
+
+            for id in accounts.storage.keys.sorted() {
+                let (account, _) = accounts.storage[id]!
+                result.append(account)
+            }
+        }
+
+        return result
     }
 
     var existsAccounts: Bool {
-        return self.accounts.count > 0
+        return self.sortedAccounts.count > 0
     }
-
 
     var current: Account? {
         if !self.existsAccounts {
@@ -48,116 +58,77 @@ class Accounts {
     }
 
     private init() {
-        let accounts = self.keychain.allKeys()
+        var providers: [Provider] = Provider.allCases
 
-        let failure: Swifter.FailureHandler = { error in
-            let err = error as! SwifterError
-            NSLog(err.localizedDescription)
+        for provider in providers {
+            self.storage[provider] = provider.accounts.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts")
         }
 
-        var numOfAccounts: Int = accounts.count
         var observer: NSObjectProtocol!
-        observer = self.notificationCenter.addObserver(forName: .initializeAccounts, object: nil, queue: nil, using: { _ in
-            numOfAccounts -= 1
-            if numOfAccounts > 0 {
+        observer = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
+            guard let initalizedProvider = notification.userInfo?["provider"] as? Provider else {
                 return
             }
 
-            self.notificationCenter.removeObserver(observer!)
+            providers.removeAll { $0 == initalizedProvider }
+
+            if providers.count != 0 {
+                return
+            }
 
             self.updateCurrentAccount()
 
-            self.notificationCenter.post(name: .alreadyAccounts,
-                                         object: nil)
+            NotificationCenter.default.post(name: .alreadyAccounts,
+                                            object: nil)
+
+            NotificationCenter.default.removeObserver(observer!)
         })
-
-        //for account in accounts {
-        for account in accounts {
-            let userID = account
-            let token: Data? = try! self.keychain.getData(userID)
-            let accountToken: [String : String?] = NSKeyedUnarchiver.unarchiveObject(with: token!) as! [String : String?]
-
-            let oauthToken = accountToken["oauthToken"]!!
-            let oauthSecret = accountToken["oauthSecret"]!!
-
-            let swifter = Swifter(consumerKey: self.consumerKey,
-                                  consumerSecret: self.consumerSecret,
-                                  oauthToken: oauthToken,
-                                  oauthTokenSecret: oauthSecret)
-
-            self.setAccount(swifter: swifter,
-                            userID: userID,
-                            oauthToken: oauthToken,
-                            oauthSecret: oauthSecret,
-                            failure: failure,
-                            notificationName: .initializeAccounts)
-        }
-
-        if numOfAccounts == 0 {
-            self.notificationCenter.post(name: .alreadyAccounts,
-                                         object: nil)
-            return
-        }
     }
 
-    func account(name: String) -> Account? {
-        return self.accounts.first { $0.value.name == name }?.value
+    func accountAndCredentials(_ provider: Provider, id: String) -> (Account, Credentials)? {
+        return self.storage[provider]!.storage[id]
     }
 
-    func account(screenName: String) -> Account? {
-        return self.accounts.first { $0.value.username == screenName }?.value
-    }
-
-    func account(userID: String) -> Account? {
-        return self.accounts[userID]
-    }
-
-    func login() {
-        let swifter = Swifter(consumerKey: self.consumerKey,
-                              consumerSecret: self.consumerSecret)
-
-        let failure: Swifter.FailureHandler = { error in
-            let err = error as! SwifterError
-            NSLog(err.localizedDescription)
+    func account(_ provider: Provider, id: String) -> Account? {
+        guard let (account, _) = accountAndCredentials(provider, id: id) else {
+            return nil
         }
+        return account
+    }
 
-        let success: Swifter.TokenSuccessHandler = { accessToken, response in
-            let oauthToken = accessToken?.key
-            let oauthSecret = accessToken?.secret
-
-            let userID = accessToken?.userID
-
-            let accountToken = ["oauthToken" : oauthToken,
-                                "oauthSecret" : oauthSecret]
-
-            let tokenData: Data = NSKeyedArchiver.archivedData(withRootObject: accountToken)
-            try? self.keychain.set(tokenData, key: userID!)
-
-            self.setAccount(swifter: swifter,
-                            userID: userID!,
-                            oauthToken: oauthToken!,
-                            oauthSecret: oauthSecret!,
-                            failure: failure,
-                            notificationName: .login)
+    func credentials(_ provider: Provider, id: String) -> Credentials? {
+        guard let (_, credentials) = accountAndCredentials(provider, id: id) else {
+            return nil
         }
+        return credentials
+    }
 
-        swifter.authorize(withCallback: URL(string: "nowplayingtweet://success")!,
-                          forceLogin: true,
-                          success: success,
-                          failure: failure)
+    func login(provider: Provider) {
+        provider.client.authorize(callbackURLScheme: "nowplayingtweet", handler: { credentials in
+            provider.client.init(credentials)?.verify(handler: { account in
+                let provider = type(of: account).provider
+
+                self.storage[provider]!.saveToKeychain(account: account, credentials: credentials)
+
+                self.updateCurrentAccount()
+
+                NotificationCenter.default.post(name: .login,
+                                                object: nil,
+                                                userInfo: ["account" : account])
+            })
+        })
     }
 
     func logout(account: Account) {
-        self.accounts.removeValue(forKey: account.id)
-        try? self.keychain.remove(account.id)
+        let provider = type(of: account).provider
+        let id = account.id
 
-        if self.existsAccounts {
-            self.updateCurrentAccount()
-        }
+        self.storage[provider]!.deleteFromKeychain(id: id)
 
-        self.notificationCenter.post(name: .logout,
-                                     object: nil,
-                                     userInfo: ["oldUserID" : account.id])
+        self.updateCurrentAccount()
+
+        NotificationCenter.default.post(name: .logout,
+                                        object: nil)
     }
 
     func tweet(account: Account, text: String, with artwork: Data? = nil, success: Swifter.SuccessHandler? = nil, failure: Swifter.FailureHandler? = nil) {
@@ -172,12 +143,8 @@ class Accounts {
     }
 
     private func updateCurrentAccount() {
-        if self.accounts.keys.contains(self.userDefaults.string(forKey: "CurrentAccount") ?? "") {
-            return
-        }
-
         if self.existsAccounts {
-            let userID = self.accountIDs.first
+            let userID = self.sortedAccounts.first
             self.changeCurrent(userID: userID!)
         } else {
             self.userDefaults.removeObject(forKey: "CurrentAccount")
@@ -188,31 +155,6 @@ class Accounts {
     func changeCurrent(userID: String) {
         self.userDefaults.set(userID, forKey: "CurrentAccount")
         self.userDefaults.synchronize()
-    }
-
-    private func setAccount(swifter: Swifter, userID: String, oauthToken: String, oauthSecret: String, failure: @escaping Swifter.FailureHandler, notificationName: Notification.Name? = nil) {
-        /*
-        swifter.showUser(.id(userID), success: { json in
-            let name = json.object!["name"]?.string
-            let screenName = json.object!["screen_name"]?.string
-            let avaterUrl = URL(string: (json.object!["profile_image_url_https"]?.string)!)
-
-            let account = Accounts.Account(swifter: swifter,
-                                           userID: userID,
-                                           oauthToken: oauthToken,
-                                           oauthSecret: oauthSecret,
-                                           name: name!,
-                                           screenName: screenName!,
-                                           avaterUrl: avaterUrl!)
-            self.accounts[userID] = account
-
-            if notificationName != nil {
-                self.notificationCenter.post(name: notificationName!,
-                                             object: nil,
-                                             userInfo: ["account" : account])
-            }
-        }, failure: failure)
-         */
     }
 
 }

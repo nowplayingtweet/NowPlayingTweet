@@ -74,16 +74,16 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             self.gridView.rowSpacing = 8
         }
 
-        for accountID in Accounts.shared.accountIDs {
-            let accountName: String = Accounts.shared.account(userID: accountID)?.username ?? "null"
+        for account in Accounts.shared.sortedAccounts {
+            let accountName: String = account.username
             let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
 
             let recordView = RecordView()
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
             recordView.delegate = self
-            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: accountID)
-            recordView.keyCombo = self.userDefaults.keyCombo(forKey: accountID)
+            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: account.id)
+            recordView.keyCombo = self.userDefaults.keyCombo(forKey: account.id)
 
             let recordRow = self.gridView.addRow(with: [recordLabel, recordView])
             recordRow.height = 24

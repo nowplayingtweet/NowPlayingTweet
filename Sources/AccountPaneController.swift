@@ -41,7 +41,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.selected = current
         self.accountControl.setEnabled(true, forSegment: 1)
 
-        let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: current.userID) ?? 0)
+        let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { current.isEqual($0) } ?? 0)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
         self.currentLabel.isHidden = false
@@ -73,6 +73,10 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     private func addAccount() {
+        guard let provider = Provider(rawValue: "Twitter") else {
+            return
+        }
+
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
@@ -86,7 +90,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
             self.accountList.reloadData()
 
-            let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: selected.userID) ?? 0)
+            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) } ?? 0)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
             self.appDelegate.updateTwitterAccount()
@@ -105,7 +109,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.set(avaterUrl: selected.avaterUrl)
         })
 
-        Accounts.shared.login()
+        Accounts.shared.login(provider: provider)
     }
 
     private func removeAccount() {
@@ -129,7 +133,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
 
         self.selected = selected
 
-        let index = IndexSet(integer: Accounts.shared.accountIDs.firstIndex(of: selected.userID) ?? 0)
+        let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) } ?? 0)
         self.accountList.selectRowIndexes(index, byExtendingSelection: false)
 
         let isCurrent = selected.isEqual(Accounts.shared.current)
@@ -144,10 +148,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBAction private func selectAccount(_ sender: NSTableView) {
         let row = sender.selectedRow
 
-        guard let selected = Accounts.shared.account(userID: Accounts.shared.accountIDs[row]) else {
-            return
-        }
-
+        let selected = Accounts.shared.sortedAccounts[row]
         self.selected = selected
 
         let isCurrent = selected.isEqual(Accounts.shared.current)
@@ -182,14 +183,14 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         if !Accounts.shared.existsAccounts {
             return 0
         }
-        let accountCount = Accounts.shared.accounts.count
+        let accountCount = Accounts.shared.sortedAccounts.count
         return accountCount
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
 
-        let account = Accounts.shared.account(userID: Accounts.shared.accountIDs[row])!
+        let account = Accounts.shared.sortedAccounts[row]
 
         cellView.textField?.stringValue = account.name
         cellView.screenName.stringValue = "@\(account.username)"
