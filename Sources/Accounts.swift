@@ -62,10 +62,6 @@ class Accounts {
     private init() {
         var providers: [Provider] = Provider.allCases
 
-        for provider in providers {
-            self.storage[provider] = provider.accounts.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts")
-        }
-
         var observer: NSObjectProtocol!
         observer = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
             guard let initalizedProvider = notification.userInfo?["provider"] as? Provider else {
@@ -87,6 +83,10 @@ class Accounts {
 
             NotificationCenter.default.removeObserver(observer!)
         })
+
+        for provider in Provider.allCases {
+            self.storage[provider] = provider.accounts.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts")
+        }
     }
 
     func accountAndCredentials(_ provider: Provider, id: String) -> (Account, Credentials)? {

@@ -132,74 +132,92 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     func postNowPlaying(by account: Account?, auto: Bool = false) {
         let postFailureHandler: Client.Failure = { error in
-            let err = error as! SwifterError
+            if let err = error as? SwifterError {
+                let errMsg = err.message.components(separatedBy: ", ")
+                let errRes = errMsg[1].components(separatedBy: ": ")
 
-            let errMsg = err.message.components(separatedBy: ", ")
-            let errRes = errMsg[1].components(separatedBy: ": ")
+                let resData = errRes[1].data(using: .utf8, allowLossyConversion: false)!
+                let jsonData = try! JSONSerialization.jsonObject(with: resData, options: .mutableContainers)
+                let json = JSON(jsonData)
 
-            let resData = errRes[1].data(using: .utf8, allowLossyConversion: false)!
-            let jsonData = try! JSONSerialization.jsonObject(with: resData, options: .mutableContainers)
-            let json = JSON(jsonData)
+                let jsonErrors: [JSON] = json.object!["errors"]!.array!
 
-            let jsonErrors: [JSON] = json.object!["errors"]!.array!
+                var informative: String = ""
+                for jsonError in jsonErrors {
+                    informative.append(jsonError.object!["message"]!.string!)
+                    informative.append("\n")
 
-            var informative: String = ""
-            for jsonError in jsonErrors {
-                informative.append(jsonError.object!["message"]!.string!)
-                informative.append("\n")
+                }
+
+                let alert = NSAlert(message: "Post failed!",
+                                    informative: informative,
+                                    style: .warning)
+                alert.runModal()
+
+                return
             }
 
-            let alert = NSAlert(message: "Post failed!",
-                                informative: informative,
-                                style: .warning)
-            alert.runModal()
-        }
+            guard let err = error as? NPTError else {
+                let alert = NSAlert(error: error)
+                alert.runModal()
 
-        do {
-            try self.post(with: account, failure: postFailureHandler)
-        } catch NPTError.NotLogin {
-            let title: String = "Not logged in!"
-            var informative: String = "Please login with Preferences -> Account."
-            if auto {
-                self.manageAutoPost(state: false)
-                informative.append("\n")
-                informative.append("Disable Auto Post.")
+                return
             }
 
-            let alert = NSAlert(message: title,
-                                informative: informative,
-                                style: .critical)
-            alert.runModal()
-        } catch NPTError.NotLaunchediTunes {
-            let alert = NSAlert(message: "Not runnning iTunes.",
+            switch err {
+            case .NotLogin:
+                let title: String = "Not logged in!"
+                var informative: String = "Please login with Preferences -> Account."
+                if auto {
+                    self.manageAutoPost(state: false)
+                    informative.append("\n")
+                    informative.append("Disable Auto Post.")
+                }
+
+                let alert = NSAlert(message: title,
+                                    informative: informative,
+                                    style: .critical)
+                alert.runModal()
+            case .NotLaunchediTunes:
+                let alert = NSAlert(message: "Not runnning iTunes.",
+                                    style: .informational)
+                alert.runModal()
+            case .NotExistTrack:
+                let alert = NSAlert(message: "Not exist music.",
                                 style: .informational)
-            alert.runModal()
-        } catch NPTError.NotExistTrack {
-            let alert = NSAlert(message: "Not exist music.",
-                                style: .informational)
-            alert.runModal()
-        } catch let error {
-            let alert = NSAlert(error: error)
-            alert.runModal()
+                alert.runModal()
+            case .Unknown(let message):
+                let alert = NSAlert(message: "Some Error.",
+                                    informative: message,
+                                    style: .informational)
+                alert.runModal()
+            }
+
         }
+
+        self.post(with: account, failure: postFailureHandler)
     }
 
-    private func post(with account: Account?, failure: Client.Failure? = nil) throws {
+    private func post(with account: Account?, failure: Client.Failure? = nil) {
         if !Accounts.shared.existsAccounts {
-            throw NPTError.NotLogin
+            failure?(NPTError.NotLogin)
+            return
         }
         guard let account = account else {
-            throw NPTError.Unknown("Hasn't account")
+            failure?(NPTError.Unknown("Hasn't account"))
+            return
         }
 
         self.playerInfo.updateTrack()
 
         if !self.playerInfo.isRunningiTunes {
-            throw NPTError.NotLaunchediTunes
+            failure?(NPTError.NotLaunchediTunes)
+            return
         }
 
         if !self.playerInfo.existTrack {
-            throw NPTError.NotExistTrack
+            failure?(NPTError.NotExistTrack)
+            return
         }
 
         let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
