@@ -39,4 +39,10 @@ extension Provider {
         }
     }
 
+    var brand: NSImage? {
+        switch self {
+            case .Twitter: return nil
+        }
+    }
+
 }

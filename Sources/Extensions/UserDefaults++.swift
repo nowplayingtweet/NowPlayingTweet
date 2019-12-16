@@ -32,13 +32,9 @@ extension UserDefaults {
         }
 
         identifiers.remove(at: index)
+        identifiers.insert("Current", at: 0)
 
-        var keys = ["Current"]
-        for identifier in identifiers {
-            keys.append(identifier)
-        }
-
-        return keys
+        return identifiers
     }
 
     func set(_ keyCombo: KeyCombo?, forKey key: String) {

@@ -8,14 +8,14 @@
 import Cocoa
 
 extension NSControl.StateValue {
-    
+
     func toBool() -> Bool {
         if self == .off {
             return false
         }
-        
+
         // Is state on/mixed
         return true
     }
-    
+
 }

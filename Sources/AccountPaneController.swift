@@ -9,6 +9,16 @@ import Cocoa
 
 class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    @IBOutlet weak var accountList: NSTableView!
+    @IBOutlet weak var accountControl: NSSegmentedControl!
+    @IBOutlet weak var accountBox: NSBox!
+
+    @IBOutlet var providerView: NSScrollView!
+    // providerView subview
+    @IBOutlet weak var providerList: NSTableView!
+
+    @IBOutlet var accountView: NSView!
+    // accountView subviews
     @IBOutlet weak var providerIcon: NSImageView!
     @IBOutlet weak var provider: NSTextField!
     @IBOutlet weak var avater: NSImageView!
@@ -16,8 +26,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var screenName: NSTextField!
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
-    @IBOutlet weak var accountControl: NSSegmentedControl!
-    @IBOutlet weak var accountList: NSTableView!
 
     private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
 
@@ -34,23 +42,17 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
         set {
             guard let account = newValue else {
-                self.providerIcon.image = nil
-                self.providerIcon.isHidden = true
-                self.provider.stringValue = "Social Account"
-
-                self.name.stringValue = "Not logged in..."
-                self.screenName.isHidden = true
-                self.avater.isEnabled = false
-                self.avater.image = NSImage(named: "NSUserGuest", templated: true)
-                self.accountList.deselectAll(nil)
-                self.currentLabel.isHidden = true
-                self.currentButton.isHidden = true
+                self.accountBox.contentView = self.providerView
                 self._selected = nil
+                self.accountControl.setEnabled(false, forSegment: 0)
+                self.accountControl.setEnabled(false, forSegment: 1)
+                self.accountList.deselectAll(nil)
                 return
             }
 
-            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { account.isEqual($0) } ?? 0)
-            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+            self.accountBox.contentView = self.accountView
+            self.accountControl.setEnabled(true, forSegment: 0)
+            self.accountControl.setEnabled(true, forSegment: 1)
 
             self.providerIcon.isHidden = false
             self.providerIcon.image = type(of: account).provider.logo
@@ -74,11 +76,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         super.viewDidLoad()
 
         // Do view setup here.
-        guard let current = Accounts.shared.current else {
-            return
-        }
-
-        self.selected = current
+        self.accountBox.contentView = self.providerView
     }
 
     @IBAction private func setToCurrent(_ sender: NSButton) {
@@ -87,17 +85,13 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
 
         Accounts.shared.current = selected
-        self.currentLabel.isHidden = false
-        self.currentButton.isHidden = true
-
         self.appDelegate.updateSocialAccount()
-        self.selected = selected
     }
 
     @IBAction func manageAccount(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
           case 0:
-            self.addAccount()
+            self.selected = nil
           case 1:
             self.removeAccount()
           default: // 2
@@ -105,11 +99,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    private func addAccount() {
-        guard let provider = Provider(rawValue: "Twitter") else {
-            return
-        }
-
+    private func addAccount(_ provider: Provider) {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
@@ -119,8 +109,8 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
                 return
             }
 
-            self.appDelegate.updateSocialAccount()
             self.selected = selected
+            self.appDelegate.updateSocialAccount()
         })
 
         Accounts.shared.login(provider: provider)
@@ -136,40 +126,66 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         observer = notificationCenter.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
             notificationCenter.removeObserver(observer!)
 
+            self.selected = nil
             self.appDelegate.updateSocialAccount()
-            self.selected = Accounts.shared.sortedAccounts.first
         })
 
         Accounts.shared.logout(account: selected)
     }
 
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        if !Accounts.shared.existsAccounts {
-            self.accountControl.setEnabled(false, forSegment: 1)
-            return 0
+    func accountReload() {
+        self.accountList.reloadData()
+
+        if let selected = self.selected {
+            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) }!)
+            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
         }
-        self.accountControl.setEnabled(true, forSegment: 1)
-        let accountCount = Accounts.shared.sortedAccounts.count
-        return accountCount
     }
 
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        let selected = Accounts.shared.sortedAccounts[row]
-        self.selected = selected
-
-        return true
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        switch tableView {
+        case self.accountList:
+            return Accounts.shared.sortedAccounts.count
+        case self.providerList:
+            return Provider.allCases.count
+        default: return 0
+        }
     }
 
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        switch tableView {
+        case self.accountList:
+            return Accounts.shared.sortedAccounts[row]
+        case self.providerList:
+            return Provider.allCases[row]
+        default: return nil
+        }
+    }
 
-        let account = Accounts.shared.sortedAccounts[row]
+    func selectionShouldChange(in tableView: NSTableView) -> Bool {
+        switch tableView {
+        case self.accountList: return tableView.clickedRow >= 0 || self.selected == nil
+        default: return true
+        }
+    }
 
-        cellView.textField?.stringValue = account.name
-        cellView.screenName?.stringValue = "@\(account.username)"
-        cellView.imageView?.fetchImage(url: account.avaterUrl, rounded: true)
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView else {
+            return
+        }
 
-        return cellView
+        switch tableView {
+        case self.accountList:
+            if tableView.selectedRow >= 0 {
+                self.selected = Accounts.shared.sortedAccounts[tableView.selectedRow]
+            }
+        case self.providerList:
+            if tableView.selectedRow >= 0 {
+                self.addAccount(Provider.allCases[tableView.selectedRow])
+                tableView.reloadData()
+            }
+        default: break
+        }
     }
 
 }

@@ -28,6 +28,7 @@
 		3D9D295223A61B720031505C /* NotificationName++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295123A61B720031505C /* NotificationName++.swift */; };
 		3D9D295823A648F60031505C /* SocialError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295723A648F60031505C /* SocialError.swift */; };
 		3D9D295A23A65FDF0031505C /* CallbackHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295923A65FDF0031505C /* CallbackHandler.swift */; };
+		3D9D296223A7831E0031505C /* ProviderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D296023A779790031505C /* ProviderCellView.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
 		3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* Accounts.swift */; };
@@ -125,6 +126,7 @@
 		3D9D295123A61B720031505C /* NotificationName++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationName++.swift"; sourceTree = "<group>"; };
 		3D9D295723A648F60031505C /* SocialError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialError.swift; sourceTree = "<group>"; };
 		3D9D295923A65FDF0031505C /* CallbackHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackHandler.swift; sourceTree = "<group>"; };
+		3D9D296023A779790031505C /* ProviderCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderCellView.swift; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
 		3DAA09AD202C47EE00C6F449 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */,
 				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
+				3D9D296023A779790031505C /* ProviderCellView.swift */,
 				3DAA09AD202C47EE00C6F449 /* Accounts.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
@@ -458,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */,
+				3D9D296223A7831E0031505C /* ProviderCellView.swift in Sources */,
 				3DEEED9923449903003B2AD2 /* TwitterCredentials.swift in Sources */,
 				3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */,
 				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,

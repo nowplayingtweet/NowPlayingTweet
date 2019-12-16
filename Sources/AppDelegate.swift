@@ -266,8 +266,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func updateSocialAccount() {
-        if let accountPaneList = AccountPaneController.shared.accountList {
-            accountPaneList.reloadData()
+        if AccountPaneController.shared.isViewLoaded {
+            AccountPaneController.shared.accountReload()
         }
 
         self.postMenu.submenu = nil
