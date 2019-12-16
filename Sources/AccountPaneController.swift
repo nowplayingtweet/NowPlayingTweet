@@ -9,6 +9,8 @@ import Cocoa
 
 class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    @IBOutlet weak var providerIcon: NSImageView!
+    @IBOutlet weak var provider: NSTextField!
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var screenName: NSTextField!
@@ -24,40 +26,72 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         return windowController as! AccountPaneController
     }()
 
-    var selected: Account?
+    private var _selected: Account? = nil
+
+    var selected: Account? {
+        get {
+            return self._selected
+        }
+        set {
+            guard let account = newValue else {
+                self.providerIcon.image = nil
+                self.providerIcon.isHidden = true
+                self.provider.stringValue = "Social Account"
+
+                self.name.stringValue = "Not logged in..."
+                self.screenName.isHidden = true
+                self.avater.isEnabled = false
+                self.avater.image = NSImage(named: "NSUserGuest", templated: true)
+                self.accountList.deselectAll(nil)
+                self.currentLabel.isHidden = true
+                self.currentButton.isHidden = true
+                self._selected = nil
+                return
+            }
+
+            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { account.isEqual($0) } ?? 0)
+            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+
+            self.providerIcon.isHidden = false
+            self.providerIcon.image = type(of: account).provider.logo
+            self.provider.stringValue = String(describing: type(of: account).provider)
+
+            self.name.stringValue = account.name
+            self.screenName.isHidden = false
+            self.screenName.stringValue = "@\(account.username)"
+            self.avater.isEnabled = true
+            self.avater.fetchImage(url: account.avaterUrl, rounded: true)
+
+            let isCurrent = account.isEqual(Accounts.shared.current)
+            self.currentLabel.isHidden = !isCurrent
+            self.currentButton.isHidden = isCurrent
+
+            self._selected = account
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
         guard let current = Accounts.shared.current else {
-            self.set(name: nil)
-            self.set(screenName: nil)
-            self.set(avaterUrl: nil)
             return
         }
 
         self.selected = current
-        self.accountControl.setEnabled(true, forSegment: 1)
-
-        let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { current.isEqual($0) } ?? 0)
-        self.accountList.selectRowIndexes(index, byExtendingSelection: false)
-
-        self.currentLabel.isHidden = false
-        self.currentButton.isHidden = false
-        self.currentButton.isEnabled = false
-
-        self.set(name: current.name)
-        self.set(screenName: current.username)
-        self.set(avaterUrl: current.avaterUrl)
     }
 
     @IBAction private func setToCurrent(_ sender: NSButton) {
-        let selected = self.selected!
+        guard let selected = self.selected else {
+            return
+        }
+
         Accounts.shared.current = selected
-        self.appDelegate.updateSocialAccount()
         self.currentLabel.isHidden = false
-        self.currentButton.isEnabled = false
+        self.currentButton.isHidden = true
+
+        self.appDelegate.updateSocialAccount()
+        self.selected = selected
     }
 
     @IBAction func manageAccount(_ sender: NSSegmentedControl) {
@@ -85,105 +119,45 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
                 return
             }
 
-            self.selected = selected
-
-            self.accountList.reloadData()
-
-            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) } ?? 0)
-            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
-
             self.appDelegate.updateSocialAccount()
-
-            let isCurrent = selected.isEqual(Accounts.shared.current)
-            if isCurrent {
-                self.accountControl.setEnabled(true, forSegment: 1)
-                self.currentButton.isHidden = false
-            }
-
-            self.currentLabel.isHidden = !isCurrent
-            self.currentButton.isEnabled = !isCurrent
-
-            self.set(name: selected.name)
-            self.set(screenName: selected.username)
-            self.set(avaterUrl: selected.avaterUrl)
+            self.selected = selected
         })
 
         Accounts.shared.login(provider: provider)
     }
 
     private func removeAccount() {
-        Accounts.shared.logout(account: self.selected!)
-
-        self.accountList.reloadData()
-        self.appDelegate.updateSocialAccount()
-
-        guard let selected = Accounts.shared.current else {
-            self.accountControl.setEnabled(false, forSegment: 1)
-            self.selected = nil
-            self.set(name: nil)
-            self.set(avaterUrl: nil)
-            self.set(screenName: nil)
-
-            self.currentLabel.isHidden = true
-            self.currentButton.isHidden = true
-
+        guard let selected = self.selected else {
             return
         }
 
-        self.selected = selected
+        let notificationCenter: NotificationCenter = NotificationCenter.default
+        var observer: NSObjectProtocol!
+        observer = notificationCenter.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
+            notificationCenter.removeObserver(observer!)
 
-        let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) } ?? 0)
-        self.accountList.selectRowIndexes(index, byExtendingSelection: false)
+            self.appDelegate.updateSocialAccount()
+            self.selected = Accounts.shared.sortedAccounts.first
+        })
 
-        let isCurrent = selected.isEqual(Accounts.shared.current)
-        self.currentLabel.isHidden = !isCurrent
-        self.currentButton.isEnabled = !isCurrent
-
-        self.set(name: selected.name)
-        self.set(screenName: selected.username)
-        self.set(avaterUrl: selected.avaterUrl)
-    }
-
-    @IBAction private func selectAccount(_ sender: NSTableView) {
-        let row = sender.selectedRow
-
-        let selected = Accounts.shared.sortedAccounts[row]
-        self.selected = selected
-
-        let isCurrent = selected.isEqual(Accounts.shared.current)
-        self.currentLabel.isHidden = !isCurrent
-        self.currentButton.isEnabled = !isCurrent
-        self.set(name: selected.name)
-        self.set(screenName: selected.username)
-        self.set(avaterUrl: selected.avaterUrl)
-    }
-
-    private func set(name: String?) {
-        self.name.stringValue = name ?? "Not logged in..."
-        self.name.textColor = name != nil ? .labelColor : .disabledControlTextColor
-    }
-
-    private func set(screenName id: String?) {
-        self.screenName.stringValue = "@" + (id ?? "null")
-        self.screenName.textColor = id != nil ? .secondaryLabelColor : .disabledControlTextColor
-    }
-
-    private func set(avaterUrl url: URL?) {
-        if let url = url {
-            self.avater.fetchImage(url: url, rounded: true)
-            self.avater.enable()
-        } else {
-            self.avater.image = NSImage(named: "NSUserGuest", templated: true)
-            self.avater.disable()
-        }
+        Accounts.shared.logout(account: selected)
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if !Accounts.shared.existsAccounts {
+            self.accountControl.setEnabled(false, forSegment: 1)
             return 0
         }
+        self.accountControl.setEnabled(true, forSegment: 1)
         let accountCount = Accounts.shared.sortedAccounts.count
         return accountCount
+    }
+
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        let selected = Accounts.shared.sortedAccounts[row]
+        self.selected = selected
+
+        return true
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

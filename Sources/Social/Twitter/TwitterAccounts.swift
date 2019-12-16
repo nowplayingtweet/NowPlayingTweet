@@ -50,8 +50,7 @@ class TwitterAccounts: ProviderAccounts {
 
                 ids.removeAll { $0 == id }
                 self.initializeNotification(ids.count)
-            }, failure: { error in
-                print(error.localizedDescription)
+            }, failure: { _ in
                 self.deleteFromKeychain(id: id)
                 ids.removeAll { $0 == id }
                 self.initializeNotification(ids.count)

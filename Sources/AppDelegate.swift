@@ -161,7 +161,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                 for jsonError in jsonErrors {
                     informative.append(jsonError.object!["message"]!.string!)
                     informative.append("\n")
-
                 }
 
                 let alert = NSAlert(message: "Post failed!",
@@ -267,6 +266,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func updateSocialAccount() {
+        if let accountPaneList = AccountPaneController.shared.accountList {
+            accountPaneList.reloadData()
+        }
+
         self.postMenu.submenu = nil
 
         if let current = Accounts.shared.current {

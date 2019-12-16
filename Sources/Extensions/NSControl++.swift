@@ -7,18 +7,6 @@
 
 import Cocoa
 
-extension NSControl {
-
-    func enable() {
-        self.isEnabled = true
-    }
-
-    func disable() {
-        self.isEnabled = false
-    }
-
-}
-
 extension NSControl.StateValue {
     
     func toBool() -> Bool {
