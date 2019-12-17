@@ -88,7 +88,9 @@ class Accounts {
         })
 
         for provider in Provider.allCases {
-            self.storage[provider] = provider.accounts.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts")
+            if let providerAccounts = provider.accounts?.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts") {
+                self.storage[provider] = providerAccounts
+            }
         }
     }
 
@@ -110,14 +112,22 @@ class Accounts {
         return credentials
     }
 
-    func client(for account: Account) -> Client {
+    func client(for account: Account) -> Client? {
         let provider = type(of: account).provider
-        return provider.client.init(self.credentials(provider, id: account.id)!)!
+        guard let client = provider.client
+            , let credentials = self.credentials(provider, id: account.id) else {
+            return nil
+        }
+        return client.init(credentials)
     }
 
     func login(provider: Provider) {
-        provider.client.authorize(callbackURLScheme: "nowplayingtweet", handler: { credentials in
-            provider.client.init(credentials)?.verify(handler: { account in
+        guard let client = provider.client else {
+            return
+        }
+
+        client.authorize(callbackURLScheme: "nowplayingtweet", handler: { credentials in
+            client.init(credentials)?.verify(handler: { account in
                 let provider = type(of: account).provider
 
                 self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)

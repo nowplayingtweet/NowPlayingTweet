@@ -56,6 +56,7 @@
 		3DEF425F22527526008E977A /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Provider.swift */; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
+		3DFCA42A23A8F0300042135E /* Provider++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42923A8F0300042135E /* Provider++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
 		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
 		3DFF866320474754004FDD88 /* KeyEquivalentsPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */; };
@@ -147,6 +148,7 @@
 		3DEF425E22527526008E977A /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
+		3DFCA42923A8F0300042135E /* Provider++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Provider++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
 		3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsDelegate.swift; sourceTree = "<group>"; };
 		3DFF8658204718E7004FDD88 /* Magnet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Magnet.framework; path = Carthage/Build/Mac/Magnet.framework; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 		3D5A4B34218B492500775D4E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3DFCA42923A8F0300042135E /* Provider++.swift */,
 				3DD88B272024974C000F7818 /* Notification++.swift */,
 				3DCEE8172027014800D87CE5 /* NSButton++.swift */,
 				3D9D294423A2E3030031505C /* NSGridView++.swift */,
@@ -480,6 +483,7 @@
 				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
 				3D9D295823A648F60031505C /* SocialError.swift in Sources */,
+				3DFCA42A23A8F0300042135E /* Provider++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 				3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */,
