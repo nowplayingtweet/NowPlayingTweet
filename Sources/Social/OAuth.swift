@@ -10,5 +10,6 @@ import Foundation
 enum OAuth {
 
     case One
+    case Two
 
 }
