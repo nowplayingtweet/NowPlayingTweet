@@ -16,24 +16,22 @@ class TwitterClient: Client, CallbackHandler {
         return Swifter.handleOpenURL(URL(string: urlString)!)
     }
 
-    static func authorize(callbackURLScheme urlScheme: String?, handler: ((Credentials) -> Void)?, failure: Client.Failure?) {
-        guard let urlScheme = urlScheme else {
-            failure?(SocialError.FailedAuthorize("Missing callback url scheme."))
+    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String?, handler: ((Credentials) -> Void)?, failure: Client.Failure?) {
+        guard let urlScheme = urlScheme
+            , let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
+            failure?(SocialError.FailedAuthorize("Invalid callback url scheme."))
             return
         }
 
-        let swifter = Swifter(consumerKey: TwitterCredentials.apiKey,
-                              consumerSecret: TwitterCredentials.apiSecret)
+        let swifter = Swifter(consumerKey: key, consumerSecret: secret)
 
-        swifter.authorize(withCallback: URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())")!,
-                          forceLogin: true, success: { accessToken, _ in
-            guard let token = accessToken?.key
-                , let secret = accessToken?.secret else {
-                    failure?(SocialError.FailedAuthorize("Invalid token."))
-                    return
+        swifter.authorize(withCallback: callbackURL, forceLogin: true, success: { accessToken, _ in
+            guard let token = accessToken else {
+                failure?(SocialError.FailedAuthorize("Invalid token."))
+                return
             }
 
-            handler?(TwitterCredentials(oauthToken: token, oauthSecret: secret))
+            handler?(TwitterCredentials(apiKey: key, apiSecret: secret, oauthToken: token.key, oauthSecret: token.secret))
         }, failure: failure)
     }
 
@@ -52,8 +50,8 @@ class TwitterClient: Client, CallbackHandler {
             return nil
         }
 
-        return Swifter(consumerKey: TwitterCredentials.apiKey,
-                       consumerSecret: TwitterCredentials.apiSecret,
+        return Swifter(consumerKey: credentials.apiKey,
+                       consumerSecret: credentials.apiSecret,
                        oauthToken: credentials.oauthToken,
                        oauthTokenSecret: credentials.oauthSecret)
     }

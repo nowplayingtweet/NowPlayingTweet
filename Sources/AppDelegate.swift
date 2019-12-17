@@ -239,9 +239,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let postText = self.createPostText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "PostWithImage") {
-            Accounts.shared.client(for: account).post(text: postText, image: currentTrack.artwork, failure: failure)
+            Accounts.shared.client(for: account)?.post(text: postText, image: currentTrack.artwork, failure: failure)
         } else {
-            Accounts.shared.client(for: account).post(text: postText, failure: failure)
+            Accounts.shared.client(for: account)?.post(text: postText, failure: failure)
         }
     }
 
