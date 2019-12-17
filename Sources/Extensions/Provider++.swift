@@ -52,4 +52,15 @@ extension Provider {
         }
     }
 
+    var clientKey: (String, String)? {
+        switch self {
+        case .Twitter:
+            let apiKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
+            let apiSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
+            return (apiKey, apiSecret)
+        default:
+            return nil
+        }
+    }
+
 }

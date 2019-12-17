@@ -122,11 +122,12 @@ class Accounts {
     }
 
     func login(provider: Provider) {
-        guard let client = provider.client else {
+        guard let client = provider.client
+            , let (key, secret) = provider.clientKey else {
             return
         }
 
-        client.authorize(callbackURLScheme: "nowplayingtweet", handler: { credentials in
+        client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", handler: { credentials in
             client.init(credentials)?.verify(handler: { account in
                 let provider = type(of: account).provider
 
