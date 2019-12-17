@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D17E78F225364A900AF0E70 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E78E225364A900AF0E70 /* Client.swift */; };
+		3D17E7942253EDDB00AF0E70 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E7932253EDDB00AF0E70 /* TwitterClient.swift */; };
+		3D17E7962253F41700AF0E70 /* TwitterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E7952253F41700AF0E70 /* TwitterAccount.swift */; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
 		3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralPaneController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
@@ -18,9 +21,17 @@
 		3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
 		3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294423A2E3030031505C /* NSGridView++.swift */; };
+		3D9D294723A38E710031505C /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294623A38E710031505C /* OAuth.swift */; };
+		3D9D294923A38F550031505C /* OAuth1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294823A38F550031505C /* OAuth1.swift */; };
+		3D9D294D23A3E6F70031505C /* TwitterAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294C23A3E6F70031505C /* TwitterAccounts.swift */; };
+		3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */; };
+		3D9D295223A61B720031505C /* NotificationName++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295123A61B720031505C /* NotificationName++.swift */; };
+		3D9D295823A648F60031505C /* SocialError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295723A648F60031505C /* SocialError.swift */; };
+		3D9D295A23A65FDF0031505C /* CallbackHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D295923A65FDF0031505C /* CallbackHandler.swift */; };
+		3D9D296223A7831E0031505C /* ProviderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D296023A779790031505C /* ProviderCellView.swift */; };
 		3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09A9202B103F00C6F449 /* NPTError.swift */; };
 		3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */; };
-		3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */; };
+		3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09AD202C47EE00C6F449 /* Accounts.swift */; };
 		3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B1202CB48500C6F449 /* AccountCellView.swift */; };
 		3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */; };
 		3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCEE8102026409E00D87CE5 /* NSImageView++.swift */; };
@@ -31,8 +42,6 @@
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
-		3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; };
-		3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCEF612073CD4100BE649C /* TwitterText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
 		3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
@@ -41,6 +50,10 @@
 		3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8658204718E7004FDD88 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; };
 		3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFF8659204718E8004FDD88 /* KeyHolder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DEEED95234496EE003B2AD2 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEEED94234496EE003B2AD2 /* Credentials.swift */; };
+		3DEEED9923449903003B2AD2 /* TwitterCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEEED9823449903003B2AD2 /* TwitterCredentials.swift */; };
+		3DEF425D2252748C008E977A /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425C2252748C008E977A /* Account.swift */; };
+		3DEF425F22527526008E977A /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF425E22527526008E977A /* Provider.swift */; };
 		3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DB20277722007A7B29 /* NSEvent++.swift */; };
 		3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
@@ -76,7 +89,6 @@
 				3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */,
 				3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */,
 				3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */,
-				3DDCEF742073CDD600BE649C /* TwitterText.framework in Embed Frameworks */,
 				3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */,
 				3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */,
 			);
@@ -86,6 +98,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D17E78E225364A900AF0E70 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		3D17E7932253EDDB00AF0E70 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
+		3D17E7952253F41700AF0E70 /* TwitterAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAccount.swift; sourceTree = "<group>"; };
 		3D5520CE2022322100AAF108 /* NowPlayingTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NowPlayingTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5520D12022322200AAF108 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D5520D32022322200AAF108 /* GeneralPaneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPaneController.swift; sourceTree = "<group>"; };
@@ -104,9 +119,17 @@
 		3D552110202329E900AAF108 /* AccountPaneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPaneController.swift; sourceTree = "<group>"; };
 		3D5A4B42218C46F100775D4E /* iTunesBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesBridge.framework; path = Carthage/Build/Mac/iTunesBridge.framework; sourceTree = "<group>"; };
 		3D9D294423A2E3030031505C /* NSGridView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSGridView++.swift"; sourceTree = "<group>"; };
+		3D9D294623A38E710031505C /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
+		3D9D294823A38F550031505C /* OAuth1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1.swift; sourceTree = "<group>"; };
+		3D9D294C23A3E6F70031505C /* TwitterAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAccounts.swift; sourceTree = "<group>"; };
+		3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderAccounts.swift; sourceTree = "<group>"; };
+		3D9D295123A61B720031505C /* NotificationName++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationName++.swift"; sourceTree = "<group>"; };
+		3D9D295723A648F60031505C /* SocialError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialError.swift; sourceTree = "<group>"; };
+		3D9D295923A65FDF0031505C /* CallbackHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackHandler.swift; sourceTree = "<group>"; };
+		3D9D296023A779790031505C /* ProviderCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderCellView.swift; sourceTree = "<group>"; };
 		3DAA09A9202B103F00C6F449 /* NPTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPTError.swift; sourceTree = "<group>"; };
 		3DAA09AB202C1B7100C6F449 /* NSAlert++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert++.swift"; sourceTree = "<group>"; };
-		3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
+		3DAA09AD202C47EE00C6F449 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		3DAA09B1202CB48500C6F449 /* AccountCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
 		3DAA09B3202DB3CB00C6F449 /* NSMenuItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMenuItem++.swift"; sourceTree = "<group>"; };
 		3DCEE8102026409E00D87CE5 /* NSImageView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImageView++.swift"; sourceTree = "<group>"; };
@@ -118,7 +141,10 @@
 		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
-		3DDCEF612073CD4100BE649C /* TwitterText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterText.framework; path = Carthage/Build/Mac/TwitterText.framework; sourceTree = "<group>"; };
+		3DEEED94234496EE003B2AD2 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		3DEEED9823449903003B2AD2 /* TwitterCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCredentials.swift; sourceTree = "<group>"; };
+		3DEF425C2252748C008E977A /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		3DEF425E22527526008E977A /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		3DF4A6DB20277722007A7B29 /* NSEvent++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEvent++.swift"; sourceTree = "<group>"; };
 		3DF4A6DD20277873007A7B29 /* NSStoryboard++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStoryboard++.swift"; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
@@ -137,7 +163,6 @@
 				3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */,
 				3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */,
 				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
-				3DDCEF732073CDD600BE649C /* TwitterText.framework in Frameworks */,
 				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
 				3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */,
 			);
@@ -160,6 +185,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D17E792225371F400AF0E70 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				3D9D295023A61AB00031505C /* Extensions */,
+				3D9D295723A648F60031505C /* SocialError.swift */,
+				3DEF425E22527526008E977A /* Provider.swift */,
+				3D9D294623A38E710031505C /* OAuth.swift */,
+				3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */,
+				3DEF425C2252748C008E977A /* Account.swift */,
+				3DEEED94234496EE003B2AD2 /* Credentials.swift */,
+				3D9D294823A38F550031505C /* OAuth1.swift */,
+				3D17E78E225364A900AF0E70 /* Client.swift */,
+				3D9D295923A65FDF0031505C /* CallbackHandler.swift */,
+				3DEEED9A2344A538003B2AD2 /* Twitter */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
 		3D5520C52022322100AAF108 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +227,7 @@
 		3D5520D02022322100AAF108 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3D17E792225371F400AF0E70 /* Social */,
 				3D5A4B34218B492500775D4E /* Extensions */,
 				3D5520D12022322200AAF108 /* AppDelegate.swift */,
 				3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */,
@@ -192,7 +236,8 @@
 				3DCEE819202747F800D87CE5 /* AdvancedPaneController.swift */,
 				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
-				3DAA09AD202C47EE00C6F449 /* TwitterClient.swift */,
+				3D9D296023A779790031505C /* ProviderCellView.swift */,
+				3DAA09AD202C47EE00C6F449 /* Accounts.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
 				3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */,
@@ -230,7 +275,6 @@
 				3D5A4B42218C46F100775D4E /* iTunesBridge.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
 				3DFF8658204718E7004FDD88 /* Magnet.framework */,
-				3DDCEF612073CD4100BE649C /* TwitterText.framework */,
 				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
 				3DD88B2120244F40000F7818 /* KeychainAccess.framework */,
 			);
@@ -253,6 +297,25 @@
 				3DFF86642048710C004FDD88 /* UserDefaults++.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3D9D295023A61AB00031505C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3D9D295123A61B720031505C /* NotificationName++.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3DEEED9A2344A538003B2AD2 /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				3DEEED9823449903003B2AD2 /* TwitterCredentials.swift */,
+				3D17E7952253F41700AF0E70 /* TwitterAccount.swift */,
+				3D9D294C23A3E6F70031505C /* TwitterAccounts.swift */,
+				3D17E7932253EDDB00AF0E70 /* TwitterClient.swift */,
+			);
+			path = Twitter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,15 +461,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DAA09B4202DB3CE00C6F449 /* NSMenuItem++.swift in Sources */,
+				3D9D296223A7831E0031505C /* ProviderCellView.swift in Sources */,
+				3DEEED9923449903003B2AD2 /* TwitterCredentials.swift in Sources */,
 				3DAA09B2202CB48500C6F449 /* AccountCellView.swift in Sources */,
 				3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */,
 				3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */,
+				3D17E7942253EDDB00AF0E70 /* TwitterClient.swift in Sources */,
+				3D9D294723A38E710031505C /* OAuth.swift in Sources */,
 				3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */,
+				3D17E78F225364A900AF0E70 /* Client.swift in Sources */,
+				3D9D295A23A65FDF0031505C /* CallbackHandler.swift in Sources */,
+				3D9D294D23A3E6F70031505C /* TwitterAccounts.swift in Sources */,
 				3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */,
 				3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
+				3D9D294923A38F550031505C /* OAuth1.swift in Sources */,
+				3D17E7962253F41700AF0E70 /* TwitterAccount.swift in Sources */,
+				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
-				3DAA09AE202C47EE00C6F449 /* TwitterClient.swift in Sources */,
+				3D9D295823A648F60031505C /* SocialError.swift in Sources */,
+				3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
 				3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */,
 				3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */,
@@ -417,8 +491,12 @@
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
+				3D9D295223A61B720031505C /* NotificationName++.swift in Sources */,
 				3DFF86652048710C004FDD88 /* UserDefaults++.swift in Sources */,
+				3DEEED95234496EE003B2AD2 /* Credentials.swift in Sources */,
+				3DEF425D2252748C008E977A /* Account.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
+				3DEF425F22527526008E977A /* Provider.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
 			);
@@ -587,7 +665,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.0d1;
+				CURRENT_PROJECT_VERSION = 0.6.0a1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -599,6 +677,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = "0.6.0-alpha.1";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -614,7 +693,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.0d1;
+				CURRENT_PROJECT_VERSION = 0.6.0a1;
 				DEVELOPMENT_TEAM = TZD4EE242K;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -626,6 +705,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = "0.6.0-alpha.1";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kr-kp.NowPlayingTweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

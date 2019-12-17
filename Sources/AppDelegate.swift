@@ -8,19 +8,18 @@
 import Cocoa
 import Magnet
 import SwifterMac
+import KeychainAccess
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {
 
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var currentAccount: NSMenuItem!
-    @IBOutlet weak var tweetMenu: NSMenuItem!
+    @IBOutlet weak var postMenu: NSMenuItem!
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
     let userDefaults: UserDefaults = UserDefaults.standard
-
-    let twitterClient: TwitterClient = TwitterClient.shared
 
     let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
@@ -29,21 +28,53 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     override init() {
         super.init()
 
+        // Remove old accounts
+        try? Keychain(service: "com.kr-kp.NowPlayingTweet.AccountToken").removeAll()
+
+        let pattern = "^(\(Provider.allCases.map({ String(describing: $0) }).joined(separator: "|")))"
+        if let regexp = try? NSRegularExpression(pattern: pattern, options: []) {
+            for identifier in self.userDefaults.keyComboIdentifier() {
+                if identifier == "Current"
+                    || regexp.firstMatch(in: identifier, range: NSRange(identifier.startIndex..., in: identifier)) != nil {
+                    continue
+                }
+
+                self.userDefaults.removeKeyCombo(forKey: identifier)
+            }
+        }
+
+        self.userDefaults.removeObject(forKey: "CurrentAccount")
+
+        if let tweetFormat = self.userDefaults.string(forKey: "TweetFormat") {
+            self.userDefaults.set(tweetFormat, forKey: "PostFormat")
+            self.userDefaults.removeObject(forKey: "TweetFormat")
+        }
+
+        if let tweetWithImage = self.userDefaults.object(forKey: "TweetWithImage") {
+            self.userDefaults.set(tweetWithImage, forKey: "PostWithImage")
+            self.userDefaults.removeObject(forKey: "TweetWithImage")
+        }
+
+        if let autoTweet = self.userDefaults.object(forKey: "AutoTweet") {
+            self.userDefaults.set(autoTweet, forKey: "AutoPost")
+            self.userDefaults.removeObject(forKey: "AutoTweet")
+        }
+
         let defaultSettings: [String : Any] = [
-            "TweetFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
+            "PostFormat" : "#NowPlaying {{Title}} by {{Artist}} from {{Album}}",
             "UseKeyShortcut" : false,
-            "TweetWithImage" : true,
-            "AutoTweet" : false,
+            "PostWithImage" : true,
+            "AutoPost" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
+
+        self.userDefaults.synchronize()
     }
 
     func applicationWillFinishLaunching(_ aNotification: Notification) {
         // Handle get url event
-        NSAppleEventManager.shared().setEventHandler(self,
-                                                     andSelector: #selector(AppDelegate.handleGetURLEvent(_:withReplyEvent:)),
-                                                     forEventClass: AEEventClass(kInternetEventClass),
-                                                     andEventID: AEEventID(kAEGetURL))
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(AppDelegate.handleGetURLEvent(_:with:)),
+                                                     forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -53,10 +84,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
             notificationCenter.removeObserver(observer!)
 
-            self.updateTwitterAccount()
+            self.updateSocialAccount()
         })
 
-        self.updateTwitterAccount()
+        self.updateSocialAccount()
 
         if let button = self.statusItem.button {
             button.title = "♫"
@@ -64,8 +95,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
         self.statusItem.menu = self.menu
 
-        if self.userDefaults.bool(forKey: "AutoTweet") {
-            self.manageAutoTweet(state: true)
+        if self.userDefaults.bool(forKey: "AutoPost") {
+            self.manageAutoPost(state: true)
         }
 
         self.keyEquivalents.set(delegate: self)
@@ -77,16 +108,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if menuItem.identifier == NSUserInterfaceItemIdentifier("TweetNowPlaying") {
-            return self.twitterClient.existAccount
+        if menuItem.identifier == NSUserInterfaceItemIdentifier("PostNowPlaying") {
+            return Accounts.shared.existsAccounts
         }
 
         return true
     }
 
-    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        // Cell Swifter handleOpenURL
-        Swifter.handleOpenURL(URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!)!)
+    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, with _: NSAppleEventDescriptor) {
+        for provider in Provider.allCases {
+            guard let client = provider.client as? CallbackHandler.Type else {
+                continue
+            }
+
+            client.handleCallback(event)
+        }
     }
 
     @objc func handleNowPlaying(_ notification: Notification) {
@@ -95,103 +131,122 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             return
         }
 
-        self.tweetNowPlaying(by: self.twitterClient.current, auto: true)
+        self.postNowPlaying(by: Accounts.shared.current, auto: true)
     }
 
-    @IBAction private func tweetByCurrentAccount(_ sender: NSMenuItem) {
-        self.tweetNowPlaying(by: self.twitterClient.current)
+    @IBAction private func postByCurrentAccount(_ sender: NSMenuItem) {
+        self.postNowPlaying(by: Accounts.shared.current)
     }
 
-    @objc func tweetBySelectingAccount(_ sender: NSMenuItem) {
-        let account = self.twitterClient.account(name: sender.title)
-        self.tweetNowPlaying(by: account)
+    @objc func postBySelectingAccount(_ sender: NSMenuItem) {
+        let account = Accounts.shared.sortedAccounts.first(where: { account in
+            return "\(type(of: account).provider)_\(account.id)" == sender.identifier?.rawValue
+        })
+        self.postNowPlaying(by: account)
     }
 
-    func tweetNowPlaying(by twitterAccounts: TwitterClient.Account?, auto: Bool = false) {
-        let tweetFailureHandler: Swifter.FailureHandler = { error in
-            let err = error as! SwifterError
+    func postNowPlaying(by account: Account?, auto: Bool = false) {
+        let postFailureHandler: Client.Failure = { error in
+            if let err = error as? SwifterError {
+                let errMsg = err.message.components(separatedBy: ", ")
+                let errRes = errMsg[1].components(separatedBy: ": ")
 
-            let errMsg = err.message.components(separatedBy: ", ")
-            let errRes = errMsg[1].components(separatedBy: ": ")
+                let resData = errRes[1].data(using: .utf8, allowLossyConversion: false)!
+                let jsonData = try! JSONSerialization.jsonObject(with: resData, options: .mutableContainers)
+                let json = JSON(jsonData)
 
-            let resData = errRes[1].data(using: .utf8, allowLossyConversion: false)!
-            let jsonData = try! JSONSerialization.jsonObject(with: resData, options: .mutableContainers)
-            let json = JSON(jsonData)
+                let jsonErrors: [JSON] = json.object!["errors"]!.array!
 
-            let jsonErrors: [JSON] = json.object!["errors"]!.array!
+                var informative: String = ""
+                for jsonError in jsonErrors {
+                    informative.append(jsonError.object!["message"]!.string!)
+                    informative.append("\n")
+                }
 
-            var informative: String = ""
-            for jsonError in jsonErrors {
-                informative.append(jsonError.object!["message"]!.string!)
-                informative.append("\n")
+                let alert = NSAlert(message: "Post failed!",
+                                    informative: informative,
+                                    style: .warning)
+                alert.runModal()
+
+                return
             }
 
-            let alert = NSAlert(message: "Tweet failed!",
-                                informative: informative,
-                                style: .warning)
-            alert.runModal()
-        }
+            guard let err = error as? NPTError else {
+                let alert = NSAlert(error: error)
+                alert.runModal()
 
-        do {
-            try self.postTweet(with: twitterAccounts, failure: tweetFailureHandler)
-        } catch NPTError.NotLogin {
-            let title: String = "Not logged in!"
-            var informative: String = "Please login with Preferences -> Account."
-            if auto {
-                self.manageAutoTweet(state: false)
-                informative.append("\n")
-                informative.append("Disable Auto Tweet.")
+                return
             }
 
-            let alert = NSAlert(message: title,
-                                informative: informative,
-                                style: .critical)
-            alert.runModal()
-        } catch NPTError.NotLaunchediTunes {
-            let alert = NSAlert(message: "Not runnning iTunes.",
+            switch err {
+            case .NotLogin:
+                let title: String = "Not logged in!"
+                var informative: String = "Please login with Preferences -> Account."
+                if auto {
+                    self.manageAutoPost(state: false)
+                    informative.append("\n")
+                    informative.append("Disable Auto Post.")
+                }
+
+                let alert = NSAlert(message: title,
+                                    informative: informative,
+                                    style: .critical)
+                alert.runModal()
+            case .NotLaunchediTunes:
+                let alert = NSAlert(message: "Not runnning iTunes.",
+                                    style: .informational)
+                alert.runModal()
+            case .NotExistTrack:
+                let alert = NSAlert(message: "Not exist music.",
                                 style: .informational)
-            alert.runModal()
-        } catch NPTError.NotExistTrack {
-            let alert = NSAlert(message: "Not exist music.",
-                                style: .informational)
-            alert.runModal()
-        } catch let error {
-            let alert = NSAlert(error: error)
-            alert.runModal()
+                alert.runModal()
+            case .Unknown(let message):
+                let alert = NSAlert(message: "Some Error.",
+                                    informative: message,
+                                    style: .informational)
+                alert.runModal()
+            }
+
         }
+
+        self.post(with: account, failure: postFailureHandler)
     }
 
-    private func postTweet(with twitterAccount: TwitterClient.Account?, failure: Swifter.FailureHandler? = nil) throws {
-        if !self.twitterClient.existAccount {
-            throw NPTError.NotLogin
+    private func post(with account: Account?, failure: Client.Failure? = nil) {
+        if !Accounts.shared.existsAccounts {
+            failure?(NPTError.NotLogin)
+            return
         }
-        guard let twitterAccount = twitterAccount else {
-            throw NPTError.Unknown("Hasn't account")
+        guard let account = account else {
+            failure?(NPTError.Unknown("Hasn't account"))
+            return
         }
 
         self.playerInfo.updateTrack()
 
         if !self.playerInfo.isRunningiTunes {
-            throw NPTError.NotLaunchediTunes
+            failure?(NPTError.NotLaunchediTunes)
+            return
         }
 
         if !self.playerInfo.existTrack {
-            throw NPTError.NotExistTrack
+            failure?(NPTError.NotExistTrack)
+            return
         }
 
         let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
 
-        let tweetText = self.createTweetText(from: currentTrack)
+        let postText = self.createPostText(from: currentTrack)
 
-        if self.userDefaults.bool(forKey: "TweetWithImage") {
-            self.twitterClient.tweet(account: twitterAccount, text: tweetText, with: currentTrack.artwork, failure: failure)
+        if self.userDefaults.bool(forKey: "PostWithImage") {
+            Accounts.shared.client(for: account).post(text: postText, image: currentTrack.artwork, failure: failure)
         } else {
-            self.twitterClient.tweet(account: twitterAccount, text: tweetText, failure: failure)
+            Accounts.shared.client(for: account).post(text: postText, failure: failure)
         }
     }
 
-    private func createTweetText(from track: iTunesPlayerInfo.Track) -> String {
-        var format = self.userDefaults.string(forKey: "TweetFormat")!
+    private func createPostText(from track: iTunesPlayerInfo.Track) -> String {
+        var format = self.userDefaults.string(forKey: "PostFormat")!
 
         let convertDictionary: [String : String] = [
             "{{Title}}" : track.title!,
@@ -210,34 +265,44 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         return format
     }
 
-    func updateTwitterAccount() {
-        self.tweetMenu.submenu = nil
+    func updateSocialAccount() {
+        if AccountPaneController.shared.isViewLoaded {
+            AccountPaneController.shared.accountReload()
+        }
 
-        if !self.twitterClient.existAccount {
+        self.postMenu.submenu = nil
+
+        if let current = Accounts.shared.current {
+            self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
+            self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
+        } else {
             self.currentAccount.title = "Not Logged in..."
             self.currentAccount.setGuestImage()
+        }
+
+        if !Accounts.shared.existsAccounts {
+            self.postMenu.isEnabled = false
             return
         }
 
-        self.currentAccount.title = self.twitterClient.current!.name
-        self.currentAccount.fetchImage(url: self.twitterClient.current!.avaterUrl, rounded: true)
+        self.postMenu.isEnabled = true
 
-        if self.twitterClient.numberOfAccounts <= 1 {
+        if Accounts.shared.sortedAccounts.count <= 1 {
             return
         }
 
         let menu = NSMenu()
-        for userID in self.twitterClient.accountIDs {
-            let twitterAccount = self.twitterClient.account(userID: userID)
+        for account in Accounts.shared.sortedAccounts {
             let menuItem = NSMenuItem()
-            menuItem.title = (twitterAccount?.name)!
-            menuItem.action = #selector(AppDelegate.tweetBySelectingAccount(_:))
+            menuItem.title = "\(type(of: account).provider) @\(account.username)"
+            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
+            menuItem.action = #selector(AppDelegate.postBySelectingAccount(_:))
             menu.addItem(menuItem)
         }
-        self.tweetMenu.submenu = menu
+        self.postMenu.submenu = menu
     }
 
-    func manageAutoTweet(state: Bool) {
+    func manageAutoPost(state: Bool) {
         let notificationObserver: NotificationObserver = NotificationObserver()
         if state {
             notificationObserver.addObserver(self,
@@ -251,16 +316,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                                                 object: nil,
                                                 distributed: true)
             let notificationCenter: NotificationCenter = NotificationCenter.default
-            notificationCenter.post(name: .disableAutoTweet, object: nil)
+            notificationCenter.post(name: .disableAutoPost, object: nil)
         }
     }
 
-    func tweetWithCurrent() {
-        self.tweetNowPlaying(by: self.twitterClient.current)
+    func postWithCurrent() {
+        self.postNowPlaying(by: Accounts.shared.current)
     }
 
-    func tweet(with userID: String) {
-        self.tweetNowPlaying(by: self.twitterClient.account(userID: userID))
+    func post(with id: String, of provider: Provider) {
+        self.postNowPlaying(by: Accounts.shared.account(provider, id: id))
     }
 
 }

@@ -5,7 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Cocoa
+import Foundation
 import Magnet
 import KeyHolder
 
@@ -17,8 +17,6 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     }()
 
     private let userDefaults: UserDefaults = UserDefaults.standard
-
-    private let twitterClient: TwitterClient = TwitterClient.shared
 
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
@@ -58,7 +56,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
         let accountKeyShortcut = self.gridView.row(at: 1)
 
-        if !self.twitterClient.existAccount {
+        if !Accounts.shared.existsAccounts {
             if #available(OSX 10.14, *) {
                 accountKeyShortcut.isHidden = true
             } else {
@@ -76,16 +74,16 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             self.gridView.rowSpacing = 8
         }
 
-        for accountID in self.twitterClient.accountIDs {
-            let accountName: String = self.twitterClient.account(userID: accountID)?.screenName ?? "null"
-            let recordLabel: NSTextField = NSTextField(labelWithString: "Tweet with @\(accountName):")
+        for account in Accounts.shared.sortedAccounts {
+            let accountName: String = account.username
+            let recordLabel: NSTextField = NSTextField(labelWithString: "Post with \(type(of: account).provider) @\(accountName):")
 
             let recordView = RecordView()
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
             recordView.delegate = self
-            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: accountID)
-            recordView.keyCombo = self.userDefaults.keyCombo(forKey: accountID)
+            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
+            recordView.keyCombo = self.userDefaults.keyCombo(forKey: "\(type(of: account).provider)_\(account.id)")
 
             let recordRow = self.gridView.addRow(with: [recordLabel, recordView])
             recordRow.height = 24
@@ -101,24 +99,24 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
     }
 
     func recordView(_ recordView: RecordView, canRecordKeyCombo keyCombo: KeyCombo) -> Bool {
-        guard let identifier: String = recordView.identifier?.rawValue else { return false }
+        guard let identifier = recordView.identifier?.rawValue else { return false }
         self.keyEquivalents.unregister(identifier)
         return true
     }
 
     func recordViewDidClearShortcut(_ recordView: RecordView) {
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         self.keyEquivalents.unregister(identifier)
     }
 
     func recordView(_ recordView: RecordView, didChangeKeyCombo keyCombo: KeyCombo) {
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         self.keyEquivalents.register(identifier, keyCombo: keyCombo)
     }
 
     func recordViewDidEndRecording(_ recordView: RecordView) {
         self.selectedRecortView = nil
-        guard let identifier: String = recordView.identifier?.rawValue else { return }
+        guard let identifier = recordView.identifier?.rawValue else { return }
         recordView.keyCombo = self.userDefaults.keyCombo(forKey: identifier)
     }
 
