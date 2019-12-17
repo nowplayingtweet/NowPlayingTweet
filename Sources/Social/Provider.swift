@@ -10,5 +10,6 @@ import Foundation
 enum Provider: String, CaseIterable {
 
     case Twitter
+    case Mastodon
 
 }

@@ -117,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, with _: NSAppleEventDescriptor) {
-        for provider in Provider.allCases {
+        for provider in self.accounts.availableProviders {
             guard let client = provider.client as? CallbackHandler.Type else {
                 continue
             }

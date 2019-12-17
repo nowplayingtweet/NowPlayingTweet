@@ -16,15 +16,17 @@ class Accounts {
 
     private var storage: [Provider : ProviderAccounts] = [:]
 
+    var availableProviders: [Provider] {
+        return .init(self.storage.keys)
+    }
+
     var sortedAccounts: [Account] {
         var result: [Account] = []
 
-        for provider in Provider.allCases {
-            guard let accounts = self.storage[provider] else {
-                continue
+        for provider in self.availableProviders {
+            if let accounts = self.storage[provider] {
+                result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
             }
-
-            result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
         }
 
         return result
@@ -81,10 +83,25 @@ class Accounts {
             NotificationCenter.default.removeObserver(observer!)
         })
 
-        for provider in Provider.allCases {
+        for provider in providers {
             if let providerAccounts = provider.accounts?.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts") {
                 self.storage[provider] = providerAccounts
+                continue
             }
+
+            providers.removeAll { $0 == provider }
+
+            if providers.count > 0 {
+                continue
+            }
+
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .whenIdle)
+
+            NotificationCenter.default.removeObserver(observer!)
         }
     }
 

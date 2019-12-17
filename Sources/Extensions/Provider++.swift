@@ -13,6 +13,8 @@ extension Provider {
         switch self {
         case .Twitter:
             return TwitterAccounts.self
+        default:
+            return nil
         }
     }
 
@@ -34,19 +36,19 @@ extension Provider {
         }
     }
 
-    var logo: NSImage? {
+    var icon: NSImage? {
         switch self {
         case .Twitter:
-            return NSImage(named: "Twitter Logo")
-        default:
-            return nil
+            return NSImage(named: "Twitter Icon")
+        case .Mastodon:
+            return NSImage(named: "Mastodon Icon")
         }
     }
 
-    var brand: NSImage? {
+    var logo: NSImage? {
         switch self {
-        case .Twitter:
-            return nil
+        case .Mastodon:
+            return NSImage(named: "Mastodon Logo")
         default:
             return nil
         }

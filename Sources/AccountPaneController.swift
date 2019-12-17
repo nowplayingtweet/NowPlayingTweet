@@ -56,7 +56,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.accountControl.setEnabled(true, forSegment: 0)
             self.accountControl.setEnabled(true, forSegment: 1)
 
-            self.providerIcon.image = type(of: account).provider.logo
+            self.providerIcon.image = type(of: account).provider.icon
             self.provider.stringValue = String(describing: type(of: account).provider)
 
             self.name.stringValue = account.name
@@ -146,7 +146,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         case self.accountList:
             return self.accounts.sortedAccounts.count
         case self.providerList:
-            return Provider.allCases.count
+            return self.accounts.availableProviders.count
         default: return 0
         }
     }
@@ -156,7 +156,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         case self.accountList:
             return self.accounts.sortedAccounts[row]
         case self.providerList:
-            return Provider.allCases[row]
+            return self.accounts.availableProviders[row]
         default: return nil
         }
     }
@@ -180,7 +180,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             }
         case self.providerList:
             if tableView.selectedRow >= 0 {
-                self.addAccount(Provider.allCases[tableView.selectedRow])
+                self.addAccount(self.accounts.availableProviders[tableView.selectedRow])
                 tableView.reloadData()
             }
         default: break
