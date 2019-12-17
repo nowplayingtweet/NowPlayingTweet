@@ -12,6 +12,8 @@ class Accounts {
 
     static let shared = Accounts()
 
+    private let userDefaults = UserDefaults.standard
+
     private var storage: [Provider : ProviderAccounts] = [:]
 
     var sortedAccounts: [Account] {
@@ -40,8 +42,8 @@ class Accounts {
 
     var current: Account? {
         get {
-            guard let provider = UserDefaults.standard.provider(forKey: "CurrentProvider")
-                , let id = UserDefaults.standard.string(forKey: "CurrentAccountID")
+            guard let provider = self.userDefaults.provider(forKey: "CurrentProvider")
+                , let id = self.userDefaults.string(forKey: "CurrentAccountID")
                 , let (account, _) = self.storage[provider]?.storage[id] else {
                     return nil
             }
@@ -51,15 +53,13 @@ class Accounts {
 
         set {
             guard let current = newValue else {
-                UserDefaults.standard.removeObject(forKey: "CurrentProvider")
-                UserDefaults.standard.removeObject(forKey: "CurrentAccountID")
-                UserDefaults.standard.synchronize()
+                self.userDefaults.removeObject(forKey: "CurrentProvider")
+                self.userDefaults.removeObject(forKey: "CurrentAccountID")
                 return
             }
 
-            UserDefaults.standard.set(type(of: current).provider, forKey: "CurrentProvider")
-            UserDefaults.standard.set(current.id, forKey: "CurrentAccountID")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(type(of: current).provider, forKey: "CurrentProvider")
+            self.userDefaults.set(current.id, forKey: "CurrentAccountID")
         }
     }
 

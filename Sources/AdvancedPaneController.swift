@@ -9,6 +9,8 @@ import Cocoa
 
 class AdvancedPaneController: NSViewController {
 
+    private let userDefaults = UserDefaults.standard
+
     @IBOutlet weak var useKeyShortcutButton: NSButton!
     @IBOutlet weak var postWithImageButton: NSButton!
     @IBOutlet weak var autoPostButton: NSButton!
@@ -17,31 +19,28 @@ class AdvancedPaneController: NSViewController {
 
     private var useKeyShortcut: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "UseKeyShortcut")
+            return self.userDefaults.bool(forKey: "UseKeyShortcut")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "UseKeyShortcut")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "UseKeyShortcut")
         }
     }
 
     private var postWithImage: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "PostWithImage")
+            return self.userDefaults.bool(forKey: "PostWithImage")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "PostWithImage")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "PostWithImage")
         }
     }
 
     private var autoPost: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "AutoPost")
+            return self.userDefaults.bool(forKey: "AutoPost")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "AutoPost")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "AutoPost")
         }
     }
 

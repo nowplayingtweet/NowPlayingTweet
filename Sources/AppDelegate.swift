@@ -67,8 +67,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             "AutoPost" : false,
             ]
         self.userDefaults.register(defaults: defaultSettings)
-
-        self.userDefaults.synchronize()
     }
 
     func applicationWillFinishLaunching(_ aNotification: Notification) {
@@ -104,6 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        self.userDefaults.synchronize()
         HotKeyCenter.shared.unregisterAll()
     }
 

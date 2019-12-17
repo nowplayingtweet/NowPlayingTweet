@@ -21,21 +21,21 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
         "{{AlbumArtist}}": "Album Artist Name",
     ]
 
-    @IBOutlet weak var postFormat: NSTextField!
+    private let userDefaults = UserDefaults.standard
 
+    @IBOutlet weak var postFormat: NSTextField!
     @IBOutlet weak var gridView: NSGridView!
 
     private var userDefaultsPostFormat: String? {
         get {
-            return UserDefaults.standard.string(forKey: "PostFormat")
+            return self.userDefaults.string(forKey: "PostFormat")
         }
         set(newValue) {
             if let stringValue = newValue, !stringValue.isEmpty {
-                UserDefaults.standard.set(stringValue, forKey: "PostFormat")
+                self.userDefaults.set(stringValue, forKey: "PostFormat")
             } else {
-                UserDefaults.standard.removeObject(forKey: "PostFormat")
+                self.userDefaults.removeObject(forKey: "PostFormat")
             }
-            UserDefaults.standard.synchronize()
         }
     }
 
