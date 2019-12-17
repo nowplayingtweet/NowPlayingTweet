@@ -129,8 +129,6 @@ class Accounts {
 
         client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", handler: { credentials in
             client.init(credentials)?.verify(handler: { account in
-                let provider = type(of: account).provider
-
                 self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
 
                 if self.current == nil {
@@ -146,16 +144,43 @@ class Accounts {
 
     func logout(account: Account) {
         let provider = type(of: account).provider
-        let id = account.id
-
-        self.storage[provider]?.deleteFromKeychain(id: id)
-
-        if self.current == nil {
-            self.current = self.sortedAccounts.first
+        guard let client = self.client(for: account) else {
+            self.storage[provider]?.deleteFromKeychain(id: account.id)
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+            NotificationCenter.default.post(name: .logout,
+                                            object: nil)
+            return
         }
 
-        NotificationCenter.default.post(name: .logout,
-                                        object: nil)
+        client.revoke(handler: {
+            self.storage[provider]?.deleteFromKeychain(id: account.id)
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+            NotificationCenter.default.post(name: .logout,
+                                            object: nil)
+        }, failure: { error in
+            guard let err = error as? SocialError else {
+                return
+            }
+
+            switch err {
+            case .NotImplements(_, _):
+                self.storage[provider]?.deleteFromKeychain(id: account.id)
+                if self.current == nil {
+                    self.current = self.sortedAccounts.first
+                }
+                NotificationCenter.default.post(name: .logout,
+                                                object: nil)
+            case .FailedRevoke(let message):
+                NSLog(message)
+            default:
+                break
+            }
+        })
+
     }
 
 }
