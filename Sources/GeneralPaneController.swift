@@ -9,17 +9,17 @@ import Cocoa
 
 class GeneralPaneController: NSViewController, NSTextFieldDelegate {
 
-    static let shared: GeneralPaneController = {
-        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .generalPaneController)
-        return windowController as! GeneralPaneController
-    }()
-
     static let formatVariables: KeyValuePairs = [
         "{{Title}}": "Track Title",
         "{{Artist}}": "Artist Name",
         "{{Album}}": "Album Title",
         "{{AlbumArtist}}": "Album Artist Name",
     ]
+
+    static let shared: GeneralPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .generalPaneController)
+        return windowController as! GeneralPaneController
+    }()
 
     private let userDefaults = UserDefaults.standard
 

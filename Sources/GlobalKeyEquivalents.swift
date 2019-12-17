@@ -10,9 +10,13 @@ import Magnet
 
 class GlobalKeyEquivalents: NSObject {
 
-    static let shared: GlobalKeyEquivalents = GlobalKeyEquivalents()
+    static let shared = GlobalKeyEquivalents()
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults = UserDefaults.standard
+
+    private let hotKeyCenter = HotKeyCenter.shared
+
+    private weak var delegate: KeyEquivalentsDelegate?
 
     var isEnabled: Bool {
         get {
@@ -26,10 +30,6 @@ class GlobalKeyEquivalents: NSObject {
             }
         }
     }
-
-    private let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
-
-    private weak var delegate: KeyEquivalentsDelegate?
 
     private override init() {
         super.init()

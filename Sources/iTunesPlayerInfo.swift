@@ -29,6 +29,8 @@ class iTunesPlayerInfo {
         }
     }
 
+    var currentTrack: iTunesPlayerInfo.Track?
+
     private var itunes: iTunesApplication? {
         if #available(OSX 10.14, *) {
             let targetAppEventDescriptor: NSAppleEventDescriptor = NSAppleEventDescriptor(bundleIdentifier: "com.apple.iTunes")
@@ -53,8 +55,6 @@ class iTunesPlayerInfo {
             return SBApplication(bundleIdentifier: "com.apple.iTunes")
         }
     }
-
-    var currentTrack: iTunesPlayerInfo.Track?
 
     var isRunningiTunes: Bool {
         let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.iTunes")

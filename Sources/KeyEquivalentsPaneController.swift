@@ -16,12 +16,13 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
         return windowController as! KeyEquivalentsPaneController
     }()
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private let keyEquivalents = GlobalKeyEquivalents.shared
 
-    private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
+    private let userDefaults = UserDefaults.standard
+
+    private let accounts = Accounts.shared
 
     @IBOutlet weak var currentRecordView: RecordView!
-
     @IBOutlet weak var gridView: NSGridView!
 
     private var selectedRecortView: RecordView?
@@ -56,7 +57,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
 
         let accountKeyShortcut = self.gridView.row(at: 1)
 
-        if !Accounts.shared.existsAccounts {
+        if !self.accounts.existsAccounts {
             if #available(OSX 10.14, *) {
                 accountKeyShortcut.isHidden = true
             } else {
@@ -74,7 +75,7 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             self.gridView.rowSpacing = 8
         }
 
-        for account in Accounts.shared.sortedAccounts {
+        for account in self.accounts.sortedAccounts {
             let accountName: String = account.username
             let recordLabel: NSTextField = NSTextField(labelWithString: "Post with \(type(of: account).provider) @\(accountName):")
 

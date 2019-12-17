@@ -24,13 +24,7 @@ class Accounts {
                 continue
             }
 
-            for id in accounts.storage.keys.sorted() {
-                guard let (account, _) = accounts.storage[id] else {
-                    continue
-                }
-
-                result.append(account)
-            }
+            result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
         }
 
         return result

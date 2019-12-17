@@ -13,17 +13,19 @@ import KeychainAccess
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {
 
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+
+    let playerInfo = iTunesPlayerInfo()
+
+    private let keyEquivalents = GlobalKeyEquivalents.shared
+
+    private let userDefaults = UserDefaults.standard
+
+    private let accounts = Accounts.shared
+
     @IBOutlet weak var menu: NSMenu!
     @IBOutlet weak var currentAccount: NSMenuItem!
     @IBOutlet weak var postMenu: NSMenuItem!
-
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-
-    let userDefaults: UserDefaults = UserDefaults.standard
-
-    let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
-
-    let playerInfo: iTunesPlayerInfo = iTunesPlayerInfo()
 
     override init() {
         super.init()
@@ -108,7 +110,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.identifier == NSUserInterfaceItemIdentifier("PostNowPlaying") {
-            return Accounts.shared.existsAccounts
+            return self.accounts.existsAccounts
         }
 
         return true
@@ -130,15 +132,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             return
         }
 
-        self.postNowPlaying(by: Accounts.shared.current, auto: true)
+        self.postNowPlaying(by: self.accounts.current, auto: true)
     }
 
     @IBAction private func postByCurrentAccount(_ sender: NSMenuItem) {
-        self.postNowPlaying(by: Accounts.shared.current)
+        self.postNowPlaying(by: self.accounts.current)
     }
 
     @objc func postBySelectingAccount(_ sender: NSMenuItem) {
-        let account = Accounts.shared.sortedAccounts.first(where: { account in
+        let account = self.accounts.sortedAccounts.first(where: { account in
             return "\(type(of: account).provider)_\(account.id)" == sender.identifier?.rawValue
         })
         self.postNowPlaying(by: account)
@@ -212,7 +214,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     private func post(with account: Account?, failure: Client.Failure? = nil) {
-        if !Accounts.shared.existsAccounts {
+        if !self.accounts.existsAccounts {
             failure?(NPTError.NotLogin)
             return
         }
@@ -238,9 +240,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let postText = self.createPostText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "PostWithImage") {
-            Accounts.shared.client(for: account)?.post(text: postText, image: currentTrack.artwork, failure: failure)
+            self.accounts.client(for: account)?.post(text: postText, image: currentTrack.artwork, failure: failure)
         } else {
-            Accounts.shared.client(for: account)?.post(text: postText, failure: failure)
+            self.accounts.client(for: account)?.post(text: postText, failure: failure)
         }
     }
 
@@ -271,7 +273,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
         self.postMenu.submenu = nil
 
-        if let current = Accounts.shared.current {
+        if let current = self.accounts.current {
             self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
             self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
         } else {
@@ -279,19 +281,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             self.currentAccount.setGuestImage()
         }
 
-        if !Accounts.shared.existsAccounts {
-            self.postMenu.isEnabled = false
-            return
-        }
-
-        self.postMenu.isEnabled = true
-
-        if Accounts.shared.sortedAccounts.count <= 1 {
+        if self.accounts.sortedAccounts.count <= 1 {
             return
         }
 
         let menu = NSMenu()
-        for account in Accounts.shared.sortedAccounts {
+        for account in self.accounts.sortedAccounts {
             let menuItem = NSMenuItem()
             menuItem.title = "\(type(of: account).provider) @\(account.username)"
             menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
@@ -320,11 +315,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func postWithCurrent() {
-        self.postNowPlaying(by: Accounts.shared.current)
+        self.postNowPlaying(by: self.accounts.current)
     }
 
     func post(with id: String, of provider: Provider) {
-        self.postNowPlaying(by: Accounts.shared.account(provider, id: id))
+        self.postNowPlaying(by: self.accounts.account(provider, id: id))
     }
 
 }

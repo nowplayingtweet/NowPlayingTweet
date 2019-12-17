@@ -20,7 +20,6 @@ class TwitterAccounts: ProviderAccounts {
 
     required init(keychainPrefix: String) {
         self.keychainPrefix = keychainPrefix
-
         let keychain = Keychain(service: self.keychainName)
 
         var ids = keychain.allKeys()
@@ -32,24 +31,22 @@ class TwitterAccounts: ProviderAccounts {
                     self.deleteFromKeychain(id: id)
                     ids.removeAll { $0 == id }
                     self.initializeNotification(ids.count)
-
                     continue
             }
 
             TwitterClient(credentials)!.verify(handler: {
                 account in
-                guard let account = account as? TwitterAccount else {
-                    self.deleteFromKeychain(id: id)
+                defer {
                     ids.removeAll { $0 == id }
                     self.initializeNotification(ids.count)
+                }
 
+                guard let account = account as? TwitterAccount else {
+                    self.deleteFromKeychain(id: id)
                     return
                 }
 
                 self.storage[id] = (account, credentials)
-
-                ids.removeAll { $0 == id }
-                self.initializeNotification(ids.count)
             }, failure: { _ in
                 self.deleteFromKeychain(id: id)
                 ids.removeAll { $0 == id }

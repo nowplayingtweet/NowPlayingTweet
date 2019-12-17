@@ -11,6 +11,13 @@ class PreferencesWindowController: NSWindowController {
 
     private let userDefaults = UserDefaults.standard
 
+    private let viewControllers: [NSViewController] = [
+        GeneralPaneController.shared,
+        AccountPaneController.shared,
+        AdvancedPaneController.shared,
+        KeyEquivalentsPaneController.shared,
+        ]
+
     @IBOutlet weak var toolbar: NSToolbar!
     @IBOutlet weak var generalPane: NSToolbarItem!
     @IBOutlet weak var accountPane: NSToolbarItem!
@@ -25,13 +32,6 @@ class PreferencesWindowController: NSWindowController {
             self.userDefaults.set(newValue, forKey: "lastViewItemIdentifier")
         }
     }
-
-    private let viewControllers: [NSViewController] = [
-        GeneralPaneController.shared,
-        AccountPaneController.shared,
-        AdvancedPaneController.shared,
-        KeyEquivalentsPaneController.shared,
-        ]
 
     override func windowDidLoad() {
         super.windowDidLoad()
