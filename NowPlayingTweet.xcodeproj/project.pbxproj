@@ -40,6 +40,7 @@
 		3DD88B2A2024BBFE000F7818 /* NSImage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B292024BBFE000F7818 /* NSImage++.swift */; };
 		3DD88B2C2024C25E000F7818 /* iTunesPlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */; };
 		3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD88B2D2024C852000F7818 /* NotificationObserver.swift */; };
+		3DDC122723AD38C40088CAE7 /* AuthorizeByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC122623AD38C40088CAE7 /* AuthorizeByCode.swift */; };
 		3DDC122923AD3D590088CAE7 /* D14nCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC122823AD3D590088CAE7 /* D14nCredentials.swift */; };
 		3DDC123123AD57C30088CAE7 /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
 		3DDC123223AD57C30088CAE7 /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -63,6 +64,9 @@
 		3DFCA42623A8E01E0042135E /* MastodonCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42523A8E01E0042135E /* MastodonCredentials.swift */; };
 		3DFCA42823A8E0650042135E /* OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42723A8E0650042135E /* OAuth2.swift */; };
 		3DFCA42A23A8F0300042135E /* Provider++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42923A8F0300042135E /* Provider++.swift */; };
+		3DFCA42D23A9592A0042135E /* MastodonAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42C23A9592A0042135E /* MastodonAccount.swift */; };
+		3DFCA42F23A95B630042135E /* D14nAuthorizeByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA42E23A95B630042135E /* D14nAuthorizeByCode.swift */; };
+		3DFCA43123A960410042135E /* MastodonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA43023A960410042135E /* MastodonClient.swift */; };
 		3DFCA43323AA2A610042135E /* PostAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFCA43223AA2A610042135E /* PostAttachments.swift */; };
 		3DFF864F2041E1F6004FDD88 /* GlobalKeyEquivalents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */; };
 		3DFF865120430789004FDD88 /* KeyEquivalentsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */; };
@@ -149,6 +153,7 @@
 		3DD88B292024BBFE000F7818 /* NSImage++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage++.swift"; sourceTree = "<group>"; };
 		3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesPlayerInfo.swift; sourceTree = "<group>"; };
 		3DD88B2D2024C852000F7818 /* NotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationObserver.swift; sourceTree = "<group>"; };
+		3DDC122623AD38C40088CAE7 /* AuthorizeByCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeByCode.swift; sourceTree = "<group>"; };
 		3DDC122823AD3D590088CAE7 /* D14nCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nCredentials.swift; sourceTree = "<group>"; };
 		3DDC123323AD59300088CAE7 /* D14nAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nAccount.swift; sourceTree = "<group>"; };
 		3DDC123523ADEB6E0088CAE7 /* D14nClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nClient.swift; sourceTree = "<group>"; };
@@ -162,6 +167,9 @@
 		3DFCA42523A8E01E0042135E /* MastodonCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MastodonCredentials.swift; sourceTree = "<group>"; };
 		3DFCA42723A8E0650042135E /* OAuth2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2.swift; sourceTree = "<group>"; };
 		3DFCA42923A8F0300042135E /* Provider++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Provider++.swift"; sourceTree = "<group>"; };
+		3DFCA42C23A9592A0042135E /* MastodonAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MastodonAccount.swift; sourceTree = "<group>"; };
+		3DFCA42E23A95B630042135E /* D14nAuthorizeByCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nAuthorizeByCode.swift; sourceTree = "<group>"; };
+		3DFCA43023A960410042135E /* MastodonClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MastodonClient.swift; sourceTree = "<group>"; };
 		3DFCA43223AA2A610042135E /* PostAttachments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAttachments.swift; sourceTree = "<group>"; };
 		3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalKeyEquivalents.swift; sourceTree = "<group>"; };
 		3DFF865020430789004FDD88 /* KeyEquivalentsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEquivalentsDelegate.swift; sourceTree = "<group>"; };
@@ -219,6 +227,8 @@
 				3DDC123523ADEB6E0088CAE7 /* D14nClient.swift */,
 				3D9D295923A65FDF0031505C /* AuthorizeByCallback.swift */,
 				3DDC123723ADEC9F0088CAE7 /* D14nAuthorizeByCallback.swift */,
+				3DDC122623AD38C40088CAE7 /* AuthorizeByCode.swift */,
+				3DFCA42E23A95B630042135E /* D14nAuthorizeByCode.swift */,
 				3DFCA43223AA2A610042135E /* PostAttachments.swift */,
 				3DEEED9A2344A538003B2AD2 /* Twitter */,
 				3DFCA42223A8DEC60042135E /* Mastodon */,
@@ -346,6 +356,8 @@
 			isa = PBXGroup;
 			children = (
 				3DFCA42523A8E01E0042135E /* MastodonCredentials.swift */,
+				3DFCA42C23A9592A0042135E /* MastodonAccount.swift */,
+				3DFCA43023A960410042135E /* MastodonClient.swift */,
 			);
 			path = Mastodon;
 			sourceTree = "<group>";
@@ -516,8 +528,10 @@
 				3D17E7962253F41700AF0E70 /* TwitterAccount.swift in Sources */,
 				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DDC122923AD3D590088CAE7 /* D14nCredentials.swift in Sources */,
+				3DDC122723AD38C40088CAE7 /* AuthorizeByCode.swift in Sources */,
 				3DF4A6DC20277722007A7B29 /* NSEvent++.swift in Sources */,
 				3D9D295823A648F60031505C /* SocialError.swift in Sources */,
+				3DFCA42D23A9592A0042135E /* MastodonAccount.swift in Sources */,
 				3DFCA42A23A8F0300042135E /* Provider++.swift in Sources */,
 				3DAA09AE202C47EE00C6F449 /* Accounts.swift in Sources */,
 				3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */,
@@ -535,9 +549,11 @@
 				3DEEED95234496EE003B2AD2 /* Credentials.swift in Sources */,
 				3DEF425D2252748C008E977A /* Account.swift in Sources */,
 				3DCEE8112026409E00D87CE5 /* NSImageView++.swift in Sources */,
+				3DFCA42F23A95B630042135E /* D14nAuthorizeByCode.swift in Sources */,
 				3DEF425F22527526008E977A /* Provider.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
+				3DFCA43123A960410042135E /* MastodonClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

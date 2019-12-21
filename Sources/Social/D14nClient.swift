@@ -9,13 +9,15 @@ import Foundation
 
 protocol D14nClient: Client {
 
-    static func registerApp(base: URL?, success: @escaping (String, String) -> Void, failure: Client.Failure?)
+    typealias RegisterSuccess = (String, String) -> Void
+
+    static func registerApp(base: URL?, success: @escaping RegisterSuccess, failure: Client.Failure?)
 
 }
 
 extension D14nClient {
 
-    static func registerApp(base baseURL: URL?, success: @escaping (String, String) -> Void) {
+    static func registerApp(base baseURL: URL?, success: @escaping RegisterSuccess) {
         Self.registerApp(base: baseURL, success: success, failure: nil)
     }
 

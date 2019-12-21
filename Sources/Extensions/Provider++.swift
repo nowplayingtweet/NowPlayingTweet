@@ -22,8 +22,8 @@ extension Provider {
         switch self {
         case .Twitter:
             return TwitterClient.self
-        default:
-            return nil
+        case .Mastodon:
+            return MastodonClient.self
         }
     }
 
@@ -31,8 +31,8 @@ extension Provider {
         switch self {
         case .Twitter:
             return TwitterCredentials.self
-        default:
-            return nil
+        case .Mastodon:
+            return MastodonCredentials.self
         }
     }
 
