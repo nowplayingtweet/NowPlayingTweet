@@ -17,7 +17,7 @@ class Accounts {
     private var storage: [Provider : ProviderAccounts] = [:]
 
     var availableProviders: [Provider] {
-        return .init(self.storage.keys)
+        return Provider.allCases.filter { self.storage.keys.contains($0) }
     }
 
     var sortedAccounts: [Account] {
@@ -55,7 +55,7 @@ class Accounts {
             }
 
             self.userDefaults.set(type(of: current).provider, forKey: "CurrentProvider")
-            self.userDefaults.set(current.id, forKey: "CurrentAccountID")
+            self.userDefaults.set(current.keychainID, forKey: "CurrentAccountID")
         }
     }
 
@@ -95,20 +95,20 @@ class Accounts {
                 continue
             }
 
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .asap)
+
             if self.current == nil {
                 self.current = self.sortedAccounts.first
             }
 
-            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .whenIdle)
-
-            NotificationCenter.default.removeObserver(observer!)
+            NotificationCenter.default.removeObserver(token!)
         }
     }
 
     func client(for account: Account) -> Client? {
         let provider = type(of: account).provider
         guard let client = provider.client
-            , let (_, credentials) = self.storage[provider]?.storage[account.id] else {
+            , let (_, credentials) = self.storage[provider]?.storage[account.keychainID] else {
             return nil
         }
 
@@ -152,7 +152,7 @@ class Accounts {
             return
         }
 
-        accounts.revoke(id: account.id) { error in
+        accounts.revoke(id: account.keychainID) { error in
             if let error = error {
                 NSLog(error.localizedDescription)
                 return

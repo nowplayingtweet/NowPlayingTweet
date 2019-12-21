@@ -53,21 +53,25 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             }
 
             self.accountBox.contentView = self.accountView
+            self._selected = account
             self.accountControl.setEnabled(true, forSegment: 0)
             self.accountControl.setEnabled(true, forSegment: 1)
+
+            if let account = account as? D14nAccount {
+                self.screenName.stringValue = "@\(account.username)@\(account.domain)"
+            } else {
+                self.screenName.stringValue = "@\(account.username)"
+            }
 
             self.providerIcon.image = type(of: account).provider.icon
             self.provider.stringValue = String(describing: type(of: account).provider)
 
             self.name.stringValue = account.name
-            self.screenName.stringValue = "@\(account.username)"
             self.avater.fetchImage(url: account.avaterUrl, rounded: true)
 
             let isCurrent = account.isEqual(self.accounts.current)
             self.currentLabel.isHidden = !isCurrent
             self.currentButton.isHidden = isCurrent
-
-            self._selected = account
         }
     }
 
@@ -147,7 +151,8 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             return self.accounts.sortedAccounts.count
         case self.providerList:
             return self.accounts.availableProviders.count
-        default: return 0
+        default:
+            return 0
         }
     }
 
@@ -157,14 +162,17 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             return self.accounts.sortedAccounts[row]
         case self.providerList:
             return self.accounts.availableProviders[row]
-        default: return nil
+        default:
+            return nil
         }
     }
 
     func selectionShouldChange(in tableView: NSTableView) -> Bool {
         switch tableView {
-        case self.accountList: return tableView.clickedRow >= 0 || self.selected == nil
-        default: return true
+        case self.accountList:
+            return tableView.clickedRow >= 0 || self.selected == nil
+        default:
+            return true
         }
     }
 

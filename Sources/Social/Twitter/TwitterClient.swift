@@ -75,8 +75,7 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
                     return
             }
 
-            let account = TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!)
-            success(account)
+            success(TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!))
         }, failure: failure)
     }
 

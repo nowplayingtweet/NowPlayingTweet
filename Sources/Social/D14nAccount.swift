@@ -15,6 +15,10 @@ protocol D14nAccount: Account {
 
 extension D14nAccount {
 
+    var keychainID: String {
+        return "\(self.domain)_\(self.id)"
+    }
+
     func isEqual(_ account: Account?) -> Bool {
         guard let account = account
             , let d14nAccount = account as? D14nAccount else {

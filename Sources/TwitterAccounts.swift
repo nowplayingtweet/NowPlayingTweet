@@ -94,8 +94,8 @@ class TwitterAccounts: ProviderAccounts {
         }
 
         let keychain = Keychain(service: self.keychainName)
-        try? keychain.set(data, key: account.id)
-        self.storage[account.id] = (account, credentials)
+        try? keychain.set(data, key: account.keychainID)
+        self.storage[account.keychainID] = (account, credentials)
     }
 
     func revoke(id: String, handler: @escaping (Error?) -> Void) {
