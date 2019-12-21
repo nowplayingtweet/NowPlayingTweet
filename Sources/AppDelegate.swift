@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-    let playerInfo = iTunesPlayerInfo()
+    lazy var playerInfo = iTunesPlayerInfo()
 
     private let keyEquivalents = GlobalKeyEquivalents.shared
 
