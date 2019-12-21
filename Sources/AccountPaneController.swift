@@ -9,6 +9,15 @@ import Cocoa
 
 class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    static let shared: AccountPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .accountPaneController)
+        return windowController as! AccountPaneController
+    }()
+
+    private let appDelegate = NSApplication.shared.delegate as! AppDelegate
+
+    private let accounts = Accounts.shared
+
     @IBOutlet weak var accountList: NSTableView!
     @IBOutlet weak var accountControl: NSSegmentedControl!
     @IBOutlet weak var accountBox: NSBox!
@@ -27,14 +36,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
 
-    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
-
-    static let shared: AccountPaneController = {
-        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .accountPaneController)
-        return windowController as! AccountPaneController
-    }()
-
-    private var _selected: Account? = nil
+    private var _selected: Account?
 
     var selected: Account? {
         get {
@@ -54,17 +56,14 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.accountControl.setEnabled(true, forSegment: 0)
             self.accountControl.setEnabled(true, forSegment: 1)
 
-            self.providerIcon.isHidden = false
             self.providerIcon.image = type(of: account).provider.logo
             self.provider.stringValue = String(describing: type(of: account).provider)
 
             self.name.stringValue = account.name
-            self.screenName.isHidden = false
             self.screenName.stringValue = "@\(account.username)"
-            self.avater.isEnabled = true
             self.avater.fetchImage(url: account.avaterUrl, rounded: true)
 
-            let isCurrent = account.isEqual(Accounts.shared.current)
+            let isCurrent = account.isEqual(self.accounts.current)
             self.currentLabel.isHidden = !isCurrent
             self.currentButton.isHidden = isCurrent
 
@@ -84,7 +83,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             return
         }
 
-        Accounts.shared.current = selected
+        self.accounts.current = selected
         self.appDelegate.updateSocialAccount()
     }
 
@@ -113,7 +112,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.appDelegate.updateSocialAccount()
         })
 
-        Accounts.shared.login(provider: provider)
+        self.accounts.login(provider: provider)
     }
 
     private func removeAccount() {
@@ -130,14 +129,14 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             self.appDelegate.updateSocialAccount()
         })
 
-        Accounts.shared.logout(account: selected)
+        self.accounts.logout(account: selected)
     }
 
     func accountReload() {
         self.accountList.reloadData()
 
         if let selected = self.selected {
-            let index = IndexSet(integer: Accounts.shared.sortedAccounts.firstIndex { selected.isEqual($0) }!)
+            let index = IndexSet(integer: self.accounts.sortedAccounts.firstIndex { selected.isEqual($0) }!)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
         }
     }
@@ -145,7 +144,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     func numberOfRows(in tableView: NSTableView) -> Int {
         switch tableView {
         case self.accountList:
-            return Accounts.shared.sortedAccounts.count
+            return self.accounts.sortedAccounts.count
         case self.providerList:
             return Provider.allCases.count
         default: return 0
@@ -155,7 +154,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         switch tableView {
         case self.accountList:
-            return Accounts.shared.sortedAccounts[row]
+            return self.accounts.sortedAccounts[row]
         case self.providerList:
             return Provider.allCases[row]
         default: return nil
@@ -177,7 +176,7 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         switch tableView {
         case self.accountList:
             if tableView.selectedRow >= 0 {
-                self.selected = Accounts.shared.sortedAccounts[tableView.selectedRow]
+                self.selected = self.accounts.sortedAccounts[tableView.selectedRow]
             }
         case self.providerList:
             if tableView.selectedRow >= 0 {

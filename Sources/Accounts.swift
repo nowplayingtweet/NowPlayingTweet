@@ -12,6 +12,8 @@ class Accounts {
 
     static let shared = Accounts()
 
+    private let userDefaults = UserDefaults.standard
+
     private var storage: [Provider : ProviderAccounts] = [:]
 
     var sortedAccounts: [Account] {
@@ -22,13 +24,7 @@ class Accounts {
                 continue
             }
 
-            for id in accounts.storage.keys.sorted() {
-                guard let (account, _) = accounts.storage[id] else {
-                    continue
-                }
-
-                result.append(account)
-            }
+            result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
         }
 
         return result
@@ -40,8 +36,8 @@ class Accounts {
 
     var current: Account? {
         get {
-            guard let provider = UserDefaults.standard.provider(forKey: "CurrentProvider")
-                , let id = UserDefaults.standard.string(forKey: "CurrentAccountID")
+            guard let provider = self.userDefaults.provider(forKey: "CurrentProvider")
+                , let id = self.userDefaults.string(forKey: "CurrentAccountID")
                 , let (account, _) = self.storage[provider]?.storage[id] else {
                     return nil
             }
@@ -51,15 +47,13 @@ class Accounts {
 
         set {
             guard let current = newValue else {
-                UserDefaults.standard.removeObject(forKey: "CurrentProvider")
-                UserDefaults.standard.removeObject(forKey: "CurrentAccountID")
-                UserDefaults.standard.synchronize()
+                self.userDefaults.removeObject(forKey: "CurrentProvider")
+                self.userDefaults.removeObject(forKey: "CurrentAccountID")
                 return
             }
 
-            UserDefaults.standard.set(type(of: current).provider, forKey: "CurrentProvider")
-            UserDefaults.standard.set(current.id, forKey: "CurrentAccountID")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(type(of: current).provider, forKey: "CurrentProvider")
+            self.userDefaults.set(current.id, forKey: "CurrentAccountID")
         }
     }
 
@@ -129,8 +123,6 @@ class Accounts {
 
         client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", handler: { credentials in
             client.init(credentials)?.verify(handler: { account in
-                let provider = type(of: account).provider
-
                 self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
 
                 if self.current == nil {
@@ -146,16 +138,43 @@ class Accounts {
 
     func logout(account: Account) {
         let provider = type(of: account).provider
-        let id = account.id
-
-        self.storage[provider]?.deleteFromKeychain(id: id)
-
-        if self.current == nil {
-            self.current = self.sortedAccounts.first
+        guard let client = self.client(for: account) else {
+            self.storage[provider]?.deleteFromKeychain(id: account.id)
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+            NotificationCenter.default.post(name: .logout,
+                                            object: nil)
+            return
         }
 
-        NotificationCenter.default.post(name: .logout,
-                                        object: nil)
+        client.revoke(handler: {
+            self.storage[provider]?.deleteFromKeychain(id: account.id)
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+            NotificationCenter.default.post(name: .logout,
+                                            object: nil)
+        }, failure: { error in
+            guard let err = error as? SocialError else {
+                return
+            }
+
+            switch err {
+            case .NotImplements(_, _):
+                self.storage[provider]?.deleteFromKeychain(id: account.id)
+                if self.current == nil {
+                    self.current = self.sortedAccounts.first
+                }
+                NotificationCenter.default.post(name: .logout,
+                                                object: nil)
+            case .FailedRevoke(let message):
+                NSLog(message)
+            default:
+                break
+            }
+        })
+
     }
 
 }

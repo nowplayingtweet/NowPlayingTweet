@@ -15,17 +15,17 @@ class NotificationObserver {
 
     func addObserver(_ observer: Any, name: Notification.Name, selector: Selector, object: Any?, distributed: Bool = false) {
         if distributed {
-            distNotificationCenter.addObserver(observer, selector: selector, name: name, object: object as? String)
+            self.distNotificationCenter.addObserver(observer, selector: selector, name: name, object: object as? String)
         } else {
-            notificationCenter.addObserver(observer, selector: selector, name: name, object: object)
+            self.notificationCenter.addObserver(observer, selector: selector, name: name, object: object)
         }
     }
 
     func removeObserver(_ observer: Any, name: Notification.Name, object: Any?, distributed: Bool = false) {
         if distributed {
-            distNotificationCenter.removeObserver(observer, name: name, object: object as? String)
+            self.distNotificationCenter.removeObserver(observer, name: name, object: object as? String)
         } else {
-            notificationCenter.removeObserver(observer, name: name, object: object)
+            self.notificationCenter.removeObserver(observer, name: name, object: object)
         }
     }
 

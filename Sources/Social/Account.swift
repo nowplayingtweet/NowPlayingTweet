@@ -12,10 +12,9 @@ protocol Account {
     static var provider: Provider { get }
 
     var id: String { get }
-
-    var name: String { get set }
-    var username: String { get set }
-    var avaterUrl: URL { get set }
+    var name: String { get }
+    var username: String { get }
+    var avaterUrl: URL { get }
 
     init(id: String, name: String, username: String, avaterUrl: URL)
 

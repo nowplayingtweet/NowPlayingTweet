@@ -9,48 +9,47 @@ import Cocoa
 
 class AdvancedPaneController: NSViewController {
 
+    static let shared: AdvancedPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .advancedPaneController)
+        return windowController as! AdvancedPaneController
+    }()
+
+    private let appDelegate = NSApplication.shared.delegate as! AppDelegate
+
+    private let userDefaults = UserDefaults.standard
+
+    private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
+
     @IBOutlet weak var useKeyShortcutButton: NSButton!
     @IBOutlet weak var postWithImageButton: NSButton!
     @IBOutlet weak var autoPostButton: NSButton!
 
-    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
-
     private var useKeyShortcut: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "UseKeyShortcut")
+            return self.userDefaults.bool(forKey: "UseKeyShortcut")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "UseKeyShortcut")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "UseKeyShortcut")
         }
     }
 
     private var postWithImage: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "PostWithImage")
+            return self.userDefaults.bool(forKey: "PostWithImage")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "PostWithImage")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "PostWithImage")
         }
     }
 
     private var autoPost: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "AutoPost")
+            return self.userDefaults.bool(forKey: "AutoPost")
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: "AutoPost")
-            UserDefaults.standard.synchronize()
+            self.userDefaults.set(newValue, forKey: "AutoPost")
         }
     }
-
-    private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
-
-    static let shared: AdvancedPaneController = {
-        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .advancedPaneController)
-        return windowController as! AdvancedPaneController
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()

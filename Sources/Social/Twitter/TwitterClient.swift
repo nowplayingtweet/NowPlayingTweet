@@ -35,7 +35,7 @@ class TwitterClient: Client, CallbackHandler {
         }, failure: failure)
     }
 
-    var credentials: Credentials
+    let credentials: Credentials
 
     required init?(_ credentials: Credentials) {
         guard let credentials = credentials as? TwitterCredentials else {

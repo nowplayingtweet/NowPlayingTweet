@@ -9,11 +9,6 @@ import Cocoa
 
 class GeneralPaneController: NSViewController, NSTextFieldDelegate {
 
-    static let shared: GeneralPaneController = {
-        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .generalPaneController)
-        return windowController as! GeneralPaneController
-    }()
-
     static let formatVariables: KeyValuePairs = [
         "{{Title}}": "Track Title",
         "{{Artist}}": "Artist Name",
@@ -21,21 +16,26 @@ class GeneralPaneController: NSViewController, NSTextFieldDelegate {
         "{{AlbumArtist}}": "Album Artist Name",
     ]
 
-    @IBOutlet weak var postFormat: NSTextField!
+    static let shared: GeneralPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .generalPaneController)
+        return windowController as! GeneralPaneController
+    }()
 
+    private let userDefaults = UserDefaults.standard
+
+    @IBOutlet weak var postFormat: NSTextField!
     @IBOutlet weak var gridView: NSGridView!
 
     private var userDefaultsPostFormat: String? {
         get {
-            return UserDefaults.standard.string(forKey: "PostFormat")
+            return self.userDefaults.string(forKey: "PostFormat")
         }
         set(newValue) {
             if let stringValue = newValue, !stringValue.isEmpty {
-                UserDefaults.standard.set(stringValue, forKey: "PostFormat")
+                self.userDefaults.set(stringValue, forKey: "PostFormat")
             } else {
-                UserDefaults.standard.removeObject(forKey: "PostFormat")
+                self.userDefaults.removeObject(forKey: "PostFormat")
             }
-            UserDefaults.standard.synchronize()
         }
     }
 
