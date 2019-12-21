@@ -153,7 +153,7 @@ class Accounts {
         }
 
         if let client = client as? AuthorizeByCallback.Type {
-            client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", success: success)
+            client.authorize(key: key, secret: secret, urlScheme: "nowplayingtweet", success: success)
         } else {
             return
         }

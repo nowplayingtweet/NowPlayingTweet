@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct MastodonCredentials: Credentials, Codable, OAuth2 {
+struct MastodonCredentials: D14nCredentials, OAuth2, Codable {
+
+    let baseURL: URL
 
     let apiKey: String
     let apiSecret: String

@@ -16,6 +16,8 @@ protocol Account {
     var username: String { get }
     var avaterUrl: URL { get }
 
+    func isEqual(_ account: Account?) -> Bool
+
 }
 
 extension Account {

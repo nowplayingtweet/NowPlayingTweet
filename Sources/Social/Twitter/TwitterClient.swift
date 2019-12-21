@@ -16,7 +16,7 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
         return Swifter.handleOpenURL(URL(string: urlString)!)
     }
 
-    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+    static func authorize(key: String, secret: String, urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
         guard let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
             failure?(SocialError.FailedAuthorize("Invalid callback url scheme."))
             return
