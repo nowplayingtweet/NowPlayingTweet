@@ -47,6 +47,7 @@
 		3DDC123423AD59300088CAE7 /* D14nAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123323AD59300088CAE7 /* D14nAccount.swift */; };
 		3DDC123623ADEB6E0088CAE7 /* D14nClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123523ADEB6E0088CAE7 /* D14nClient.swift */; };
 		3DDC123823ADEC9F0088CAE7 /* D14nAuthorizeByCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123723ADEC9F0088CAE7 /* D14nAuthorizeByCallback.swift */; };
+		3DDC123B23AE0C670088CAE7 /* AsyncHTTPClient in Frameworks */ = {isa = PBXBuildFile; productRef = 3DDC123A23AE0C670088CAE7 /* AsyncHTTPClient */; };
 		3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
 		3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
@@ -188,6 +189,7 @@
 				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
 				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
 				3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */,
+				3DDC123B23AE0C670088CAE7 /* AsyncHTTPClient in Frameworks */,
 				3DDC123123AD57C30088CAE7 /* iTunesBridge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +381,9 @@
 			dependencies = (
 			);
 			name = NowPlayingTweet;
+			packageProductDependencies = (
+				3DDC123A23AE0C670088CAE7 /* AsyncHTTPClient */,
+			);
 			productName = NowPlayingTweet;
 			productReference = 3D5520CE2022322100AAF108 /* NowPlayingTweet.app */;
 			productType = "com.apple.product-type.application";
@@ -453,7 +458,7 @@
 				};
 			};
 			buildConfigurationList = 3D5520C92022322100AAF108 /* Build configuration list for PBXProject "NowPlayingTweet" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -461,6 +466,9 @@
 				Base,
 			);
 			mainGroup = 3D5520C52022322100AAF108;
+			packageReferences = (
+				3DDC123923AE0C670088CAE7 /* XCRemoteSwiftPackageReference "async-http-client" */,
+			);
 			productRefGroup = 3D5520CF2022322100AAF108 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -877,6 +885,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3DDC123923AE0C670088CAE7 /* XCRemoteSwiftPackageReference "async-http-client" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swift-server/async-http-client";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3DDC123A23AE0C670088CAE7 /* AsyncHTTPClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3DDC123923AE0C670088CAE7 /* XCRemoteSwiftPackageReference "async-http-client" */;
+			productName = AsyncHTTPClient;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3D5520C62022322100AAF108 /* Project object */;
 }
