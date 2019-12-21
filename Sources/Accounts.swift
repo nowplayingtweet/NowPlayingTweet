@@ -115,7 +115,7 @@ class Accounts {
         return client.init(credentials)
     }
 
-    func login(provider: Provider) {
+    func login(provider: Provider, base: String = "") {
         guard let accounts = self.storage[provider] else {
             return
         }
@@ -139,7 +139,11 @@ class Accounts {
                                             userInfo: ["account" : account])
         }
 
-        accounts.authorize(handler: handler)
+        if let accounts = accounts as? D14nProviderAccounts {
+            accounts.authorize(base: base, handler: handler)
+        } else {
+            accounts.authorize(handler: handler)
+        }
     }
 
     func logout(account: Account) {

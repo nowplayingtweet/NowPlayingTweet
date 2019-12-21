@@ -1,5 +1,5 @@
 /**
- *  TwitterAccounts.swift
+ *  MastodonAccounts.swift
  *  NowPlayingTweet
  *
  *  © 2019 kPherox.
@@ -8,17 +8,14 @@
 import Foundation
 import KeychainAccess
 
-class TwitterAccounts: ProviderAccounts {
+class MastodonAccounts: D14nProviderAccounts {
 
     private(set) var storage: [String : (Account, Credentials)] = [:]
-
-    private let apiKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
-    private let apiSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
 
     private let keychainPrefix: String
 
     private var keychainName: String {
-        return "\(self.keychainPrefix).\(Provider.Twitter)"
+        return "\(self.keychainPrefix).\(Provider.Mastodon)"
     }
 
     required init(keychainPrefix: String) {
@@ -30,21 +27,21 @@ class TwitterAccounts: ProviderAccounts {
 
         for id in keychain.allKeys() {
             guard let encodedCredentials: Data = try? keychain.getData(id)
-                , let credentials: TwitterCredentials = try? JSONDecoder().decode(TwitterCredentials.self, from: encodedCredentials) else {
+                , let credentials: MastodonCredentials = try? JSONDecoder().decode(MastodonCredentials.self, from: encodedCredentials) else {
                     self.delete(id: id)
                     ids.removeAll { $0 == id }
                     self.initializeNotification(ids.count)
                     continue
             }
 
-            TwitterClient(credentials)!.verify(success: {
+            MastodonClient(credentials)!.verify(success: {
                 account in
                 defer {
                     ids.removeAll { $0 == id }
                     self.initializeNotification(ids.count)
                 }
 
-                guard let account = account as? TwitterAccount else {
+                guard let account = account as? MastodonAccount else {
                     self.delete(id: id)
                     return
                 }
@@ -62,13 +59,13 @@ class TwitterAccounts: ProviderAccounts {
         if count == 0 {
             NotificationQueue.default.enqueue(.init(name: .socialAccountsInitialize,
                                                     object: nil,
-                                                    userInfo: ["provider": Provider.Twitter]),
+                                                    userInfo: ["provider": Provider.Mastodon]),
                                               postingStyle: .whenIdle)
         }
     }
 
-    func authorize(handler: @escaping (Account?, Error?) -> Void) {
-        let saveHandler: (TwitterAccount, TwitterCredentials) -> Void = { account, credentials in
+    func authorize(base: String, handler: @escaping (Account?, Error?) -> Void) {
+        let saveHandler: (MastodonAccount, MastodonCredentials) -> Void = { account, credentials in
             self.save(account: account, credentials: credentials)
             handler(account, nil)
         }
@@ -78,17 +75,19 @@ class TwitterAccounts: ProviderAccounts {
         }
 
         let success: (Credentials) -> Void = { credentials in
-            let credentials = credentials as! TwitterCredentials
-            TwitterClient(credentials)?.verify(success: { account in
-                let account = account as! TwitterAccount
+            let credentials = credentials as! MastodonCredentials
+            MastodonClient(credentials)?.verify(success: { account in
+                let account = account as! MastodonAccount
                 saveHandler(account, credentials)
             }, failure: failure)
         }
 
-        TwitterClient.authorize(key: self.apiKey, secret: self.apiSecret, urlScheme: "nowplayingtweet", success: success, failure: failure)
+        MastodonClient.registerApp(base: base, success: { key, secret in
+            MastodonClient.authorize(base: base, key: key, secret: secret, urlScheme: "nowplayingtweet", success: success, failure: failure)
+        }, failure: failure)
     }
 
-    private func save(account: TwitterAccount, credentials: TwitterCredentials) {
+    private func save(account: MastodonAccount, credentials: MastodonCredentials) {
         guard let data: Data = try? JSONEncoder().encode(credentials) else {
             return
         }
@@ -105,7 +104,7 @@ class TwitterAccounts: ProviderAccounts {
         }
 
         guard let (_, credentials) = self.storage[id]
-            , let client = TwitterClient(credentials) else {
+            , let client = MastodonClient(credentials) else {
             deleteHandler(nil)
             return
         }

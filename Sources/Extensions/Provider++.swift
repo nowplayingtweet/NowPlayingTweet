@@ -40,8 +40,8 @@ extension Provider {
         switch self {
         case .Twitter:
             return TwitterAccounts.self
-        default:
-            return nil
+        case .Mastodon:
+            return MastodonAccounts.self
         }
     }
 
