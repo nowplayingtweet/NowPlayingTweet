@@ -1,6 +1,5 @@
 github "Clipy/KeyHolder" "v3.0.1"
 github "Clipy/Magnet" "v2.3.1"
-github "kishikawakatsumi/KeychainAccess" "v3.2.0"
+github "kishikawakatsumi/KeychainAccess" "v4.1.0"
 github "mattdonnelly/Swifter" "2.3.0"
 github "nowplayingtweet/iTunesBridge" "swift-5.0"
-github "twitter/twitter-text" "v3.0.1"
