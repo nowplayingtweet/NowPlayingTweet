@@ -14,19 +14,19 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         /* Not Implements */
     }
 
-    static func registerApp(base: URL?, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
+    static func registerApp(base: String, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
-    static func authorize(base: URL?, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
+    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
-    static func authorize(base: URL?, key: String, secret: String, failure: Client.Failure?) {
+    static func authorize(base: String, key: String, secret: String, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
-    static func authorization(base: URL?, code: String, success: Client.TokenSuccess, failure: Client.Failure?) {
+    static func authorization(base: String, code: String, success: Client.TokenSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 

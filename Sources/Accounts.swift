@@ -105,99 +105,61 @@ class Accounts {
         }
     }
 
-    func accountAndCredentials(_ provider: Provider, id: String) -> (Account, Credentials)? {
-        return self.storage[provider]?.storage[id]
-    }
-
-    func account(_ provider: Provider, id: String) -> Account? {
-        guard let (account, _) = accountAndCredentials(provider, id: id) else {
-            return nil
-        }
-        return account
-    }
-
-    func credentials(_ provider: Provider, id: String) -> Credentials? {
-        guard let (_, credentials) = accountAndCredentials(provider, id: id) else {
-            return nil
-        }
-        return credentials
-    }
-
     func client(for account: Account) -> Client? {
         let provider = type(of: account).provider
         guard let client = provider.client
-            , let credentials = self.credentials(provider, id: account.id) else {
+            , let (_, credentials) = self.storage[provider]?.storage[account.id] else {
             return nil
         }
+
         return client.init(credentials)
     }
 
     func login(provider: Provider) {
-        guard let client = provider.client
-            , let (key, secret) = provider.clientKey else {
+        guard let accounts = self.storage[provider] else {
             return
         }
 
-        let success: (Credentials) -> Void = { credentials in
-            client.init(credentials)?.verify(success: { account in
-                self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
+        let handler: (Account?, Error?) -> Void = { account, error in
+            if let error = error {
+                NSLog(error.localizedDescription)
+                return
+            }
 
-                if self.current == nil {
-                    self.current = self.sortedAccounts.first
-                }
+            guard let account = account else {
+                return
+            }
 
-                NotificationCenter.default.post(name: .login,
-                                                object: nil,
-                                                userInfo: ["account" : account])
-            }, failure: nil)
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+
+            NotificationCenter.default.post(name: .login,
+                                            object: nil,
+                                            userInfo: ["account" : account])
         }
 
-        if let client = client as? AuthorizeByCallback.Type {
-            client.authorize(key: key, secret: secret, urlScheme: "nowplayingtweet", success: success)
-        } else {
-            return
-        }
+        accounts.authorize(handler: handler)
     }
 
     func logout(account: Account) {
         let provider = type(of: account).provider
-        guard let client = self.client(for: account) else {
-            self.storage[provider]?.deleteFromKeychain(id: account.id)
-            if self.current == nil {
-                self.current = self.sortedAccounts.first
-            }
-            NotificationCenter.default.post(name: .logout,
-                                            object: nil)
+        guard let accounts = self.storage[provider] else {
             return
         }
 
-        client.revoke(success: {
-            self.storage[provider]?.deleteFromKeychain(id: account.id)
+        accounts.revoke(id: account.id) { error in
+            if let error = error {
+                NSLog(error.localizedDescription)
+                return
+            }
+
             if self.current == nil {
                 self.current = self.sortedAccounts.first
             }
             NotificationCenter.default.post(name: .logout,
                                             object: nil)
-        }, failure: { error in
-            guard let err = error as? SocialError else {
-                return
-            }
-
-            switch err {
-            case .NotImplements(_, _):
-                self.storage[provider]?.deleteFromKeychain(id: account.id)
-                if self.current == nil {
-                    self.current = self.sortedAccounts.first
-                }
-                NotificationCenter.default.post(name: .logout,
-                                                object: nil)
-            case .FailedRevoke(let message):
-                NSLog(message)
-            default:
-                break
-            }
-        })
-
+        }
     }
 
 }

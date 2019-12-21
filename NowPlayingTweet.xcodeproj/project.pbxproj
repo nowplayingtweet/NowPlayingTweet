@@ -218,7 +218,6 @@
 				3D9D295723A648F60031505C /* SocialError.swift */,
 				3DEF425E22527526008E977A /* Provider.swift */,
 				3D9D294623A38E710031505C /* OAuth.swift */,
-				3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */,
 				3DEF425C2252748C008E977A /* Account.swift */,
 				3DDC123323AD59300088CAE7 /* D14nAccount.swift */,
 				3DEEED94234496EE003B2AD2 /* Credentials.swift */,
@@ -272,6 +271,8 @@
 				3DFF866220474753004FDD88 /* KeyEquivalentsPaneController.swift */,
 				3DAA09B1202CB48500C6F449 /* AccountCellView.swift */,
 				3D9D296023A779790031505C /* ProviderCellView.swift */,
+				3D9D294E23A50C3D0031505C /* ProviderAccounts.swift */,
+				3D9D294C23A3E6F70031505C /* TwitterAccounts.swift */,
 				3DAA09AD202C47EE00C6F449 /* Accounts.swift */,
 				3DD88B2B2024C25E000F7818 /* iTunesPlayerInfo.swift */,
 				3DFF864E2041E1F5004FDD88 /* GlobalKeyEquivalents.swift */,
@@ -349,7 +350,6 @@
 				3DEEED9823449903003B2AD2 /* TwitterCredentials.swift */,
 				3D17E7952253F41700AF0E70 /* TwitterAccount.swift */,
 				3D17E7932253EDDB00AF0E70 /* TwitterClient.swift */,
-				3D9D294C23A3E6F70031505C /* TwitterAccounts.swift */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";

@@ -9,33 +9,6 @@ import Cocoa
 
 extension Provider {
 
-    var accounts: ProviderAccounts.Type? {
-        switch self {
-        case .Twitter:
-            return TwitterAccounts.self
-        default:
-            return nil
-        }
-    }
-
-    var client: Client.Type? {
-        switch self {
-        case .Twitter:
-            return TwitterClient.self
-        case .Mastodon:
-            return MastodonClient.self
-        }
-    }
-
-    var credentials: Credentials.Type? {
-        switch self {
-        case .Twitter:
-            return TwitterCredentials.self
-        case .Mastodon:
-            return MastodonCredentials.self
-        }
-    }
-
     var icon: NSImage? {
         switch self {
         case .Twitter:
@@ -54,12 +27,19 @@ extension Provider {
         }
     }
 
-    var clientKey: (String, String)? {
+    var client: Client.Type? {
         switch self {
         case .Twitter:
-            let apiKey: String = "uH6FFqSPBi1ZG80I6taO5xt24"
-            let apiSecret: String = "0gIbzrGYW6CU2W3DoehwuLQz8SXojr8v5z5I2DaBPjm9kHbt16"
-            return (apiKey, apiSecret)
+            return TwitterClient.self
+        case .Mastodon:
+            return MastodonClient.self
+        }
+    }
+
+    var accounts: ProviderAccounts.Type? {
+        switch self {
+        case .Twitter:
+            return TwitterAccounts.self
         default:
             return nil
         }

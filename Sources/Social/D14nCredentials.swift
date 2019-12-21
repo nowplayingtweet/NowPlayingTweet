@@ -9,6 +9,6 @@ import Foundation
 
 protocol D14nCredentials: Credentials {
 
-    var baseURL: URL { get }
+    var base: String { get }
 
 }

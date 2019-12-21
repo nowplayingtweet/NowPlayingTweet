@@ -319,7 +319,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func post(with id: String, of provider: Provider) {
-        self.postNowPlaying(by: self.accounts.account(provider, id: id))
+        self.postNowPlaying(by: self.accounts.sortedAccounts.first { account in
+            return type(of: account).provider == provider
+                && account.id == id
+        })
     }
 
 }

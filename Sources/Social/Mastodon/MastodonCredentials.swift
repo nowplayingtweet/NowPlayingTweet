@@ -9,7 +9,7 @@ import Foundation
 
 struct MastodonCredentials: D14nCredentials, OAuth2, Codable {
 
-    let baseURL: URL
+    let base: String
 
     let apiKey: String
     let apiSecret: String

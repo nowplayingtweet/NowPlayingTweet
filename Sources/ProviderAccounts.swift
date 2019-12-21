@@ -13,8 +13,8 @@ protocol ProviderAccounts {
 
     init(keychainPrefix: String)
 
-    func saveToKeychain(account: Account, credentials: Credentials)
+    func authorize(handler: @escaping (Account?, Error?) -> Void)
 
-    func deleteFromKeychain(id: String)
+    func revoke(id: String, handler: @escaping (Error?) -> Void)
 
 }
