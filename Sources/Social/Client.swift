@@ -10,38 +10,34 @@ import Foundation
 protocol Client {
 
     typealias Success = () -> Void
+    typealias TokenSuccess = (Credentials) -> Void
+    typealias AccountSuccess = (Account) -> Void
     typealias Failure = (Error) -> Void
-
-    static func authorize(key: String, secret: String, callbackURLScheme: String?, handler: ((Credentials) -> Void)?, failure: Failure?)
 
     var credentials: Credentials { get }
 
     init?(_: Credentials)
 
-    func revoke(handler: Success?, failure: Failure?)
+    func revoke(success: Success?, failure: Failure?)
 
-    func verify(handler: ((Account) -> Void)?, failure: Failure?)
+    func verify(success: @escaping AccountSuccess, failure: Failure?)
 
-    func post(text: String, image: Data?, handler: Success?, failure: Failure?)
+    func post(text: String, success: Success?, failure: Failure?)
 
 }
 
 extension Client {
 
-    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String? = nil, handler: ((Credentials) -> Void)? = nil, failure: Failure? = nil) {
-        return Self.authorize(key: key, secret: secret, callbackURLScheme: urlScheme, handler: handler, failure: failure)
+    func revoke() {
+        self.revoke(success: nil, failure: nil)
     }
 
-    func revoke(handler: Success? = nil, failure: Failure? = nil) {
-        return self.revoke(handler: handler, failure: failure)
+    func verify(success: @escaping AccountSuccess) {
+        self.verify(success: success, failure: nil)
     }
 
-    func verify(handler: ((Account) -> Void)? = nil, failure: Failure? = nil) {
-        return self.verify(handler: handler, failure: failure)
-    }
-
-    func post(text: String, image: Data? = nil, handler: Success? = nil, failure: Failure? = nil) {
-        return self.post(text: text, image: image, handler: handler, failure: failure)
+    func post(text: String) {
+        self.post(text: text, success: nil, failure: nil)
     }
 
 }

@@ -34,7 +34,7 @@ class TwitterAccounts: ProviderAccounts {
                     continue
             }
 
-            TwitterClient(credentials)!.verify(handler: {
+            TwitterClient(credentials)!.verify(success: {
                 account in
                 defer {
                     ids.removeAll { $0 == id }

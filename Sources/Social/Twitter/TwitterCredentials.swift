@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TwitterCredentials: Credentials, Codable,  OAuth1 {
+struct TwitterCredentials: Credentials, OAuth1, Codable {
 
     let apiKey: String
     let apiSecret: String

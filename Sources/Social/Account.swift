@@ -16,8 +16,6 @@ protocol Account {
     var username: String { get }
     var avaterUrl: URL { get }
 
-    init(id: String, name: String, username: String, avaterUrl: URL)
-
 }
 
 extension Account {

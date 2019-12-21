@@ -16,11 +16,4 @@ struct TwitterAccount: Account, Equatable {
     public let username: String
     public let avaterUrl: URL
 
-    init(id: String, name: String, username: String, avaterUrl: URL) {
-        self.id = id
-        self.name = name
-        self.username = username
-        self.avaterUrl = avaterUrl
-    }
-
 }

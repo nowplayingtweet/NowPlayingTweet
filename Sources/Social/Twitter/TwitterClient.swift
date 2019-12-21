@@ -8,7 +8,7 @@
 import Foundation
 import SwifterMac
 
-class TwitterClient: Client, CallbackHandler {
+class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
 
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue else { return }
@@ -16,9 +16,8 @@ class TwitterClient: Client, CallbackHandler {
         return Swifter.handleOpenURL(URL(string: urlString)!)
     }
 
-    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String?, handler: ((Credentials) -> Void)?, failure: Client.Failure?) {
-        guard let urlScheme = urlScheme
-            , let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
+    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+        guard let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
             failure?(SocialError.FailedAuthorize("Invalid callback url scheme."))
             return
         }
@@ -31,7 +30,7 @@ class TwitterClient: Client, CallbackHandler {
                 return
             }
 
-            handler?(TwitterCredentials(apiKey: key, apiSecret: secret, oauthToken: token.key, oauthSecret: token.secret))
+            success(TwitterCredentials(apiKey: key, apiSecret: secret, oauthToken: token.key, oauthSecret: token.secret))
         }, failure: failure)
     }
 
@@ -56,11 +55,11 @@ class TwitterClient: Client, CallbackHandler {
                        oauthTokenSecret: credentials.oauthSecret)
     }
 
-    func revoke(handler: Client.Success?, failure: Client.Failure?) {
+    func revoke(success: Client.Success?, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
     }
 
-    func verify(handler: ((Account) -> Void)?, failure: Client.Failure?) {
+    func verify(success: @escaping Client.AccountSuccess, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedVerify("Cannot get client."))
             return
@@ -77,18 +76,18 @@ class TwitterClient: Client, CallbackHandler {
             }
 
             let account = TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!)
-            handler?(account)
+            success(account)
         }, failure: failure)
     }
 
-    func post(text: String, image: Data?, handler: Client.Success?, failure: Client.Failure?) {
+    func post(text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedPost("Cannot get client."))
             return
         }
 
         if image == nil {
-            swifter.postTweet(status: text, success:  { _ in handler?() }, failure: failure)
+            swifter.postTweet(status: text, success:  { _ in success?() }, failure: failure)
             return
         }
 
@@ -98,7 +97,7 @@ class TwitterClient: Client, CallbackHandler {
                     failure?(SocialError.FailedPost("Invalid response."))
                     return
             }
-            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in handler?() }, failure: failure)
+            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in success?() }, failure: failure)
         }, failure: failure)
     }
 

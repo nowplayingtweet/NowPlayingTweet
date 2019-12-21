@@ -118,7 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, with _: NSAppleEventDescriptor) {
         for provider in self.accounts.availableProviders {
-            guard let client = provider.client as? CallbackHandler.Type else {
+            guard let client = provider.client as? AuthorizeByCallback.Type else {
                 continue
             }
 
@@ -240,9 +240,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let postText = self.createPostText(from: currentTrack)
 
         if self.userDefaults.bool(forKey: "PostWithImage") {
-            self.accounts.client(for: account)?.post(text: postText, image: currentTrack.artwork, failure: failure)
+            (self.accounts.client(for: account) as? PostAttachments)?.post(text: postText, image: currentTrack.artwork, success: nil, failure: failure)
         } else {
-            self.accounts.client(for: account)?.post(text: postText, failure: failure)
+            self.accounts.client(for: account)?.post(text: postText, success: nil, failure: failure)
         }
     }
 

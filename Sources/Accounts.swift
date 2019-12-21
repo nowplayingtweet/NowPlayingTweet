@@ -138,8 +138,8 @@ class Accounts {
             return
         }
 
-        client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", handler: { credentials in
-            client.init(credentials)?.verify(handler: { account in
+        let success: (Credentials) -> Void = { credentials in
+            client.init(credentials)?.verify(success: { account in
                 self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
 
                 if self.current == nil {
@@ -149,8 +149,14 @@ class Accounts {
                 NotificationCenter.default.post(name: .login,
                                                 object: nil,
                                                 userInfo: ["account" : account])
-            })
-        })
+            }, failure: nil)
+        }
+
+        if let client = client as? AuthorizeByCallback.Type {
+            client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", success: success)
+        } else {
+            return
+        }
     }
 
     func logout(account: Account) {
@@ -165,7 +171,7 @@ class Accounts {
             return
         }
 
-        client.revoke(handler: {
+        client.revoke(success: {
             self.storage[provider]?.deleteFromKeychain(id: account.id)
             if self.current == nil {
                 self.current = self.sortedAccounts.first
