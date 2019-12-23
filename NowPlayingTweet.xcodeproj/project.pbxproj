@@ -50,6 +50,8 @@
 		3DDC123B23AE0C670088CAE7 /* AsyncHTTPClient in Frameworks */ = {isa = PBXBuildFile; productRef = 3DDC123A23AE0C670088CAE7 /* AsyncHTTPClient */; };
 		3DDC123D23AE17910088CAE7 /* MastodonAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123C23AE17910088CAE7 /* MastodonAccounts.swift */; };
 		3DDC123F23AE44F00088CAE7 /* D14nProviderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123E23AE44F00088CAE7 /* D14nProviderAccounts.swift */; };
+		3DDC124323AE9D930088CAE7 /* HTTPClient++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124223AE9D930088CAE7 /* HTTPClient++.swift */; };
+		3DDC124723AEA76B0088CAE7 /* HTTPClientError++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124623AEA76B0088CAE7 /* HTTPClientError++.swift */; };
 		3DDC124923AEB8D60088CAE7 /* AuthorizeSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124823AEB8D60088CAE7 /* AuthorizeSheetController.swift */; };
 		3DDC124B23AF844B0088CAE7 /* String++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124A23AF844B0088CAE7 /* String++.swift */; };
 		3DDC124D23AF85450088CAE7 /* Dictionary++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124C23AF85450088CAE7 /* Dictionary++.swift */; };
@@ -166,6 +168,8 @@
 		3DDC123723ADEC9F0088CAE7 /* D14nAuthorizeByCallback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nAuthorizeByCallback.swift; sourceTree = "<group>"; };
 		3DDC123C23AE17910088CAE7 /* MastodonAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MastodonAccounts.swift; sourceTree = "<group>"; };
 		3DDC123E23AE44F00088CAE7 /* D14nProviderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nProviderAccounts.swift; sourceTree = "<group>"; };
+		3DDC124223AE9D930088CAE7 /* HTTPClient++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPClient++.swift"; sourceTree = "<group>"; };
+		3DDC124623AEA76B0088CAE7 /* HTTPClientError++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPClientError++.swift"; sourceTree = "<group>"; };
 		3DDC124823AEB8D60088CAE7 /* AuthorizeSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizeSheetController.swift; sourceTree = "<group>"; };
 		3DDC124A23AF844B0088CAE7 /* String++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String++.swift"; sourceTree = "<group>"; };
 		3DDC124C23AF85450088CAE7 /* Dictionary++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary++.swift"; sourceTree = "<group>"; };
@@ -352,6 +356,8 @@
 		3D9D295023A61AB00031505C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3DDC124223AE9D930088CAE7 /* HTTPClient++.swift */,
+				3DDC124623AEA76B0088CAE7 /* HTTPClientError++.swift */,
 				3D9D295123A61B720031505C /* NotificationName++.swift */,
 				3DDC124A23AF844B0088CAE7 /* String++.swift */,
 				3DDC124C23AF85450088CAE7 /* Dictionary++.swift */,
@@ -569,6 +575,7 @@
 				3DCEE81A202747F800D87CE5 /* AdvancedPaneController.swift in Sources */,
 				3DD88B26202450D9000F7818 /* NSControl++.swift in Sources */,
 				3DCEE8182027014800D87CE5 /* NSButton++.swift in Sources */,
+				3DDC124723AEA76B0088CAE7 /* HTTPClientError++.swift in Sources */,
 				3DD88B2E2024C852000F7818 /* NotificationObserver.swift in Sources */,
 				3D9D295223A61B720031505C /* NotificationName++.swift in Sources */,
 				3DDC123D23AE17910088CAE7 /* MastodonAccounts.swift in Sources */,
@@ -580,6 +587,7 @@
 				3DEF425F22527526008E977A /* Provider.swift in Sources */,
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
+				3DDC124323AE9D930088CAE7 /* HTTPClient++.swift in Sources */,
 				3DFCA43123A960410042135E /* MastodonClient.swift in Sources */,
 				3DDC124D23AF85450088CAE7 /* Dictionary++.swift in Sources */,
 			);

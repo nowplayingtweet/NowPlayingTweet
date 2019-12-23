@@ -19,4 +19,10 @@ extension String {
         }
     }
 
+    var hasSchemeAndHost: Bool {
+        let regexp = try? NSRegularExpression(pattern: "^https?://[A-Za-z0-9\\-\\.]+", options: [])
+
+        return regexp?.firstMatch(in: self, range: NSRange(self.startIndex..., in: self)) != nil
+    }
+
 }
