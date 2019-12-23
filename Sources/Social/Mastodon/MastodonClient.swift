@@ -30,6 +30,20 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    private struct Account: Codable {
+        let id: String
+        let name: String
+        let username: String
+        let avaterURL: String
+
+        enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "display_name"
+            case username = "username"
+            case avaterURL = "avatar"
+        }
+    }
+
     static var callbackObserver: NSObjectProtocol?
 
     private static func callbackUri(_ urlScheme: String) -> String {
@@ -247,12 +261,50 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         self.credentials = credentials
     }
 
+    private var mastodonCredentials: MastodonCredentials? {
+        return self.credentials as? MastodonCredentials
+    }
+
     func revoke(success: Client.Success?, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
     }
 
-    func verify(success: Client.AccountSuccess, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
+    func verify(success: @escaping Client.AccountSuccess, failure: Client.Failure?) {
+        guard let credentials = self.mastodonCredentials
+            , let domain = URL(string: credentials.base)?.host else {
+            failure?(SocialError.FailedVerify("Invalid token."))
+            return
+        }
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        httpClient.get(url: "\(credentials.base)/api/v1/accounts/verify_credentials", headers: [
+            ("Authorization", "Bearer \(credentials.oauthToken)")
+        ]).whenComplete { result in
+            defer {
+                httpClient.eventLoopGroup.shutdownGracefully({_ in
+                    try? httpClient.syncShutdown()
+                })
+            }
+
+            switch result {
+            case .failure(let error):
+                failure?(error)
+            case .success(let response):
+                if response.status != .ok {
+                    // handle remote error
+                    failure?(SocialError.FailedAuthorize(String(describing: response.status)))
+                    return
+                }
+
+                guard let body = response.body
+                    , let account = try? body.getJSONDecodable(Account.self, at: 0, length: body.readableBytes) else {
+                        failure?(SocialError.FailedVerify("Invalid response."))
+                        return
+                }
+
+                success(MastodonAccount(id: account.id, domain: domain, name: account.name, username: account.username, avaterUrl: URL(string: account.avaterURL)!))
+            }
+        }
     }
 
     func post(text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
