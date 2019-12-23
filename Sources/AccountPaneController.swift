@@ -79,6 +79,20 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         super.viewDidLoad()
 
         // Do view setup here.
+        NotificationCenter.default.addObserver(forName: .login, object: nil, queue: .main, using: { notification in
+            guard let account = notification.userInfo!["account"] as? Account else {
+                return
+            }
+
+            self.selected = account
+            self.appDelegate.updateSocialAccount()
+        })
+
+        NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: .main, using: { _ in
+            self.selected = nil
+            self.appDelegate.updateSocialAccount()
+        })
+
         self.accountBox.contentView = self.providerView
     }
 
@@ -103,19 +117,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     private func addAccount(_ provider: Provider) {
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
-            notificationCenter.removeObserver(observer!)
-
-            guard let selected = notification.userInfo!["account"] as? Account else {
-                return
-            }
-
-            self.selected = selected
-            self.appDelegate.updateSocialAccount()
-        })
-
         self.accounts.login(provider: provider)
     }
 
@@ -123,15 +124,6 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         guard let selected = self.selected else {
             return
         }
-
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
-            notificationCenter.removeObserver(observer!)
-
-            self.selected = nil
-            self.appDelegate.updateSocialAccount()
-        })
 
         self.accounts.logout(account: selected)
     }

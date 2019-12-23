@@ -62,8 +62,8 @@ class Accounts {
     private init() {
         var providers: [Provider] = Provider.allCases
 
-        var observer: NSObjectProtocol!
-        observer = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
             guard let initalizedProvider = notification.userInfo?["provider"] as? Provider else {
                 return
             }
@@ -74,13 +74,13 @@ class Accounts {
                 return
             }
 
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .asap)
+
             if self.current == nil {
                 self.current = self.sortedAccounts.first
             }
 
-            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .whenIdle)
-
-            NotificationCenter.default.removeObserver(observer!)
+            NotificationCenter.default.removeObserver(token!)
         })
 
         for provider in providers {
@@ -149,6 +149,9 @@ class Accounts {
     func logout(account: Account) {
         let provider = type(of: account).provider
         guard let accounts = self.storage[provider] else {
+            NotificationCenter.default.post(name: .logout,
+                                            object: nil)
+
             return
         }
 

@@ -79,10 +79,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            notificationCenter.removeObserver(observer!)
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
+            defer {
+                NotificationCenter.default.removeObserver(token!)
+            }
 
             self.updateSocialAccount()
         })
@@ -307,8 +308,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                                                 name: .iTunesPlayerInfo,
                                                 object: nil,
                                                 distributed: true)
-            let notificationCenter: NotificationCenter = NotificationCenter.default
-            notificationCenter.post(name: .disableAutoPost, object: nil)
+            NotificationCenter.default.post(name: .disableAutoPost, object: nil)
         }
     }
 

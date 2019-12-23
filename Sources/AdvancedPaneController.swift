@@ -82,10 +82,11 @@ class AdvancedPaneController: NSViewController {
 
     private func addDisableAutoPostObserver(state: Bool) {
         if state {
-            let notificationCenter: NotificationCenter = NotificationCenter.default
-            var observer: NSObjectProtocol!
-            observer = notificationCenter.addObserver(forName: .disableAutoPost, object: nil, queue: nil, using: { notification in
-                notificationCenter.removeObserver(observer!)
+            var token: NSObjectProtocol?
+            token = NotificationCenter.default.addObserver(forName: .disableAutoPost, object: nil, queue: nil, using: { notification in
+                defer {
+                    NotificationCenter.default.removeObserver(token!)
+                }
 
                 self.autoPost = false
                 self.autoPostButton.set(state: self.autoPost)

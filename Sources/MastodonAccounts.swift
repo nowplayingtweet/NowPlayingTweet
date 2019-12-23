@@ -57,10 +57,9 @@ class MastodonAccounts: D14nProviderAccounts {
 
     private func initializeNotification(_ count: Int) {
         if count == 0 {
-            NotificationQueue.default.enqueue(.init(name: .socialAccountsInitialize,
-                                                    object: nil,
-                                                    userInfo: ["provider": Provider.Mastodon]),
-                                              postingStyle: .whenIdle)
+            NotificationCenter.default.post(name: .socialAccountsInitialize,
+                                            object: nil,
+                                            userInfo: ["provider": Provider.Mastodon])
         }
     }
 
