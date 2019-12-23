@@ -81,7 +81,7 @@ class MastodonAccounts: D14nProviderAccounts {
             }, failure: failure)
         }
 
-        MastodonClient.registerApp(base: base, success: { key, secret in
+        MastodonClient.registerApp(base: base, name: "NowPlayingTweet", urlScheme: "nowplayingtweet", success: { key, secret in
             MastodonClient.authorize(base: base, key: key, secret: secret, urlScheme: "nowplayingtweet", success: success, failure: failure)
         }, failure: failure)
     }

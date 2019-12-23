@@ -9,6 +9,8 @@ import Foundation
 
 protocol D14nAuthorizeByCode: AuthorizeByCode {
 
+    static func registerApp(base: String, name: String, success: @escaping D14nClient.RegisterSuccess, failure: Client.Failure?)
+
     static func authorize(base: String, key: String, secret: String, failure: Client.Failure?)
 
     static func authorization(base: String, code: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?)
@@ -16,6 +18,10 @@ protocol D14nAuthorizeByCode: AuthorizeByCode {
 }
 
 extension D14nAuthorizeByCode {
+
+    static func registerApp(base: String, name: String, success: @escaping D14nClient.RegisterSuccess) {
+        Self.registerApp(base: base, name: name, success: success, failure: nil)
+    }
 
     static func authorize(base: String, key: String, secret: String) {
         Self.authorize(base: base, key: key, secret: secret, failure: nil)

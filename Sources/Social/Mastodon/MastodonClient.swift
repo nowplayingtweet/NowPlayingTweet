@@ -6,7 +6,6 @@
 **/
 
 import Foundation
-import SwifterMac
 
 class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, PostAttachments {
 
@@ -14,11 +13,15 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         /* Not Implements */
     }
 
-    static func registerApp(base: String, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
+    static func registerApp(base: String, name: String, urlScheme: String, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
     static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
+        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
+    }
+
+    static func registerApp(base: String, name: String, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
