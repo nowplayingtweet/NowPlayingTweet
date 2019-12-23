@@ -9,8 +9,18 @@ import Foundation
 
 class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, PostAttachments {
 
-    static func handleCallback(_: NSAppleEventDescriptor) {
-        /* Not Implements */
+    static func handleCallback(_ event: NSAppleEventDescriptor) {
+        guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue
+            , let url = URL(string: urlString) else { return }
+
+        let params = url.query?.queryParamComponents
+
+        let userInfo = ["code" : params?["code"]]
+
+        NotificationQueue.default.enqueue(.init(name: .mastodonCallback,
+                                                object: nil,
+                                                userInfo: userInfo as [AnyHashable : Any]),
+                                          postingStyle: .asap)
     }
 
     static func registerApp(base: String, name: String, urlScheme: String, success: D14nClient.RegisterSuccess, failure: Client.Failure?) {
