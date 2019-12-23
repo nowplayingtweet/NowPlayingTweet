@@ -73,10 +73,6 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
-    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
-    }
-
     static func registerApp(base: String, name: String, success: @escaping D14nClient.RegisterSuccess, failure: Client.Failure?) {
         if !base.hasSchemeAndHost {
             failure?(SocialError.FailedAuthorize("Invalid base url"))
@@ -116,11 +112,15 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
+        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
+    }
+
     static func authorize(base: String, key: String, secret: String, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
-    static func authorization(base: String, code: String, success: Client.TokenSuccess, failure: Client.Failure?) {
+    static func requestToken(base: String, key: String, secret: String, code: String, success: Client.TokenSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
