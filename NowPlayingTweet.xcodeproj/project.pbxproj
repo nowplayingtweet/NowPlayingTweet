@@ -51,6 +51,8 @@
 		3DDC123D23AE17910088CAE7 /* MastodonAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123C23AE17910088CAE7 /* MastodonAccounts.swift */; };
 		3DDC123F23AE44F00088CAE7 /* D14nProviderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC123E23AE44F00088CAE7 /* D14nProviderAccounts.swift */; };
 		3DDC124923AEB8D60088CAE7 /* AuthorizeSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124823AEB8D60088CAE7 /* AuthorizeSheetController.swift */; };
+		3DDC124B23AF844B0088CAE7 /* String++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124A23AF844B0088CAE7 /* String++.swift */; };
+		3DDC124D23AF85450088CAE7 /* Dictionary++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDC124C23AF85450088CAE7 /* Dictionary++.swift */; };
 		3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; };
 		3DDCEF812073CDFC00BE649C /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD88B2120244F40000F7818 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D55210120223B8000AAF108 /* SwifterMac.framework */; };
@@ -165,6 +167,8 @@
 		3DDC123C23AE17910088CAE7 /* MastodonAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MastodonAccounts.swift; sourceTree = "<group>"; };
 		3DDC123E23AE44F00088CAE7 /* D14nProviderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = D14nProviderAccounts.swift; sourceTree = "<group>"; };
 		3DDC124823AEB8D60088CAE7 /* AuthorizeSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizeSheetController.swift; sourceTree = "<group>"; };
+		3DDC124A23AF844B0088CAE7 /* String++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String++.swift"; sourceTree = "<group>"; };
+		3DDC124C23AF85450088CAE7 /* Dictionary++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary++.swift"; sourceTree = "<group>"; };
 		3DEEED94234496EE003B2AD2 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		3DEEED9823449903003B2AD2 /* TwitterCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterCredentials.swift; sourceTree = "<group>"; };
 		3DEF425C2252748C008E977A /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -349,6 +353,8 @@
 			isa = PBXGroup;
 			children = (
 				3D9D295123A61B720031505C /* NotificationName++.swift */,
+				3DDC124A23AF844B0088CAE7 /* String++.swift */,
+				3DDC124C23AF85450088CAE7 /* Dictionary++.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -544,6 +550,7 @@
 				3DDC123F23AE44F00088CAE7 /* D14nProviderAccounts.swift in Sources */,
 				3DAA09AA202B104000C6F449 /* NPTError.swift in Sources */,
 				3D9D294923A38F550031505C /* OAuth1.swift in Sources */,
+				3DDC124B23AF844B0088CAE7 /* String++.swift in Sources */,
 				3D17E7962253F41700AF0E70 /* TwitterAccount.swift in Sources */,
 				3D9D294F23A50C3D0031505C /* ProviderAccounts.swift in Sources */,
 				3DDC122923AD3D590088CAE7 /* D14nCredentials.swift in Sources */,
@@ -574,6 +581,7 @@
 				3DAA09AC202C1B7100C6F449 /* NSAlert++.swift in Sources */,
 				3DF4A6DE20277873007A7B29 /* NSStoryboard++.swift in Sources */,
 				3DFCA43123A960410042135E /* MastodonClient.swift in Sources */,
+				3DDC124D23AF85450088CAE7 /* Dictionary++.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
