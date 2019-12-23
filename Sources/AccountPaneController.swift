@@ -117,7 +117,25 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     private func addAccount(_ provider: Provider) {
-        self.accounts.login(provider: provider)
+        if (provider.client as? D14nClient.Type) != nil {
+            var token: NSObjectProtocol?
+            token = NotificationCenter.default.addObserver(forName: .authorize, object: nil, queue: nil, using: { notification in
+                defer {
+                    NotificationCenter.default.removeObserver(token!)
+                }
+
+                guard let base = notification.userInfo!["server_url"] as? String else {
+                    return
+                }
+
+                self.accounts.login(provider: provider, base: base)
+                self.dismiss(AuthorizeSheetController.shared)
+            })
+
+            self.presentAsSheet(AuthorizeSheetController.shared)
+        } else {
+            self.accounts.login(provider: provider)
+        }
     }
 
     private func removeAccount() {
