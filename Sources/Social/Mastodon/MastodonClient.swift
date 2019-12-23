@@ -20,6 +20,14 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    private struct Authorization: Codable {
+        let token: String
+
+        enum CodingKeys: String, CodingKey {
+            case token = "access_token"
+        }
+    }
+
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue
             , let url = URL(string: urlString) else { return }
@@ -112,6 +120,28 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    private static func authorization(base: String, key: String, secret: String, redirectUri: String, code: String, handler: @escaping (Result<HTTPClient.Response, Error>) -> Void) {
+        let requestParams: [String : String] = [
+            "client_id": key,
+            "client_secret": secret,
+            "redirect_uri": redirectUri,
+            "scopes": "read write",
+            "code": code,
+            "grant_type": "authorization_code"
+        ]
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        httpClient.post(url: "\(base)/oauth/token", headers: [
+            ("Content-Type", "application/x-www-form-urlencoded"),
+        ], body: .string(requestParams.urlencoded)).whenComplete { result in
+            handler(result)
+
+            httpClient.eventLoopGroup.shutdownGracefully({_ in
+                try? httpClient.syncShutdown()
+            })
+        }
+    }
+
     static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
@@ -120,8 +150,30 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
     }
 
-    static func requestToken(base: String, key: String, secret: String, code: String, success: Client.TokenSuccess, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
+    static func requestToken(base: String, key: String, secret: String, code: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+        if !base.hasSchemeAndHost {
+            failure?(SocialError.FailedAuthorize("Invalid base url"))
+            return
+        }
+
+        Self.authorization(base: base, key: key, secret: secret,
+                           redirectUri: "urn:ietf:wg:oauth:2.0:oob",
+                           code: code) { result in
+            switch result {
+            case .failure(let error):
+                failure?(error)
+            case .success(let response):
+                if response.status == .ok
+                 , let body = response.body
+                 , let res = try? body.getJSONDecodable(Authorization.self, at: 0, length: body.readableBytes) {
+                    // handle response
+                    success(MastodonCredentials(base: base, apiKey: key, apiSecret: secret, oauthToken: res.token))
+                } else {
+                    // handle remote error
+                    failure?(SocialError.FailedAuthorize(String(describing: response.status)))
+                }
+            }
+        }
     }
 
     let credentials: Credentials
