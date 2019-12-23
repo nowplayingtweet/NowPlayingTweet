@@ -44,6 +44,10 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    private struct Media: Codable {
+        let id: String
+    }
+
     static var callbackObserver: NSObjectProtocol?
 
     private static func callbackUri(_ urlScheme: String) -> String {
@@ -308,7 +312,80 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
     }
 
     func post(text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
+        guard let credentials = self.mastodonCredentials else {
+            failure?(SocialError.FailedPost("Invalid token."))
+            return
+        }
+
+        var requestParams: [String : String] = [
+            "status": text,
+        ]
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        let postSuccess: (Result<HTTPClient.Response, Error>) -> Void = { result in
+            defer {
+                httpClient.eventLoopGroup.shutdownGracefully({_ in
+                    try? httpClient.syncShutdown()
+                })
+            }
+
+            switch result {
+            case .failure(let error):
+                failure?(error)
+            case .success(let response):
+                if response.status != .ok {
+                    // handle remote error
+                    failure?(SocialError.FailedAuthorize(String(describing: response.status)))
+                    return
+                }
+
+                success?()
+            }
+        }
+
+        if image == nil {
+            httpClient.post(url: "\(credentials.base)/api/v1/statuses", headers: [
+                ("Authorization", "Bearer \(credentials.oauthToken)"),
+                ("Content-Type", "application/x-www-form-urlencoded"),
+            ], body: .string(requestParams.urlencoded)).whenComplete(postSuccess)
+            return
+        }
+
+        let boundary = "---------------------------\(UUID().uuidString)"
+
+        let requestBody: [String : Any] = [
+            "file": image!,
+        ]
+        let multipartData = requestBody.multipartData(boundary: boundary)
+
+        httpClient.post(url: "\(credentials.base)/api/v1/media", headers: [
+            ("Authorization", "Bearer \(credentials.oauthToken)"),
+            ("Content-Type", "multipart/form-data; boundary=\(boundary)"),
+        ], body: .data(multipartData)).whenComplete { result in
+            switch result {
+            case .failure(let error):
+                failure?(error)
+            case .success(let response):
+                if response.status != .ok {
+                    // handle remote error
+                    failure?(SocialError.FailedAuthorize(String(describing: response.status)))
+                    return
+                }
+
+                guard let body = response.body
+                    , let media = try? body.getJSONDecodable(Media.self, at: 0, length: body.readableBytes) else {
+                        failure?(SocialError.FailedVerify("Invalid response."))
+                        return
+                }
+
+                requestParams["media_ids[]"] = media.id
+
+                httpClient.post(url: "\(credentials.base)/api/v1/statuses", headers: [
+                    ("Authorization", "Bearer \(credentials.oauthToken)"),
+                    ("Content-Type", "application/x-www-form-urlencoded"),
+                ], body: .string(requestParams.urlencoded)).whenComplete(postSuccess)
+            }
+        }
     }
 
 }
