@@ -8,6 +8,8 @@
 import Foundation
 import AsyncHTTPClient
 
+import AppKit
+
 class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, PostAttachments {
 
     private struct RegisterApp: Codable {
@@ -28,6 +30,12 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    static var callbackObserver: NSObjectProtocol?
+
+    private static func callbackUri(_ urlScheme: String) -> String {
+        return "\(urlScheme)://\(String(describing: Provider.Mastodon).lowercased())"
+    }
+
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue
             , let url = URL(string: urlString) else { return }
@@ -36,7 +44,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
         let userInfo = ["code" : params?["code"]]
 
-        NotificationQueue.default.enqueue(.init(name: .mastodonCallback,
+        NotificationQueue.default.enqueue(.init(name: .callbackMastodon,
                                                 object: nil,
                                                 userInfo: userInfo as [AnyHashable : Any]),
                                           postingStyle: .asap)
@@ -50,7 +58,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
         let requestParams: [String : String] = [
             "client_name": name,
-            "redirect_uris": "\(urlScheme)://\(String(describing: Provider.Mastodon).lowercased())",
+            "redirect_uris": Self.callbackUri(urlScheme),
             "scopes": "read write",
         ]
 
@@ -120,6 +128,20 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
+    private static func openBrowser(base: String, key: String, secret: String, redirectUri: String) {
+        let queryParams: [String : String] = [
+            "client_id": key,
+            "client_secret": secret,
+            "redirect_uri": redirectUri,
+            "scopes": "read write",
+            "response_type": "code"
+        ]
+        let query: String = queryParams.urlencoded
+
+        let queryUrl = URL(string: "\(base)/oauth/authorize?\(query)")!
+        NSWorkspace.shared.open(queryUrl)
+    }
+
     private static func authorization(base: String, key: String, secret: String, redirectUri: String, code: String, handler: @escaping (Result<HTTPClient.Response, Error>) -> Void) {
         let requestParams: [String : String] = [
             "client_id": key,
@@ -142,12 +164,53 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
-    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: Client.TokenSuccess, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
+    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+        if !base.hasSchemeAndHost {
+            failure?(SocialError.FailedAuthorize("Invalid base url"))
+            return
+        }
+
+        Self.callbackObserver = NotificationCenter.default.addObserver(forName: .callbackMastodon, object: nil, queue: nil) { notification in
+            guard let code = notification.userInfo?["code"] as? String else {
+                failure?(SocialError.FailedAuthorize("Invalid authorization code"))
+                NotificationCenter.default.removeObserver(Self.callbackObserver!)
+                return
+            }
+
+            Self.authorization(base: base, key: key, secret: secret, redirectUri: Self.callbackUri(urlScheme), code: code) { result in
+                defer {
+                    NotificationCenter.default.removeObserver(Self.callbackObserver!)
+                }
+
+                switch result {
+                case .failure(let error):
+                    failure?(error)
+                case .success(let response):
+                    if response.status == .ok
+                     , let body = response.body
+                     , let res = try? body.getJSONDecodable(Authorization.self, at: 0, length: body.readableBytes) {
+                        // handle response
+                        success(MastodonCredentials(base: base, apiKey: key, apiSecret: secret, oauthToken: res.token))
+                    } else {
+                        // handle remote error
+                        failure?(SocialError.FailedAuthorize(String(describing: response.status)))
+                    }
+                }
+            }
+        }
+
+        Self.openBrowser(base: base, key: key, secret: secret, redirectUri: Self.callbackUri(urlScheme))
     }
 
     static func authorize(base: String, key: String, secret: String, failure: Client.Failure?) {
-        failure?(SocialError.NotImplements(className: NSStringFromClass(MastodonClient.self), function: #function))
+        if !base.hasSchemeAndHost {
+            failure?(SocialError.FailedAuthorize("Invalid base url"))
+            return
+        }
+
+        Self.openBrowser(base: base, key: key, secret: secret, redirectUri: "urn:ietf:wg:oauth:2.0:oob")
+
+        NotificationCenter.default.post(name: .authorizeMastodon, object: nil)
     }
 
     static func requestToken(base: String, key: String, secret: String, code: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
@@ -156,9 +219,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
             return
         }
 
-        Self.authorization(base: base, key: key, secret: secret,
-                           redirectUri: "urn:ietf:wg:oauth:2.0:oob",
-                           code: code) { result in
+        Self.authorization(base: base, key: key, secret: secret, redirectUri: "urn:ietf:wg:oauth:2.0:oob", code: code) { result in
             switch result {
             case .failure(let error):
                 failure?(error)
