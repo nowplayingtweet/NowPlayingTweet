@@ -5,7 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
+import Cocoa
 import iTunesBridge
 import ScriptingBridge
 
@@ -89,7 +89,7 @@ class iTunesPlayerInfo {
     }
 
     private func convert(from itunesTrack: iTunesTrack) -> Track {
-        let trackArtworks: [iTunesArtwork] = itunesTrack.artworks!() as! [iTunesArtwork]
+        let trackArtworks: [iTunesArtwork] = itunesTrack.artworks?() ?? []
 
         return Track(title: itunesTrack.name,
                      artist: itunesTrack.artist,
