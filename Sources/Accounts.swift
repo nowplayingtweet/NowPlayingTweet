@@ -105,14 +105,24 @@ class Accounts {
         }
     }
 
-    func client(for account: Account) -> Client? {
+    func post(with account: Account, text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
         let provider = type(of: account).provider
-        guard let client = provider.client
-            , let (_, credentials) = self.storage[provider]?.storage[account.keychainID] else {
-            return nil
+        let accountSetting = UserDefaults.standard.accountSetting(forKey: account.keychainID)
+        guard let (_, credentials) = self.storage[provider]?.storage[account.keychainID]
+            , let client = provider.client?.init(credentials) else {
+            return
         }
 
-        return client.init(credentials)
+        var visibility = accountSetting["Visibility"] as? String ?? ""
+        if visibility == "Default" {
+            visibility = ""
+        }
+
+        if let client = client as? PostAttachments {
+            client.post(visibility: visibility, text: text, image: image, success: success, failure: failure)
+        } else {
+            client.post(visibility: visibility, text: text, success: success, failure: failure)
+        }
     }
 
     func login(provider: Provider, base: String = "") {

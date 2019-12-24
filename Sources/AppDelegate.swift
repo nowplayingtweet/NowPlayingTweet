@@ -230,12 +230,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
 
         let postText = self.createPostText(from: currentTrack)
+        let artwork = self.userDefaults.bool(forKey: "PostWithImage") ? currentTrack.artwork : nil
 
-        if self.userDefaults.bool(forKey: "PostWithImage") {
-            (self.accounts.client(for: account) as? PostAttachments)?.post(text: postText, image: currentTrack.artwork, success: nil, failure: failure)
-        } else {
-            self.accounts.client(for: account)?.post(text: postText, success: nil, failure: failure)
-        }
+        self.accounts.post(with: account, text: postText, image: artwork, success: nil, failure: failure)
     }
 
     private func createPostText(from track: iTunesPlayerInfo.Track) -> String {
