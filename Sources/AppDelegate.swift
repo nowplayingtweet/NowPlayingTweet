@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-    let playerInfo = iTunesPlayerInfo()
+    lazy var playerInfo = iTunesPlayerInfo()
 
     private let keyEquivalents = GlobalKeyEquivalents.shared
 
@@ -182,7 +182,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             switch err {
             case .NotLogin:
                 let title: String = "Not logged in!"
-                var informative: String = "Please login with Preferences -> Account."
+                var informative: String = "Please login with \"Preferences…\" -> \"Account\"."
                 if auto {
                     self.manageAutoPost(state: false)
                     informative.append("\n")
@@ -197,14 +197,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                 let alert = NSAlert(message: "Not runnning iTunes.",
                                     style: .informational)
                 alert.runModal()
-            case .NotExistTrack:
-                let alert = NSAlert(message: "Not exist music.",
+            case .HasNotPermission:
+            let alert = NSAlert(message: "Has not permission for iTunes.",
+                                informative: "Please turn on iTunes from System Preferences.app\n\"Security & Privacy\" -> \"Privacy\" -> \"Automation\".",
+                                style: .warning)
+            alert.runModal()
+            case .NotExistsTrack:
+                let alert = NSAlert(message: "Not exists music.",
                                 style: .informational)
                 alert.runModal()
             case .Unknown(let message):
                 let alert = NSAlert(message: "Some Error.",
                                     informative: message,
-                                    style: .informational)
+                                    style: .warning)
                 alert.runModal()
             }
 
@@ -223,15 +228,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
             return
         }
 
-        self.playerInfo.updateTrack()
-
-        if !self.playerInfo.isRunningiTunes {
+        if !self.playerInfo.isRunning {
             failure?(NPTError.NotLaunchediTunes)
             return
         }
 
-        if !self.playerInfo.existTrack {
-            failure?(NPTError.NotExistTrack)
+        if !self.playerInfo.hasPermission {
+            failure?(NPTError.HasNotPermission)
+            return
+        }
+
+        if !self.playerInfo.existsTrack {
+            failure?(NPTError.NotExistsTrack)
             return
         }
 

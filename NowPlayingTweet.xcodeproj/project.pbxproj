@@ -10,6 +10,7 @@
 		3D17E78F225364A900AF0E70 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E78E225364A900AF0E70 /* Client.swift */; };
 		3D17E7942253EDDB00AF0E70 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E7932253EDDB00AF0E70 /* TwitterClient.swift */; };
 		3D17E7962253F41700AF0E70 /* TwitterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D17E7952253F41700AF0E70 /* TwitterAccount.swift */; };
+		3D1809AF23B222BC00932112 /* iTunesBridge in Frameworks */ = {isa = PBXBuildFile; productRef = 3D1809AE23B222BC00932112 /* iTunesBridge */; };
 		3D5520D22022322200AAF108 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D12022322200AAF108 /* AppDelegate.swift */; };
 		3D5520D42022322200AAF108 /* GeneralPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520D32022322200AAF108 /* GeneralPaneController.swift */; };
 		3D5520D62022322200AAF108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5520D52022322200AAF108 /* Assets.xcassets */; };
@@ -18,8 +19,6 @@
 		3D5520F02022322500AAF108 /* NowPlayingTweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5520EF2022322500AAF108 /* NowPlayingTweetUITests.swift */; };
 		3D55210F20230EC800AAF108 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */; };
 		3D552111202329E900AAF108 /* AccountPaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D552110202329E900AAF108 /* AccountPaneController.swift */; };
-		3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; };
-		3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5A4B42218C46F100775D4E /* iTunesBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D9D294523A2E3030031505C /* NSGridView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294423A2E3030031505C /* NSGridView++.swift */; };
 		3D9D294723A38E710031505C /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294623A38E710031505C /* OAuth.swift */; };
 		3D9D294923A38F550031505C /* OAuth1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D294823A38F550031505C /* OAuth1.swift */; };
@@ -87,7 +86,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3D5A4B44218C46FE00775D4E /* iTunesBridge.framework in Embed Frameworks */,
 				3DDCEF832073CDFF00BE649C /* SwifterMac.framework in Embed Frameworks */,
 				3DDCEF852073CE0300BE649C /* Magnet.framework in Embed Frameworks */,
 				3DDCEF872073CE0600BE649C /* KeyHolder.framework in Embed Frameworks */,
@@ -118,7 +116,6 @@
 		3D55210120223B8000AAF108 /* SwifterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifterMac.framework; path = Carthage/Build/Mac/SwifterMac.framework; sourceTree = "<group>"; };
 		3D55210E20230EC800AAF108 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		3D552110202329E900AAF108 /* AccountPaneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPaneController.swift; sourceTree = "<group>"; };
-		3D5A4B42218C46F100775D4E /* iTunesBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iTunesBridge.framework; path = Carthage/Build/Mac/iTunesBridge.framework; sourceTree = "<group>"; };
 		3D9D294423A2E3030031505C /* NSGridView++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSGridView++.swift"; sourceTree = "<group>"; };
 		3D9D294623A38E710031505C /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		3D9D294823A38F550031505C /* OAuth1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1.swift; sourceTree = "<group>"; };
@@ -162,11 +159,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5A4B43218C46F200775D4E /* iTunesBridge.framework in Frameworks */,
 				3DDCEF822073CDFF00BE649C /* SwifterMac.framework in Frameworks */,
 				3DDCEF842073CE0300BE649C /* Magnet.framework in Frameworks */,
 				3DDCEF862073CE0600BE649C /* KeyHolder.framework in Frameworks */,
 				3DDCEF802073CDFC00BE649C /* KeychainAccess.framework in Frameworks */,
+				3D1809AF23B222BC00932112 /* iTunesBridge in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +271,6 @@
 		3D5520FD20223B6900AAF108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3D5A4B42218C46F100775D4E /* iTunesBridge.framework */,
 				3D55210120223B8000AAF108 /* SwifterMac.framework */,
 				3DFF8658204718E7004FDD88 /* Magnet.framework */,
 				3DFF8659204718E8004FDD88 /* KeyHolder.framework */,
@@ -338,6 +334,9 @@
 			dependencies = (
 			);
 			name = NowPlayingTweet;
+			packageProductDependencies = (
+				3D1809AE23B222BC00932112 /* iTunesBridge */,
+			);
 			productName = NowPlayingTweet;
 			productReference = 3D5520CE2022322100AAF108 /* NowPlayingTweet.app */;
 			productType = "com.apple.product-type.application";
@@ -420,6 +419,9 @@
 				Base,
 			);
 			mainGroup = 3D5520C52022322100AAF108;
+			packageReferences = (
+				3D1809AD23B222BC00932112 /* XCRemoteSwiftPackageReference "iTunesBridge" */,
+			);
 			productRefGroup = 3D5520CF2022322100AAF108 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -825,6 +827,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3D1809AD23B222BC00932112 /* XCRemoteSwiftPackageReference "iTunesBridge" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nowplayingtweet/iTunesBridge.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3D1809AE23B222BC00932112 /* iTunesBridge */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D1809AD23B222BC00932112 /* XCRemoteSwiftPackageReference "iTunesBridge" */;
+			productName = iTunesBridge;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3D5520C62022322100AAF108 /* Project object */;
 }
