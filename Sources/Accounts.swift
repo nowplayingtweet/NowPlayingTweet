@@ -110,7 +110,8 @@ class Accounts {
         let accountSetting = UserDefaults.standard.accountSetting(forKey: account.keychainID)
         guard let (_, credentials) = self.storage[provider]?.storage[account.keychainID]
             , let client = provider.client?.init(credentials) else {
-            return
+                failure?(NPTError.Unknown("Invalid credentials"))
+                return
         }
 
         var visibility = accountSetting["Visibility"] as? String ?? ""
@@ -119,7 +120,8 @@ class Accounts {
         }
 
         if let client = client as? PostAttachments {
-            client.post(visibility: visibility, text: text, image: image, success: success, failure: failure)
+            let sensitive = accountSetting["SensitiveImage"] as? Bool ?? false
+            client.post(visibility: visibility, text: text, image: image, sensitive: sensitive, success: success, failure: failure)
         } else {
             client.post(visibility: visibility, text: text, success: success, failure: failure)
         }

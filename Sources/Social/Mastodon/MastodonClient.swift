@@ -311,7 +311,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
-    func post(visibility: String, text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
+    func post(visibility: String, text: String, image: Data?, sensitive: Bool, success: Client.Success?, failure: Client.Failure?) {
         guard let credentials = self.mastodonCredentials else {
             failure?(SocialError.FailedPost("Invalid token."))
             return
@@ -323,6 +323,10 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
         if visibility != "" {
             requestParams["visibility"] = visibility.lowercased()
+        }
+
+        if sensitive {
+            requestParams["sensitive"] = "true"
         }
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
