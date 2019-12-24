@@ -79,7 +79,7 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
         }, failure: failure)
     }
 
-    func post(text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
+    func post(visibility _: String, text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedPost("Cannot get client."))
             return
