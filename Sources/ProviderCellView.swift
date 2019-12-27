@@ -6,6 +6,7 @@
 **/
 
 import Cocoa
+import SocialProtocol
 
 class ProviderCellView: NSTableCellView {
 

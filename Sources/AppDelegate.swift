@@ -9,6 +9,7 @@ import Cocoa
 import Magnet
 import SwifterMac
 import KeychainAccess
+import SocialProtocol
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {

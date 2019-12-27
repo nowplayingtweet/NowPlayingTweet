@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 
 struct TwitterCredentials: Credentials, OAuth1, Codable {
 

@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 
 struct MastodonAccount: D14nAccount, Equatable {
 
@@ -17,4 +18,8 @@ struct MastodonAccount: D14nAccount, Equatable {
     public let username: String
     public let avaterUrl: URL
 
+}
+
+extension Provider {
+    static let Mastodon = Provider(rawValue: "Mastodon")
 }

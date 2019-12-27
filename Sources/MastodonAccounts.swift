@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 import KeychainAccess
 
 class MastodonAccounts: D14nProviderAccounts {
@@ -81,8 +82,8 @@ class MastodonAccounts: D14nProviderAccounts {
             }, failure: failure)
         }
 
-        MastodonClient.registerApp(base: base, name: "NowPlayingTweet", urlScheme: "nowplayingtweet", success: { key, secret in
-            MastodonClient.authorize(base: base, key: key, secret: secret, urlScheme: "nowplayingtweet", success: success, failure: failure)
+        MastodonClient.registerApp(base: base, name: "NowPlayingTweet", redirectUri: "nowplayingtweet://mastodon", success: { key, secret in
+            MastodonClient.authorize(base: base, key: key, secret: secret, redirectUri: "nowplayingtweet://mastodon", success: success, failure: failure)
         }, failure: failure)
     }
 

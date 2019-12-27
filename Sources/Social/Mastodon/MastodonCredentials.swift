@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 
 struct MastodonCredentials: D14nCredentials, OAuth2, Codable {
 

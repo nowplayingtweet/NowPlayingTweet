@@ -7,6 +7,7 @@
 
 import Foundation
 import KeychainAccess
+import SocialProtocol
 
 class Accounts {
 
@@ -38,9 +39,8 @@ class Accounts {
 
     var current: Account? {
         get {
-            guard let provider = self.userDefaults.provider(forKey: "CurrentProvider")
-                , let id = self.userDefaults.string(forKey: "CurrentAccountID")
-                , let (account, _) = self.storage[provider]?.storage[id] else {
+            guard let id = self.userDefaults.string(forKey: "CurrentAccountID")
+                , let (account, _) = self.storage[self.userDefaults.provider(forKey: "CurrentProvider")]?.storage[id] else {
                     return nil
             }
 
@@ -118,12 +118,18 @@ class Accounts {
         if visibility == "Default" {
             visibility = ""
         }
+        let sensitive = accountSetting["SensitiveImage"] as? Bool ?? false
 
-        if let client = client as? PostAttachments {
-            let sensitive = accountSetting["SensitiveImage"] as? Bool ?? false
-            client.post(visibility: visibility, text: text, image: image, sensitive: sensitive, success: success, failure: failure)
-        } else {
-            client.post(visibility: visibility, text: text, success: success, failure: failure)
+        switch client {
+        case let client as MastodonClient:
+            client.post(text: text, image: image, otherParams: [
+                "visibility": visibility,
+                "sensitive": sensitive ? "true" : "false",
+            ], success: success, failure: failure)
+        case let client as PostAttachments:
+            client.post(text: text, image: image, success: success, failure: failure)
+        default:
+            client.post(text: text, success: success, failure: failure)
         }
     }
 

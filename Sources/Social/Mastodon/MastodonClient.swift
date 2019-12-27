@@ -6,8 +6,9 @@
 **/
 
 import Foundation
-import AsyncHTTPClient
+import SocialProtocol
 
+import AsyncHTTPClient
 import AppKit
 
 class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, PostAttachments {
@@ -50,10 +51,6 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
     static var callbackObserver: NSObjectProtocol?
 
-    private static func callbackUri(_ urlScheme: String) -> String {
-        return "\(urlScheme)://\(String(describing: Provider.Mastodon).lowercased())"
-    }
-
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue
             , let url = URL(string: urlString) else { return }
@@ -68,7 +65,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
                                           postingStyle: .asap)
     }
 
-    static func registerApp(base: String, name: String, urlScheme: String, success: @escaping D14nClient.RegisterSuccess, failure: Client.Failure?) {
+    static func registerApp(base: String, name: String, redirectUri: String, success: @escaping D14nClient.RegisterSuccess, failure: Client.Failure?) {
         if !base.hasSchemeAndHost {
             failure?(SocialError.FailedAuthorize("Invalid base url"))
             return
@@ -76,52 +73,13 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
         let requestParams: [String : String] = [
             "client_name": name,
-            "redirect_uris": Self.callbackUri(urlScheme),
+            "redirect_uris": redirectUri,
             "scopes": "read write",
         ]
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         httpClient.post(url: "\(base)/api/v1/apps", headers: [
-            ("Content-Type", "application/x-www-form-urlencoded"),
-        ], body: .string(requestParams.urlencoded)).whenComplete { result in
-            defer {
-                httpClient.eventLoopGroup.shutdownGracefully({_ in
-                    try? httpClient.syncShutdown()
-                })
-            }
-
-            switch result {
-            case .failure(let error):
-                failure?(error)
-            case .success(let response):
-                if response.status == .ok
-                 , let body = response.body
-                 , let client = try? body.getJSONDecodable(RegisterApp.self, at: 0, length: body.readableBytes) {
-                    // handle response
-                    success(client.id, client.secret)
-                } else {
-                    // handle remote error
-                    failure?(SocialError.FailedAuthorize(String(describing: response.status)))
-                }
-            }
-        }
-    }
-
-    static func registerApp(base: String, name: String, success: @escaping D14nClient.RegisterSuccess, failure: Client.Failure?) {
-        if !base.hasSchemeAndHost {
-            failure?(SocialError.FailedAuthorize("Invalid base url"))
-            return
-        }
-
-        let requestParams: [String : String] = [
-            "client_name": name,
-            "redirect_uris": "urn:ietf:wg:oauth:2.0:oob",
-            "scopes": "read write",
-        ]
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        httpClient.post(url: "\(base)/api/v1/apps", headers: [
-            ("Content-Type", "application/x-www-form-urlencoded"),
+            ("Content-Type", "application/x-www-form-urlencoded")
         ], body: .string(requestParams.urlencoded)).whenComplete { result in
             defer {
                 httpClient.eventLoopGroup.shutdownGracefully({_ in
@@ -172,7 +130,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         httpClient.post(url: "\(base)/oauth/token", headers: [
-            ("Content-Type", "application/x-www-form-urlencoded"),
+            ("Content-Type", "application/x-www-form-urlencoded")
         ], body: .string(requestParams.urlencoded)).whenComplete { result in
             handler(result)
 
@@ -182,7 +140,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
-    static func authorize(base: String, key: String, secret: String, urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+    static func authorize(base: String, key: String, secret: String, redirectUri: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
         if !base.hasSchemeAndHost {
             failure?(SocialError.FailedAuthorize("Invalid base url"))
             return
@@ -195,7 +153,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
                 return
             }
 
-            Self.authorization(base: base, key: key, secret: secret, redirectUri: Self.callbackUri(urlScheme), code: code) { result in
+            Self.authorization(base: base, key: key, secret: secret, redirectUri: redirectUri, code: code) { result in
                 defer {
                     NotificationCenter.default.removeObserver(Self.callbackObserver!)
                 }
@@ -217,7 +175,7 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
             }
         }
 
-        Self.openBrowser(base: base, key: key, secret: secret, redirectUri: Self.callbackUri(urlScheme))
+        Self.openBrowser(base: base, key: key, secret: secret, redirectUri: redirectUri)
     }
 
     static func authorize(base: String, key: String, secret: String, failure: Client.Failure?) {
@@ -256,17 +214,19 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
     }
 
     let credentials: Credentials
+    var userAgent: String?
 
-    required init?(_ credentials: Credentials) {
+    required init?(_ credentials: Credentials, userAgent: String?) {
         guard let credentials = credentials as? MastodonCredentials else {
             return nil
         }
 
         self.credentials = credentials
+        self.userAgent = userAgent
     }
 
-    private var mastodonCredentials: MastodonCredentials? {
-        return self.credentials as? MastodonCredentials
+    private var mastodonCredentials: MastodonCredentials {
+        return self.credentials as! MastodonCredentials
     }
 
     func revoke(success: Client.Success?, failure: Client.Failure?) {
@@ -274,15 +234,15 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
     }
 
     func verify(success: @escaping Client.AccountSuccess, failure: Client.Failure?) {
-        guard let credentials = self.mastodonCredentials
-            , let domain = URL(string: credentials.base)?.host else {
+        guard let domain = URL(string: self.mastodonCredentials.base)?.host else {
             failure?(SocialError.FailedVerify("Invalid token."))
             return
         }
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        httpClient.get(url: "\(credentials.base)/api/v1/accounts/verify_credentials", headers: [
-            ("Authorization", "Bearer \(credentials.oauthToken)")
+        httpClient.get(url: "\(self.mastodonCredentials.base)/api/v1/accounts/verify_credentials", headers: [
+            ("Authorization", "Bearer \(self.mastodonCredentials.oauthToken)"),
+            ("User-Agent", self.userAgent ?? "Swift Social Media Provider")
         ]).whenComplete { result in
             defer {
                 httpClient.eventLoopGroup.shutdownGracefully({_ in
@@ -311,26 +271,22 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
         }
     }
 
-    func post(visibility: String, text: String, image: Data?, sensitive: Bool, success: Client.Success?, failure: Client.Failure?) {
-        guard let credentials = self.mastodonCredentials else {
-            failure?(SocialError.FailedPost("Invalid token."))
-            return
-        }
-
+    func post(text: String, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
         var requestParams: [String : String] = [
             "status": text,
         ]
 
-        if visibility != "" {
-            requestParams["visibility"] = visibility.lowercased()
-        }
-
-        if sensitive {
-            requestParams["sensitive"] = "true"
+        if let params = otherParams {
+            requestParams = requestParams.merging(params) { $1 }
         }
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-        let postSuccess: (Result<HTTPClient.Response, Error>) -> Void = { result in
+
+        httpClient.post(url: "\(self.mastodonCredentials.base)/api/v1/statuses", headers: [
+            ("Authorization", "Bearer \(self.mastodonCredentials.oauthToken)"),
+            ("Content-Type", "application/x-www-form-urlencoded"),
+            ("User-Agent", self.userAgent ?? "Swift Social Media Provider")
+        ], body: .string(requestParams.urlencoded)).whenComplete { result in
             defer {
                 httpClient.eventLoopGroup.shutdownGracefully({_ in
                     try? httpClient.syncShutdown()
@@ -350,25 +306,29 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
                 success?()
             }
         }
+    }
 
-        if image == nil {
-            httpClient.post(url: "\(credentials.base)/api/v1/statuses", headers: [
-                ("Authorization", "Bearer \(credentials.oauthToken)"),
-                ("Content-Type", "application/x-www-form-urlencoded"),
-            ], body: .string(requestParams.urlencoded)).whenComplete(postSuccess)
+    func post(text: String, image: Data?, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
+        guard let image = image else {
+            self.post(text: text, otherParams: otherParams, success: success, failure: failure)
             return
         }
+
+        var params = otherParams ?? [:]
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 
         let boundary = "---------------------------\(UUID().uuidString)"
 
         let requestBody: [String : Any] = [
-            "file": image!,
+            "file": image,
         ]
         let multipartData = requestBody.multipartData(boundary: boundary)
 
-        httpClient.post(url: "\(credentials.base)/api/v1/media", headers: [
-            ("Authorization", "Bearer \(credentials.oauthToken)"),
+        httpClient.post(url: "\(self.mastodonCredentials.base)/api/v1/media", headers: [
+            ("Authorization", "Bearer \(self.mastodonCredentials.oauthToken)"),
             ("Content-Type", "multipart/form-data; boundary=\(boundary)"),
+            ("User-Agent", self.userAgent ?? "Swift Social Media Provider")
         ], body: .data(multipartData)).whenComplete { result in
             switch result {
             case .failure(let error):
@@ -386,12 +346,9 @@ class MastodonClient: D14nClient, D14nAuthorizeByCallback, D14nAuthorizeByCode, 
                         return
                 }
 
-                requestParams["media_ids[]"] = media.id
+                params["media_ids[]"] = media.id
 
-                httpClient.post(url: "\(credentials.base)/api/v1/statuses", headers: [
-                    ("Authorization", "Bearer \(credentials.oauthToken)"),
-                    ("Content-Type", "application/x-www-form-urlencoded"),
-                ], body: .string(requestParams.urlencoded)).whenComplete(postSuccess)
+                self.post(text: text, otherParams: params, success: success, failure: failure)
             }
         }
     }

@@ -12,7 +12,7 @@
       },
       {
         "package": "itunes-scripting-bridge",
-        "repositoryURL": "https://github.com/nowplayingtweet/iTunesBridge.git",
+        "repositoryURL": "https://github.com/nowplayingtweet/iTunesBridge",
         "state": {
           "branch": null,
           "revision": "7dfea4a4bb1efdf8c3cffe986e4dc96e7615c093",
@@ -44,6 +44,15 @@
           "branch": null,
           "revision": "b75ffaba05b2cffdb1420d558f1a90b4e6c46dcc",
           "version": "2.5.0"
+        }
+      },
+      {
+        "package": "swift-social-provider",
+        "repositoryURL": "https://github.com/nowplayingtweet/swift-social-provider",
+        "state": {
+          "branch": "master",
+          "revision": "8df7ebc437eb99e70789a360ab0e6e177553fd1e",
+          "version": null
         }
       }
     ]

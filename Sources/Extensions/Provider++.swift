@@ -6,6 +6,7 @@
 **/
 
 import Cocoa
+import SocialProtocol
 
 extension Provider {
 
@@ -15,6 +16,8 @@ extension Provider {
             return NSImage(named: "Twitter Icon")
         case .Mastodon:
             return NSImage(named: "Mastodon Icon")
+        default:
+            return nil
         }
     }
 
@@ -33,6 +36,8 @@ extension Provider {
             return TwitterClient.self
         case .Mastodon:
             return MastodonClient.self
+        default:
+            return nil
         }
     }
 
@@ -42,7 +47,20 @@ extension Provider {
             return TwitterAccounts.self
         case .Mastodon:
             return MastodonAccounts.self
+        default:
+            return nil
         }
+    }
+
+}
+
+extension Provider {
+
+    static var allCases: [Provider] {
+        return [
+            .Twitter,
+            .Mastodon,
+        ]
     }
 
 }

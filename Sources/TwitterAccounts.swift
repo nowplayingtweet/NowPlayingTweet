@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 import KeychainAccess
 
 class TwitterAccounts: ProviderAccounts {
@@ -84,7 +85,7 @@ class TwitterAccounts: ProviderAccounts {
             }, failure: failure)
         }
 
-        TwitterClient.authorize(key: self.apiKey, secret: self.apiSecret, urlScheme: "nowplayingtweet", success: success, failure: failure)
+        TwitterClient.authorize(key: self.apiKey, secret: self.apiSecret, redirectUri: "nowplayingtweet://twitter", success: success, failure: failure)
     }
 
     private func save(account: TwitterAccount, credentials: TwitterCredentials) {

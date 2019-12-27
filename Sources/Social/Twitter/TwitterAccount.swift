@@ -6,6 +6,7 @@
 **/
 
 import Foundation
+import SocialProtocol
 
 struct TwitterAccount: Account, Equatable {
 
@@ -16,4 +17,8 @@ struct TwitterAccount: Account, Equatable {
     public let username: String
     public let avaterUrl: URL
 
+}
+
+extension Provider {
+    static let Twitter = Provider(rawValue: "Twitter")
 }

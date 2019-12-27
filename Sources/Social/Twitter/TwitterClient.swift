@@ -6,6 +6,8 @@
 **/
 
 import Foundation
+import SocialProtocol
+
 import SwifterMac
 
 class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
@@ -16,8 +18,8 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
         return Swifter.handleOpenURL(URL(string: urlString)!)
     }
 
-    static func authorize(key: String, secret: String, urlScheme: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
-        guard let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
+    static func authorize(key: String, secret: String, redirectUri: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+        guard let callbackURL = URL(string: redirectUri) else {
             failure?(SocialError.FailedAuthorize("Invalid callback url scheme."))
             return
         }
@@ -35,8 +37,9 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
     }
 
     let credentials: Credentials
+    var userAgent: String?
 
-    required init?(_ credentials: Credentials) {
+    required init?(_ credentials: Credentials, userAgent _: String?) {
         guard let credentials = credentials as? TwitterCredentials else {
             return nil
         }
@@ -79,24 +82,40 @@ class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
         }, failure: failure)
     }
 
-    func post(visibility _: String, text: String, image: Data?, sensitive _: Bool, success: Client.Success?, failure: Client.Failure?) {
+    func post(text: String, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedPost("Cannot get client."))
             return
         }
 
-        if image == nil {
-            swifter.postTweet(status: text, success:  { _ in success?() }, failure: failure)
+        if let mediaID = otherParams?["media_ids[]"] {
+            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in success?() }, failure: failure)
             return
         }
 
-        swifter.postMedia(image!, success: { json in
+        swifter.postTweet(status: text, success: { _ in success?() }, failure: failure)
+    }
+
+    func post(text: String, image: Data?, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
+        guard let swifter = self.getSwifter() else {
+            failure?(SocialError.FailedPost("Cannot get client."))
+            return
+        }
+
+        guard let image = image else {
+            self.post(text: text, otherParams: otherParams, success: success, failure: failure)
+            return
+        }
+
+        swifter.postMedia(image, success: { json in
             guard let object = json.object
                 , let mediaID = object["media_id_string"]?.string else {
                     failure?(SocialError.FailedPost("Invalid response."))
                     return
             }
-            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in success?() }, failure: failure)
+            var param = otherParams ?? [:]
+            param["media_ids[]"] = mediaID
+            self.post(text: text, otherParams: param, success: success, failure: failure)
         }, failure: failure)
     }
 

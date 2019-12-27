@@ -7,6 +7,7 @@
 
 import Foundation
 import Magnet
+import SocialProtocol
 
 extension UserDefaults {
 
@@ -37,7 +38,7 @@ extension UserDefaults {
         return keyCombo
     }
 
-    func provider(forKey key: String) -> Provider? {
+    func provider(forKey key: String) -> Provider {
         return Provider(rawValue: self.string(forKey: key) ?? "")
     }
 
@@ -69,11 +70,7 @@ extension UserDefaults {
         self.set(keyEquivalents, forKey: "KeyEquivalents")
     }
 
-    func set(_ provider: Provider?, forKey key: String) {
-        guard let provider = provider else {
-            return
-        }
-
+    func set(_ provider: Provider, forKey key: String) {
         self.set(String(describing: provider), forKey: key)
     }
 
