@@ -83,8 +83,8 @@ class KeyEquivalentsPaneController: NSViewController, RecordViewDelegate {
             recordView.tintColor = .systemBlue
             recordView.cornerRadius = 12
             recordView.delegate = self
-            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
-            recordView.keyCombo = self.userDefaults.keyCombo(forKey: "\(type(of: account).provider)_\(account.id)")
+            recordView.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.keychainID)")
+            recordView.keyCombo = self.userDefaults.keyCombo(forKey: "\(type(of: account).provider)_\(account.keychainID)")
 
             let recordRow = self.gridView.addRow(with: [recordLabel, recordView])
             recordRow.height = 24

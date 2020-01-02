@@ -7,6 +7,7 @@
 
 import Foundation
 import KeychainAccess
+import SocialProtocol
 
 class Accounts {
 
@@ -16,15 +17,17 @@ class Accounts {
 
     private var storage: [Provider : ProviderAccounts] = [:]
 
+    var availableProviders: [Provider] {
+        return Provider.allCases.filter { self.storage.keys.contains($0) }
+    }
+
     var sortedAccounts: [Account] {
         var result: [Account] = []
 
-        for provider in Provider.allCases {
-            guard let accounts = self.storage[provider] else {
-                continue
+        for provider in self.availableProviders {
+            if let accounts = self.storage[provider] {
+                result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
             }
-
-            result += accounts.storage.keys.sorted().map { accounts.storage[$0]!.0 }
         }
 
         return result
@@ -36,9 +39,8 @@ class Accounts {
 
     var current: Account? {
         get {
-            guard let provider = self.userDefaults.provider(forKey: "CurrentProvider")
-                , let id = self.userDefaults.string(forKey: "CurrentAccountID")
-                , let (account, _) = self.storage[provider]?.storage[id] else {
+            guard let id = self.userDefaults.string(forKey: "CurrentAccountID")
+                , let (account, _) = self.storage[self.userDefaults.provider(forKey: "CurrentProvider")]?.storage[id] else {
                     return nil
             }
 
@@ -53,15 +55,15 @@ class Accounts {
             }
 
             self.userDefaults.set(type(of: current).provider, forKey: "CurrentProvider")
-            self.userDefaults.set(current.id, forKey: "CurrentAccountID")
+            self.userDefaults.set(current.keychainID, forKey: "CurrentAccountID")
         }
     }
 
     private init() {
         var providers: [Provider] = Provider.allCases
 
-        var observer: NSObjectProtocol!
-        observer = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: .socialAccountsInitialize, object: nil, queue: nil, using: { notification in
             guard let initalizedProvider = notification.userInfo?["provider"] as? Provider else {
                 return
             }
@@ -72,109 +74,117 @@ class Accounts {
                 return
             }
 
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .asap)
+
             if self.current == nil {
                 self.current = self.sortedAccounts.first
             }
 
-            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .whenIdle)
-
-            NotificationCenter.default.removeObserver(observer!)
+            NotificationCenter.default.removeObserver(token!)
         })
 
-        for provider in Provider.allCases {
+        for provider in providers {
             if let providerAccounts = provider.accounts?.init(keychainPrefix: "com.kr-kp.NowPlayingTweet.Accounts") {
                 self.storage[provider] = providerAccounts
+                continue
             }
+
+            providers.removeAll { $0 == provider }
+
+            if providers.count > 0 {
+                continue
+            }
+
+            NotificationQueue.default.enqueue(.init(name: .alreadyAccounts, object: nil), postingStyle: .asap)
+
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+
+            NotificationCenter.default.removeObserver(token!)
         }
     }
 
-    func accountAndCredentials(_ provider: Provider, id: String) -> (Account, Credentials)? {
-        return self.storage[provider]?.storage[id]
-    }
-
-    func account(_ provider: Provider, id: String) -> Account? {
-        guard let (account, _) = accountAndCredentials(provider, id: id) else {
-            return nil
-        }
-        return account
-    }
-
-    func credentials(_ provider: Provider, id: String) -> Credentials? {
-        guard let (_, credentials) = accountAndCredentials(provider, id: id) else {
-            return nil
-        }
-        return credentials
-    }
-
-    func client(for account: Account) -> Client? {
+    func post(with account: Account, text: String, image: Data?, success: Client.Success?, failure: Client.Failure?) {
         let provider = type(of: account).provider
-        guard let client = provider.client
-            , let credentials = self.credentials(provider, id: account.id) else {
-            return nil
+        let accountSetting = UserDefaults.standard.accountSetting(forKey: account.keychainID)
+        guard let (_, credentials) = self.storage[provider]?.storage[account.keychainID]
+            , let client = provider.client?.init(credentials) else {
+                failure?(NPTError.Unknown("Invalid credentials"))
+                return
         }
-        return client.init(credentials)
+
+        var visibility = accountSetting["Visibility"] as? String ?? ""
+        if visibility == "Default" {
+            visibility = ""
+        }
+        let sensitive = accountSetting["SensitiveImage"] as? Bool ?? false
+
+        switch client {
+        case let client as MastodonClient:
+            client.post(text: text, image: image, otherParams: [
+                "visibility": visibility,
+                "sensitive": sensitive ? "true" : "false",
+            ], success: success, failure: failure)
+        case let client as PostAttachments:
+            client.post(text: text, image: image, success: success, failure: failure)
+        default:
+            client.post(text: text, success: success, failure: failure)
+        }
     }
 
-    func login(provider: Provider) {
-        guard let client = provider.client
-            , let (key, secret) = provider.clientKey else {
+    func login(provider: Provider, base: String = "") {
+        guard let accounts = self.storage[provider] else {
             return
         }
 
-        client.authorize(key: key, secret: secret, callbackURLScheme: "nowplayingtweet", handler: { credentials in
-            client.init(credentials)?.verify(handler: { account in
-                self.storage[provider]?.saveToKeychain(account: account, credentials: credentials)
+        let handler: (Account?, Error?) -> Void = { account, error in
+            if let error = error {
+                NSLog(error.localizedDescription)
+                return
+            }
 
-                if self.current == nil {
-                    self.current = self.sortedAccounts.first
-                }
+            guard let account = account else {
+                return
+            }
 
-                NotificationCenter.default.post(name: .login,
-                                                object: nil,
-                                                userInfo: ["account" : account])
-            })
-        })
+            if self.current == nil {
+                self.current = self.sortedAccounts.first
+            }
+
+            NotificationCenter.default.post(name: .login,
+                                            object: nil,
+                                            userInfo: ["account" : account])
+        }
+
+        if let accounts = accounts as? D14nProviderAccounts {
+            accounts.authorize(base: base, handler: handler)
+        } else {
+            accounts.authorize(handler: handler)
+        }
     }
 
     func logout(account: Account) {
         let provider = type(of: account).provider
-        guard let client = self.client(for: account) else {
-            self.storage[provider]?.deleteFromKeychain(id: account.id)
-            if self.current == nil {
-                self.current = self.sortedAccounts.first
-            }
+        guard let accounts = self.storage[provider] else {
             NotificationCenter.default.post(name: .logout,
                                             object: nil)
+
             return
         }
 
-        client.revoke(handler: {
-            self.storage[provider]?.deleteFromKeychain(id: account.id)
+        accounts.revoke(id: account.keychainID) { error in
+            if let error = error {
+                NSLog(error.localizedDescription)
+                return
+            }
+
             if self.current == nil {
                 self.current = self.sortedAccounts.first
             }
             NotificationCenter.default.post(name: .logout,
                                             object: nil)
-        }, failure: { error in
-            guard let err = error as? SocialError else {
-                return
-            }
-
-            switch err {
-            case .NotImplements(_, _):
-                self.storage[provider]?.deleteFromKeychain(id: account.id)
-                if self.current == nil {
-                    self.current = self.sortedAccounts.first
-                }
-                NotificationCenter.default.post(name: .logout,
-                                                object: nil)
-            case .FailedRevoke(let message):
-                NSLog(message)
-            default:
-                break
-            }
-        })
-
+        }
     }
 
 }

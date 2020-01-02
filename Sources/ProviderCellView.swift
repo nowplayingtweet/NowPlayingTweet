@@ -6,6 +6,7 @@
 **/
 
 import Cocoa
+import SocialProtocol
 
 class ProviderCellView: NSTableCellView {
 
@@ -16,7 +17,7 @@ class ProviderCellView: NSTableCellView {
             }
 
             self.textField?.stringValue = String(describing: provider)
-            self.imageView?.image = provider.brand
+            self.imageView?.image = provider.logo
 
             if self.imageView?.image != nil {
                 self.textField?.isHidden = true

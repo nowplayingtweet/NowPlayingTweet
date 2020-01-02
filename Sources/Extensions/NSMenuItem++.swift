@@ -19,17 +19,19 @@ extension NSMenuItem {
                                  delegateQueue: OperationQueue.main)
 
         session.dataTask(with: request, completionHandler: { data, _, error in
-            if let _ = error {
+            if let error = error {
+                NSLog(error.localizedDescription)
                 self.setGuestImage()
                 return
             }
 
-            guard let imageData = data, let image = NSImage(data: imageData, templated: false) else {
-                self.setGuestImage()
-                return
+            guard let data = data
+                , let image = NSImage(data: data) else {
+                    self.setGuestImage()
+                    return
             }
 
-            self.setImage(rounded ? image.toRoundCorners() : image)
+            self.setImage(image, rounded: rounded)
         }).resume()
     }
 
@@ -37,14 +39,13 @@ extension NSMenuItem {
         self.setImage(NSImage(named: "NSUserGuest", templated: true)!)
     }
 
-    private func setImage(_ newImage: NSImage) {
-        let size: NSSize = NSSize(width: 24, height: 24)
-        let rect: NSRect = NSRect(x: 0, y: 0, width: size.width, height: size.height)
-        let image: NSImage = NSImage(size: size, templated: newImage.isTemplate)
-        image.lockFocus()
-        newImage.draw(in: rect)
-        image.unlockFocus()
-        self.image = image
+    private func setImage(_ image: NSImage?, rounded: Bool = false) {
+        guard let image = image?.resize(targetSize: .init(width: 24, height: 24)) else {
+            self.image = nil
+            return
+        }
+
+        self.image = rounded ? image.toRoundCorners() : image
     }
 
 }

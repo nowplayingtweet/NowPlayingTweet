@@ -9,6 +9,7 @@ import Cocoa
 import Magnet
 import SwifterMac
 import KeychainAccess
+import SocialProtocol
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMenuItemValidation {
@@ -79,10 +80,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
-            notificationCenter.removeObserver(observer!)
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: .alreadyAccounts, object: nil, queue: nil, using: { notification in
+            defer {
+                NotificationCenter.default.removeObserver(token!)
+            }
 
             self.updateSocialAccount()
         })
@@ -110,15 +112,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.identifier == NSUserInterfaceItemIdentifier("PostNowPlaying") {
-            return self.accounts.existsAccounts
+            return self.accounts.current != nil
         }
 
         return true
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, with _: NSAppleEventDescriptor) {
-        for provider in Provider.allCases {
-            guard let client = provider.client as? CallbackHandler.Type else {
+        for provider in self.accounts.availableProviders {
+            guard let client = provider.client as? AuthorizeByCallback.Type else {
                 continue
             }
 
@@ -141,14 +143,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
     @objc func postBySelectingAccount(_ sender: NSMenuItem) {
         let account = self.accounts.sortedAccounts.first(where: { account in
-            return "\(type(of: account).provider)_\(account.id)" == sender.identifier?.rawValue
+            return "\(type(of: account).provider)_\(account.keychainID)" == sender.identifier?.rawValue
         })
         self.postNowPlaying(by: account)
     }
 
     func postNowPlaying(by account: Account?, auto: Bool = false) {
         let postFailureHandler: Client.Failure = { error in
-            if let err = error as? SwifterError {
+            switch error {
+            case let err as SwifterError:
                 let errMsg = err.message.components(separatedBy: ", ")
                 let errRes = errMsg[1].components(separatedBy: ": ")
 
@@ -168,19 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                                     informative: informative,
                                     style: .warning)
                 alert.runModal()
-
-                return
-            }
-
-            guard let err = error as? NPTError else {
-                let alert = NSAlert(error: error)
-                alert.runModal()
-
-                return
-            }
-
-            switch err {
-            case .NotLogin:
+            case NPTError.NotLogin:
                 let title: String = "Not logged in!"
                 var informative: String = "Please login with \"Preferences…\" -> \"Account\"."
                 if auto {
@@ -193,26 +184,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                                     informative: informative,
                                     style: .critical)
                 alert.runModal()
-            case .NotLaunchediTunes:
+            case NPTError.NotLaunchediTunes:
                 let alert = NSAlert(message: "Not runnning iTunes.",
                                     style: .informational)
                 alert.runModal()
-            case .HasNotPermission:
-            let alert = NSAlert(message: "Has not permission for iTunes.",
-                                informative: "Please turn on iTunes from System Preferences.app\n\"Security & Privacy\" -> \"Privacy\" -> \"Automation\".",
-                                style: .warning)
-            alert.runModal()
-            case .NotExistsTrack:
-                let alert = NSAlert(message: "Not exists music.",
-                                style: .informational)
+            case NPTError.HasNotPermission:
+                let alert = NSAlert(message: "Has not permission for iTunes.",
+                                    informative: "Please turn on iTunes from System Preferences.app\n\"Security & Privacy\" -> \"Privacy\" -> \"Automation\".",
+                                    style: .warning)
                 alert.runModal()
-            case .Unknown(let message):
+            case NPTError.NotExistsTrack:
+                let alert = NSAlert(message: "Not exists music.",
+                                    style: .informational)
+                alert.runModal()
+            case NPTError.Unknown(let message):
                 let alert = NSAlert(message: "Some Error.",
                                     informative: message,
                                     style: .warning)
                 alert.runModal()
+            default:
+                let alert = NSAlert(error: error)
+                alert.runModal()
             }
-
         }
 
         self.post(with: account, failure: postFailureHandler)
@@ -246,12 +239,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let currentTrack: iTunesPlayerInfo.Track = self.playerInfo.currentTrack!
 
         let postText = self.createPostText(from: currentTrack)
+        let artwork = self.userDefaults.bool(forKey: "PostWithImage") ? currentTrack.artwork : nil
 
-        if self.userDefaults.bool(forKey: "PostWithImage") {
-            self.accounts.client(for: account)?.post(text: postText, image: currentTrack.artwork, failure: failure)
-        } else {
-            self.accounts.client(for: account)?.post(text: postText, failure: failure)
-        }
+        self.accounts.post(with: account, text: postText, image: artwork, success: nil, failure: failure)
     }
 
     private func createPostText(from track: iTunesPlayerInfo.Track) -> String {
@@ -281,7 +271,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
 
         self.postMenu.submenu = nil
 
-        if let current = self.accounts.current {
+        if let current = self.accounts.current as? D14nAccount {
+             self.currentAccount.title = "@\(current.username)@\(current.domain)"
+             self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
+        } else if let current = self.accounts.current {
             self.currentAccount.title = "\(type(of: current).provider) @\(current.username)"
             self.currentAccount.fetchImage(url: current.avaterUrl, rounded: true)
         } else {
@@ -296,8 +289,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
         let menu = NSMenu()
         for account in self.accounts.sortedAccounts {
             let menuItem = NSMenuItem()
-            menuItem.title = "\(type(of: account).provider) @\(account.username)"
-            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.id)")
+            if let account = account as? D14nAccount {
+                menuItem.title = "\(account.domain) @\(account.username)"
+            } else {
+                menuItem.title = "\(type(of: account).provider) @\(account.username)"
+            }
+            menuItem.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(type(of: account).provider)_\(account.keychainID)")
             menuItem.action = #selector(AppDelegate.postBySelectingAccount(_:))
             menu.addItem(menuItem)
         }
@@ -317,8 +314,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
                                                 name: .iTunesPlayerInfo,
                                                 object: nil,
                                                 distributed: true)
-            let notificationCenter: NotificationCenter = NotificationCenter.default
-            notificationCenter.post(name: .disableAutoPost, object: nil)
+            NotificationCenter.default.post(name: .disableAutoPost, object: nil)
         }
     }
 
@@ -327,7 +323,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, KeyEquivalentsDelegate, NSMe
     }
 
     func post(with id: String, of provider: Provider) {
-        self.postNowPlaying(by: self.accounts.account(provider, id: id))
+        self.postNowPlaying(by: self.accounts.sortedAccounts.first { account in
+            return type(of: account).provider == provider
+                && account.keychainID == id
+        })
     }
 
 }

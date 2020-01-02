@@ -6,6 +6,7 @@
 **/
 
 import Cocoa
+import SocialProtocol
 
 class AccountCellView: NSTableCellView {
 
@@ -19,7 +20,12 @@ class AccountCellView: NSTableCellView {
                 return
             }
 
-            self.providerName?.stringValue = String(describing: type(of: account).provider)
+            if let account = account as? D14nAccount {
+                self.providerName.stringValue = account.domain
+            } else {
+                self.providerName.stringValue = String(describing: type(of: account).provider)
+            }
+
             self.textField?.stringValue = "@\(account.username)"
             self.imageView?.fetchImage(url: account.avaterUrl, rounded: true)
             self.currentIndicator?.isHidden = !account.isEqual(Accounts.shared.current)

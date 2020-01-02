@@ -7,6 +7,7 @@
 
 import Foundation
 import Magnet
+import SocialProtocol
 
 class GlobalKeyEquivalents: NSObject {
 
@@ -82,12 +83,11 @@ class GlobalKeyEquivalents: NSObject {
         guard let regexp = try? NSRegularExpression(pattern: pattern, options: [])
             , let match = regexp.firstMatch(in: identifier, range: NSRange(identifier.startIndex..., in: identifier))
             , let providerNameRange = Range(match.range(at: 1), in: identifier)
-            , let idRange = Range(match.range(at: 2), in: identifier)
-            , let provider = Provider(rawValue: String(identifier[providerNameRange])) else {
+            , let idRange = Range(match.range(at: 2), in: identifier) else {
                 return
         }
 
-        self.delegate?.post(with: String(identifier[idRange]), of: provider)
+        self.delegate?.post(with: String(identifier[idRange]), of: Provider(rawValue: String(identifier[providerNameRange])))
     }
 
 }

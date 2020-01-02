@@ -7,6 +7,7 @@
 
 import Foundation
 import Magnet
+import SocialProtocol
 
 extension UserDefaults {
 
@@ -37,8 +38,24 @@ extension UserDefaults {
         return keyCombo
     }
 
-    func provider(forKey key: String) -> Provider? {
+    func provider(forKey key: String) -> Provider {
         return Provider(rawValue: self.string(forKey: key) ?? "")
+    }
+
+    func accountSetting(forKey key: String) -> [String : Any] {
+        guard let settings = UserDefaults.standard.dictionary(forKey: "AccountSettings") as? [String : [String : Any]]
+            , let setting = settings[key] else {
+            return [
+                "Visibility": "Default",
+                "ContentWarning": [
+                    "Enabled": false,
+                    "SpoilerText": "",
+                ],
+                "SensitiveImage": false,
+            ]
+        }
+
+        return setting
     }
 
     func set(_ keyCombo: KeyCombo?, forKey key: String) {
@@ -53,12 +70,15 @@ extension UserDefaults {
         self.set(keyEquivalents, forKey: "KeyEquivalents")
     }
 
-    func set(_ provider: Provider?, forKey key: String) {
-        guard let provider = provider else {
-            return
-        }
-
+    func set(_ provider: Provider, forKey key: String) {
         self.set(String(describing: provider), forKey: key)
+    }
+
+    func setAccountSetting(_ setting: [String : Any], forKey key: String) {
+        var settings = UserDefaults.standard.dictionary(forKey: "AccountSettings") as? [String : [String : Any]] ?? [:]
+        settings[key] = setting
+
+        self.set(settings, forKey: "AccountSettings")
     }
 
     func removeKeyCombo(forKey key: String) {

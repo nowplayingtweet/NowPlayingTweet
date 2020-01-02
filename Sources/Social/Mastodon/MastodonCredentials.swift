@@ -1,5 +1,5 @@
 /**
- *  TwitterCredentials.swift
+ *  MastodonCredentials.swift
  *  NowPlayingTweet
  *
  *  © 2019 kPherox.
@@ -8,12 +8,13 @@
 import Foundation
 import SocialProtocol
 
-struct TwitterCredentials: Credentials, OAuth1, Codable {
+struct MastodonCredentials: D14nCredentials, OAuth2, Codable {
+
+    let base: String
 
     let apiKey: String
     let apiSecret: String
 
     let oauthToken: String
-    let oauthSecret: String
 
 }

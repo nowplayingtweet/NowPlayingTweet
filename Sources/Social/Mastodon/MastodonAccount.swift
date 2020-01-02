@@ -1,5 +1,5 @@
 /**
- *  TwitterAccount.swift
+ *  MastodonAccount.swift
  *  NowPlayingTweet
  *
  *  © 2019 kPherox.
@@ -8,11 +8,12 @@
 import Foundation
 import SocialProtocol
 
-struct TwitterAccount: Account, Equatable {
+struct MastodonAccount: D14nAccount, Equatable {
 
-    static let provider = Provider.Twitter
+    static let provider = Provider.Mastodon
 
     public let id: String
+    public let domain: String
     public let name: String
     public let username: String
     public let avaterUrl: URL
@@ -20,5 +21,5 @@ struct TwitterAccount: Account, Equatable {
 }
 
 extension Provider {
-    static let Twitter = Provider(rawValue: "Twitter")
+    static let Mastodon = Provider(rawValue: "Mastodon")
 }

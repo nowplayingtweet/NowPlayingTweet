@@ -6,8 +6,9 @@
 **/
 
 import Cocoa
+import SocialProtocol
 
-class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate {
 
     static let shared: AccountPaneController = {
         let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .accountPaneController)
@@ -22,23 +23,34 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     @IBOutlet weak var accountControl: NSSegmentedControl!
     @IBOutlet weak var accountBox: NSBox!
 
+    // Login Providers
     @IBOutlet var providerView: NSScrollView!
-    // providerView subview
+
     @IBOutlet weak var providerList: NSTableView!
 
+    // Account Details
     @IBOutlet var accountView: NSView!
-    // accountView subviews
+
     @IBOutlet weak var providerIcon: NSImageView!
     @IBOutlet weak var provider: NSTextField!
+
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var screenName: NSTextField!
+
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
 
+    @IBOutlet weak var accountSettings: NSGridView!
+    @IBOutlet weak var postVisibility: NSPopUpButton!
+    @IBOutlet weak var customVisibility: NSTextField!
+    @IBOutlet weak var contentWarningButton: NSButton!
+    @IBOutlet weak var spoilerText: NSTextField!
+    @IBOutlet weak var sensitiveImage: NSButton!
+
     private var _selected: Account?
 
-    var selected: Account? {
+    private var selected: Account? {
         get {
             return self._selected
         }
@@ -53,21 +65,56 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             }
 
             self.accountBox.contentView = self.accountView
+            self._selected = account
             self.accountControl.setEnabled(true, forSegment: 0)
             self.accountControl.setEnabled(true, forSegment: 1)
 
-            self.providerIcon.image = type(of: account).provider.logo
+            if let account = account as? D14nAccount {
+                self.screenName.stringValue = "@\(account.username)@\(account.domain)"
+            } else {
+                self.screenName.stringValue = "@\(account.username)"
+            }
+
+            self.providerIcon.image = type(of: account).provider.icon
             self.provider.stringValue = String(describing: type(of: account).provider)
 
             self.name.stringValue = account.name
-            self.screenName.stringValue = "@\(account.username)"
             self.avater.fetchImage(url: account.avaterUrl, rounded: true)
 
             let isCurrent = account.isEqual(self.accounts.current)
             self.currentLabel.isHidden = !isCurrent
-            self.currentButton.isHidden = isCurrent
+            self.currentButton.isEnabled = !isCurrent
 
-            self._selected = account
+            let accountSetting = UserDefaults.standard.accountSetting(forKey: account.keychainID)
+
+            self.customVisibility.isEnabled = false
+            self.customVisibility.stringValue = ""
+            let visibility = accountSetting["Visibility"] as! String
+            switch visibility {
+            case "Default", "Public", "Unlisted", "Private":
+                self.postVisibility.selectItem(withTitle: visibility)
+            case "":
+                self.postVisibility.selectItem(withTitle: "Default")
+            default:
+                self.postVisibility.selectItem(withTitle: "Custom")
+                self.customVisibility.isEnabled = true
+                self.customVisibility.stringValue = visibility
+            }
+
+            let contentWarning = accountSetting["ContentWarning"] as! [String : Any]
+            self.spoilerText.isEnabled = contentWarning["Enabled"] as! Bool
+            self.spoilerText.stringValue = self.spoilerText.isEnabled ? contentWarning["SpoilerText"] as! String : ""
+            self.contentWarningButton.set(state: self.spoilerText.isEnabled)
+
+            self.sensitiveImage.set(state: accountSetting["SensitiveImage"] as! Bool)
+
+            switch type(of: account).provider {
+            case .Mastodon:
+                self.accountSettings.isHidden = false
+            default:
+                self.accountSettings.isHidden = true
+                return
+            }
         }
     }
 
@@ -75,10 +122,50 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         super.viewDidLoad()
 
         // Do view setup here.
+        NotificationCenter.default.addObserver(forName: .login, object: nil, queue: .main, using: { notification in
+            guard let account = notification.userInfo!["account"] as? Account else {
+                return
+            }
+
+            self.selected = account
+            self.appDelegate.updateSocialAccount()
+        })
+
+        NotificationCenter.default.addObserver(forName: .logout, object: nil, queue: .main, using: { _ in
+            self.selected = nil
+            self.appDelegate.updateSocialAccount()
+        })
+
         self.accountBox.contentView = self.providerView
     }
 
-    @IBAction private func setToCurrent(_ sender: NSButton) {
+    @IBAction func changeVisibility(_ sender: NSPopUpButton) {
+        self.customVisibility.isEnabled = sender.title == "Custom"
+
+        var setting = UserDefaults.standard.accountSetting(forKey: self.selected!.keychainID)
+        setting["Visibility"] = sender.title == "Custom"
+            ? self.customVisibility.stringValue
+            : sender.title
+        UserDefaults.standard.setAccountSetting(setting, forKey: self.selected!.keychainID)
+    }
+
+    @IBAction func switchContentWarning(_ sender: NSButton) {
+        self.spoilerText.isEnabled = sender.state.toBool()
+
+        var setting = UserDefaults.standard.accountSetting(forKey: self.selected!.keychainID)
+        var contentWarning = setting["ContentWarning"] as! [String : Any]
+        contentWarning["Enabled"] = sender.state.toBool()
+        setting["ContentWarning"] = contentWarning
+        UserDefaults.standard.setAccountSetting(setting, forKey: self.selected!.keychainID)
+    }
+
+    @IBAction func switchSensitiveImage(_ sender: NSButton) {
+        var setting = UserDefaults.standard.accountSetting(forKey: self.selected!.keychainID)
+        setting["SensitiveImage"] = sender.state.toBool()
+        UserDefaults.standard.setAccountSetting(setting, forKey: self.selected!.keychainID)
+    }
+
+    @IBAction func setToCurrent(_ sender: NSButton) {
         guard let selected = self.selected else {
             return
         }
@@ -99,35 +186,31 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
 
     private func addAccount(_ provider: Provider) {
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
-            notificationCenter.removeObserver(observer!)
+        if (provider.client as? D14nClient.Type) != nil {
+            var token: NSObjectProtocol?
+            token = NotificationCenter.default.addObserver(forName: .authorize, object: nil, queue: nil, using: { notification in
+                defer {
+                    NotificationCenter.default.removeObserver(token!)
+                }
 
-            guard let selected = notification.userInfo!["account"] as? Account else {
-                return
-            }
+                guard let base = notification.userInfo!["server_url"] as? String else {
+                    return
+                }
 
-            self.selected = selected
-            self.appDelegate.updateSocialAccount()
-        })
+                self.accounts.login(provider: provider, base: base)
+                self.dismiss(AuthorizeSheetController.shared)
+            })
 
-        self.accounts.login(provider: provider)
+            self.presentAsSheet(AuthorizeSheetController.shared)
+        } else {
+            self.accounts.login(provider: provider)
+        }
     }
 
     private func removeAccount() {
         guard let selected = self.selected else {
             return
         }
-
-        let notificationCenter: NotificationCenter = NotificationCenter.default
-        var observer: NSObjectProtocol!
-        observer = notificationCenter.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
-            notificationCenter.removeObserver(observer!)
-
-            self.selected = nil
-            self.appDelegate.updateSocialAccount()
-        })
 
         self.accounts.logout(account: selected)
     }
@@ -146,8 +229,9 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         case self.accountList:
             return self.accounts.sortedAccounts.count
         case self.providerList:
-            return Provider.allCases.count
-        default: return 0
+            return self.accounts.availableProviders.count
+        default:
+            return 0
         }
     }
 
@@ -156,15 +240,18 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         case self.accountList:
             return self.accounts.sortedAccounts[row]
         case self.providerList:
-            return Provider.allCases[row]
-        default: return nil
+            return self.accounts.availableProviders[row]
+        default:
+            return nil
         }
     }
 
     func selectionShouldChange(in tableView: NSTableView) -> Bool {
         switch tableView {
-        case self.accountList: return tableView.clickedRow >= 0 || self.selected == nil
-        default: return true
+        case self.accountList:
+            return tableView.clickedRow >= 0 || self.selected == nil
+        default:
+            return true
         }
     }
 
@@ -180,10 +267,32 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
             }
         case self.providerList:
             if tableView.selectedRow >= 0 {
-                self.addAccount(Provider.allCases[tableView.selectedRow])
+                self.addAccount(self.accounts.availableProviders[tableView.selectedRow])
                 tableView.reloadData()
             }
         default: break
+        }
+    }
+
+    func controlTextDidChange(_ notification: Notification) {
+        guard let textField = notification.object as? NSTextField else {
+            return
+        }
+
+        var setting = UserDefaults.standard.accountSetting(forKey: self.selected!.keychainID)
+
+        switch textField {
+        case self.customVisibility:
+            setting["Visibility"] = self.customVisibility.stringValue
+            UserDefaults.standard.setAccountSetting(setting, forKey: self.selected!.keychainID)
+        case self.spoilerText:
+            var setting = UserDefaults.standard.accountSetting(forKey: self.selected!.keychainID)
+            var contentWarning = setting["ContentWarning"] as! [String : Any]
+            contentWarning["SpoilerText"] = self.spoilerText.stringValue
+            setting["ContentWarning"] = contentWarning
+            UserDefaults.standard.setAccountSetting(setting, forKey: self.selected!.keychainID)
+        default:
+            break
         }
     }
 

@@ -13,7 +13,7 @@ extension NSImageView {
         let conf = URLSessionConfiguration.default
         return URLSession(configuration: conf,
                           delegate: nil,
-                          delegateQueue: OperationQueue.main)
+                          delegateQueue: .main)
     }()
 
     func fetchImage(url: URL, rounded: Bool = false) {
@@ -24,14 +24,31 @@ extension NSImageView {
         NSImageView.session.dataTask(with: request, completionHandler: { data, _, error in
             if let error = error {
                 NSLog(error.localizedDescription)
+                self.setGuestImage()
                 return
             }
 
-            if let imageData = data {
-                let image: NSImage = NSImage(data: imageData)!
-                self.image = rounded ? image.toRoundCorners() : image
+            guard let data = data
+                , let image = NSImage(data: data) else {
+                    self.setGuestImage()
+                    return
             }
+
+            self.setImage(image, rounded: rounded)
         }).resume()
+    }
+
+    func setGuestImage() {
+        self.setImage(NSImage(named: "NSUserGuest", templated: true))
+    }
+
+    private func setImage(_ image: NSImage?, rounded: Bool = false) {
+        guard let image = image?.resize(targetSize: self.frame.size) else {
+            self.image = nil
+            return
+        }
+
+        self.image = rounded ? image.toRoundCorners() : image
     }
 
 }

@@ -28,25 +28,38 @@ extension NSImage {
 
 extension NSImage {
 
-    func toRoundCorners(width: CGFloat = 48, height: CGFloat = 48) -> NSImage {
-        let xRad = width / 2
-        let yRad = height / 2
+    func resize(targetSize: CGSize) -> NSImage {
         let image: NSImage = self
-        let imageSize: NSSize = image.size
-        let newSize = NSMakeSize(imageSize.width, imageSize.height)
-        let composedImage = NSImage(size: newSize, templated: self.isTemplate)
+        let composedImage = NSImage(size: targetSize, templated: self.isTemplate)
 
         composedImage.lockFocus()
         let ctx = NSGraphicsContext.current
         ctx?.imageInterpolation = NSImageInterpolation.high
 
-        let imageFrame = NSRect(x: 0, y: 0, width: width, height: height)
-        let clipPath = NSBezierPath(roundedRect: imageFrame, xRadius: xRad, yRadius: yRad)
+        let rect = NSRect(origin: .zero, size: targetSize)
+        image.draw(in: rect)
+        composedImage.unlockFocus()
+
+        return composedImage
+    }
+
+    func toRoundCorners() -> NSImage {
+        let image: NSImage = self
+        let imageSize: NSSize = image.size
+        let imageFrame = NSRect(origin: .zero, size: imageSize)
+        let xRadius = imageSize.width / 2
+        let yRadius = imageSize.height / 2
+        let composedImage = NSImage(size: imageSize, templated: self.isTemplate)
+
+        composedImage.lockFocus()
+        let ctx = NSGraphicsContext.current
+        ctx?.imageInterpolation = NSImageInterpolation.high
+
+        let clipPath = NSBezierPath(roundedRect: imageFrame, xRadius: xRadius, yRadius: yRadius)
         clipPath.windingRule = .evenOdd
         clipPath.addClip()
 
-        let rect = NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        image.draw(at: .zero, from: rect, operation: .sourceOver, fraction: 1)
+        image.draw(at: .zero, from: imageFrame, operation: .sourceOver, fraction: 1)
         composedImage.unlockFocus()
 
         return composedImage

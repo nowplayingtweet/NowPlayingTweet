@@ -60,7 +60,6 @@ class iTunesPlayerInfo {
 
     @available(macOS 10.14, *)
     private var itunesState: OSStatus {
-        print("requite permission")
         let targetAppEventDescriptor: NSAppleEventDescriptor = NSAppleEventDescriptor(bundleIdentifier: "com.apple.iTunes")
         let status = AEDeterminePermissionToAutomateTarget(targetAppEventDescriptor.aeDesc, typeWildCard, typeWildCard, true)
         return status

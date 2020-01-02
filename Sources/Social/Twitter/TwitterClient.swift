@@ -6,9 +6,11 @@
 **/
 
 import Foundation
+import SocialProtocol
+
 import SwifterMac
 
-class TwitterClient: Client, CallbackHandler {
+class TwitterClient: Client, AuthorizeByCallback, PostAttachments {
 
     static func handleCallback(_ event: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue else { return }
@@ -16,9 +18,8 @@ class TwitterClient: Client, CallbackHandler {
         return Swifter.handleOpenURL(URL(string: urlString)!)
     }
 
-    static func authorize(key: String, secret: String, callbackURLScheme urlScheme: String?, handler: ((Credentials) -> Void)?, failure: Client.Failure?) {
-        guard let urlScheme = urlScheme
-            , let callbackURL = URL(string: "\(urlScheme)://\(String(describing: Provider.Twitter).lowercased())") else {
+    static func authorize(key: String, secret: String, redirectUri: String, success: @escaping Client.TokenSuccess, failure: Client.Failure?) {
+        guard let callbackURL = URL(string: redirectUri) else {
             failure?(SocialError.FailedAuthorize("Invalid callback url scheme."))
             return
         }
@@ -31,13 +32,14 @@ class TwitterClient: Client, CallbackHandler {
                 return
             }
 
-            handler?(TwitterCredentials(apiKey: key, apiSecret: secret, oauthToken: token.key, oauthSecret: token.secret))
+            success(TwitterCredentials(apiKey: key, apiSecret: secret, oauthToken: token.key, oauthSecret: token.secret))
         }, failure: failure)
     }
 
     let credentials: Credentials
+    var userAgent: String?
 
-    required init?(_ credentials: Credentials) {
+    required init?(_ credentials: Credentials, userAgent _: String?) {
         guard let credentials = credentials as? TwitterCredentials else {
             return nil
         }
@@ -56,11 +58,11 @@ class TwitterClient: Client, CallbackHandler {
                        oauthTokenSecret: credentials.oauthSecret)
     }
 
-    func revoke(handler: Client.Success?, failure: Client.Failure?) {
+    func revoke(success: Client.Success?, failure: Client.Failure?) {
         failure?(SocialError.NotImplements(className: NSStringFromClass(type(of: self)), function: #function))
     }
 
-    func verify(handler: ((Account) -> Void)?, failure: Client.Failure?) {
+    func verify(success: @escaping Client.AccountSuccess, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedVerify("Cannot get client."))
             return
@@ -76,29 +78,44 @@ class TwitterClient: Client, CallbackHandler {
                     return
             }
 
-            let account = TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!)
-            handler?(account)
+            success(TwitterAccount(id: id, name: name, username: screenName, avaterUrl: URL(string: avaterURL)!))
         }, failure: failure)
     }
 
-    func post(text: String, image: Data?, handler: Client.Success?, failure: Client.Failure?) {
+    func post(text: String, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
         guard let swifter = self.getSwifter() else {
             failure?(SocialError.FailedPost("Cannot get client."))
             return
         }
 
-        if image == nil {
-            swifter.postTweet(status: text, success:  { _ in handler?() }, failure: failure)
+        if let mediaID = otherParams?["media_ids[]"] {
+            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in success?() }, failure: failure)
             return
         }
 
-        swifter.postMedia(image!, success: { json in
+        swifter.postTweet(status: text, success: { _ in success?() }, failure: failure)
+    }
+
+    func post(text: String, image: Data?, otherParams: [String : String]?, success: Client.Success?, failure: Client.Failure?) {
+        guard let swifter = self.getSwifter() else {
+            failure?(SocialError.FailedPost("Cannot get client."))
+            return
+        }
+
+        guard let image = image else {
+            self.post(text: text, otherParams: otherParams, success: success, failure: failure)
+            return
+        }
+
+        swifter.postMedia(image, success: { json in
             guard let object = json.object
                 , let mediaID = object["media_id_string"]?.string else {
                     failure?(SocialError.FailedPost("Invalid response."))
                     return
             }
-            swifter.postTweet(status: text, mediaIDs: [mediaID], success: { _ in handler?() }, failure: failure)
+            var param = otherParams ?? [:]
+            param["media_ids[]"] = mediaID
+            self.post(text: text, otherParams: param, success: success, failure: failure)
         }, failure: failure)
     }
 
