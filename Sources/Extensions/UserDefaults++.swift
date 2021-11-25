@@ -10,8 +10,22 @@ import Magnet
 
 extension UserDefaults {
 
+    func keyComboIdentifier() -> [String] {
+        var identifiers: [String] = self.dictionary(forKey: "KeyEquivalents")?.map { $0.key } ?? []
+        identifiers = identifiers.sorted()
+
+        guard let index = identifiers.firstIndex(of: "Current") else {
+            return identifiers
+        }
+
+        identifiers.remove(at: index)
+        identifiers.insert("Current", at: 0)
+
+        return identifiers
+    }
+
     func keyCombo(forKey key: String) -> KeyCombo? {
-        guard let keyEquivalents: [String : Data] = self.dictionary(forKey: "KeyEquivalents") as? [String : Data] else {
+        guard let keyEquivalents = self.dictionary(forKey: "KeyEquivalents") as? [String : Data] else {
             return nil
         }
 
@@ -23,22 +37,8 @@ extension UserDefaults {
         return keyCombo
     }
 
-    func keyComboIdentifier() -> [String] {
-        var identifiers: [String] = self.dictionary(forKey: "KeyEquivalents")?.map { $0.key } ?? []
-        identifiers = identifiers.sorted()
-
-        guard let index = identifiers.index(of: "Current") else {
-            return identifiers
-        }
-
-        identifiers.remove(at: index)
-
-        var keys = ["Current"]
-        for identifier in identifiers {
-            keys.append(identifier)
-        }
-
-        return keys
+    func provider(forKey key: String) -> Provider? {
+        return Provider(rawValue: self.string(forKey: key) ?? "")
     }
 
     func set(_ keyCombo: KeyCombo?, forKey key: String) {
@@ -53,10 +53,22 @@ extension UserDefaults {
         self.set(keyEquivalents, forKey: "KeyEquivalents")
     }
 
+    func set(_ provider: Provider?, forKey key: String) {
+        guard let provider = provider else {
+            return
+        }
+
+        self.set(String(describing: provider), forKey: key)
+    }
+
     func removeKeyCombo(forKey key: String) {
         var keyEquivalents = self.dictionary(forKey: "KeyEquivalents") ?? [:]
         keyEquivalents.removeValue(forKey: key)
         self.set(keyEquivalents, forKey: "KeyEquivalents")
+    }
+
+    func removeProvider(forKey key: String) {
+        self.removeObject(forKey: key)
     }
 
 }

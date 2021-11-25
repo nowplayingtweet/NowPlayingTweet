@@ -9,13 +9,7 @@ import Cocoa
 
 class PreferencesWindowController: NSWindowController {
 
-    @IBOutlet weak var toolbar: NSToolbar!
-    @IBOutlet weak var generalPane: NSToolbarItem!
-    @IBOutlet weak var accountPane: NSToolbarItem!
-    @IBOutlet weak var advancedPane: NSToolbarItem!
-    @IBOutlet weak var keyEquivalentsPane: NSToolbarItem!
-
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults = UserDefaults.standard
 
     private let viewControllers: [NSViewController] = [
         GeneralPaneController.shared,
@@ -23,6 +17,21 @@ class PreferencesWindowController: NSWindowController {
         AdvancedPaneController.shared,
         KeyEquivalentsPaneController.shared,
         ]
+
+    @IBOutlet weak var toolbar: NSToolbar!
+    @IBOutlet weak var generalPane: NSToolbarItem!
+    @IBOutlet weak var accountPane: NSToolbarItem!
+    @IBOutlet weak var advancedPane: NSToolbarItem!
+    @IBOutlet weak var keyEquivalentsPane: NSToolbarItem!
+
+    private var lastViewItemIdentifier: String {
+        get {
+            return self.userDefaults.string(forKey: "lastViewItemIdentifier") ?? ""
+        }
+        set(newValue) {
+            self.userDefaults.set(newValue, forKey: "lastViewItemIdentifier")
+        }
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -34,12 +43,9 @@ class PreferencesWindowController: NSWindowController {
             self.keyEquivalentsPane,
             ]
 
-        let lastViewItemIdentifier = NSToolbarItem.Identifier(self.userDefaults.string(forKey: "lastViewItemIdentifier") ?? "")
+        let lastViewItemIdentifier = NSToolbarItem.Identifier(self.lastViewItemIdentifier)
 
-        guard let item = items.first(where: { $0.itemIdentifier == lastViewItemIdentifier }) ?? self.generalPane else {
-            self.window?.center()
-            return
-        }
+        let item: NSToolbarItem = items.first(where: { $0.itemIdentifier == lastViewItemIdentifier }) ?? self.generalPane
 
         self.toolbar.selectedItemIdentifier = item.itemIdentifier
 
@@ -49,7 +55,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.level = .floating
     }
 
-    @IBAction func cancel(_ sender: Any?) {
+    @objc func cancel(_ sender: Any?) {
         self.close()
     }
 
@@ -66,7 +72,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.setFrame(newWindowFrame, display: true, animate: true)
         self.window?.contentViewController = viewController
 
-        self.userDefaults.set(toolbarItem.itemIdentifier.rawValue, forKey: "lastViewItemIdentifier")
+        self.lastViewItemIdentifier = toolbarItem.itemIdentifier.rawValue
     }
 
 }

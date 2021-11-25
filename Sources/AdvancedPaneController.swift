@@ -9,59 +9,86 @@ import Cocoa
 
 class AdvancedPaneController: NSViewController {
 
-    @IBOutlet weak var useKeyShortcut: NSButton!
-    @IBOutlet weak var tweetWithImage: NSButton!
-    @IBOutlet weak var autoTweet: NSButton!
+    static let shared: AdvancedPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .advancedPaneController)
+        return windowController as! AdvancedPaneController
+    }()
 
-    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
+    private let appDelegate = NSApplication.shared.delegate as! AppDelegate
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults = UserDefaults.standard
 
     private let keyEquivalents: GlobalKeyEquivalents = GlobalKeyEquivalents.shared
 
-    static let shared: AdvancedPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .advancedPaneController)
-        return windowController as! AdvancedPaneController
-    }()
+    @IBOutlet weak var useKeyShortcutButton: NSButton!
+    @IBOutlet weak var postWithImageButton: NSButton!
+    @IBOutlet weak var autoPostButton: NSButton!
+
+    private var useKeyShortcut: Bool {
+        get {
+            return self.userDefaults.bool(forKey: "UseKeyShortcut")
+        }
+        set(newValue) {
+            self.userDefaults.set(newValue, forKey: "UseKeyShortcut")
+        }
+    }
+
+    private var postWithImage: Bool {
+        get {
+            return self.userDefaults.bool(forKey: "PostWithImage")
+        }
+        set(newValue) {
+            self.userDefaults.set(newValue, forKey: "PostWithImage")
+        }
+    }
+
+    private var autoPost: Bool {
+        get {
+            return self.userDefaults.bool(forKey: "AutoPost")
+        }
+        set(newValue) {
+            self.userDefaults.set(newValue, forKey: "AutoPost")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-        self.useKeyShortcut.set(state: self.userDefaults.bool(forKey: "UseKeyShortcut"))
-        self.tweetWithImage.set(state: self.userDefaults.bool(forKey: "TweetWithImage"))
-        self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
+        self.useKeyShortcutButton.set(state: self.useKeyShortcut)
+        self.postWithImageButton.set(state: self.postWithImage)
+        self.autoPostButton.set(state: self.autoPost)
 
-        self.addDisableAutoTweetObserver(state: self.userDefaults.bool(forKey: "AutoTweet"))
+        self.addDisableAutoPostObserver(state: self.autoPost)
     }
 
     @IBAction private func switchSetting(_ sender: NSButton) {
-        guard let identifier: String = sender.identifier?.rawValue else { return }
+        guard let identifier = sender.identifier?.rawValue else { return }
         let state = sender.state.toBool()
 
         switch identifier {
           case "UseKeyShortcut":
+            self.useKeyShortcut = state
             self.keyEquivalents.isEnabled = state
-          case "AutoTweet":
-            self.appDelegate.manageAutoTweet(state: state)
-            self.addDisableAutoTweetObserver(state: state)
+          case "PostWithImage":
+            self.postWithImage = state
+          case "AutoPost":
+            self.addDisableAutoPostObserver(state: state)
+            self.appDelegate.manageAutoPost(state: state)
           default:
             break
         }
-        self.userDefaults.set(state, forKey: identifier)
-        self.userDefaults.synchronize()
     }
 
-    private func addDisableAutoTweetObserver(state: Bool) {
+    private func addDisableAutoPostObserver(state: Bool) {
         if state {
             let notificationCenter: NotificationCenter = NotificationCenter.default
             var observer: NSObjectProtocol!
-            observer = notificationCenter.addObserver(forName: .disableAutoTweet, object: nil, queue: nil, using: { notification in
-                self.userDefaults.set(false, forKey: "AutoTweet")
-                self.userDefaults.synchronize()
-                self.autoTweet.set(state: self.userDefaults.bool(forKey: "AutoTweet"))
-                notificationCenter.removeObserver(observer)
+            observer = notificationCenter.addObserver(forName: .disableAutoPost, object: nil, queue: nil, using: { notification in
+                notificationCenter.removeObserver(observer!)
+
+                self.autoPost = false
+                self.autoPostButton.set(state: self.autoPost)
             })
         }
     }

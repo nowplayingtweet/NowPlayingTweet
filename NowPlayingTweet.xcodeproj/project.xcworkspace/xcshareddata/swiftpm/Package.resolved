@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "itunes-scripting-bridge",
+        "repositoryURL": "https://github.com/nowplayingtweet/iTunesBridge.git",
+        "state": {
+          "branch": null,
+          "revision": "7dfea4a4bb1efdf8c3cffe986e4dc96e7615c093",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -5,7 +5,7 @@
  *  © 2018 kPherox.
 **/
 
-import Foundation
+import Cocoa
 import iTunesBridge
 import ScriptingBridge
 
@@ -29,24 +29,28 @@ class iTunesPlayerInfo {
         }
     }
 
+    var currentTrack: Track? {
+        guard let itunes = self.itunes
+            , let currentTrack = itunes.currentTrack else {
+            return nil
+        }
+
+        if currentTrack.exists?() ?? false {
+            return self.convert(from: currentTrack)
+        } else {
+            return nil
+        }
+    }
+
     private var itunes: iTunesApplication? {
-        if #available(OSX 10.14, *) {
-            let targetAppEventDescriptor: NSAppleEventDescriptor = NSAppleEventDescriptor(bundleIdentifier: "com.apple.iTunes")
-            let status: OSStatus = AEDeterminePermissionToAutomateTarget(targetAppEventDescriptor.aeDesc, typeWildCard, typeWildCard, true)
-            switch status {
-              case noErr:
+        if #available(macOS 10.14, *) {
+            if self.itunesState == noErr {
                 return SBApplication(bundleIdentifier: "com.apple.iTunes")
-              case OSStatus(procNotFound):
-                print("Not Running iTunes")
-              case OSStatus(errAEEventNotPermitted):
-                print("Has not permission iTunes.app")
-              default:
-                break
             }
 
             return nil
         } else {
-            if !self.isRunningiTunes {
+            if !self.isRunning {
                 return nil
             }
 
@@ -54,38 +58,38 @@ class iTunesPlayerInfo {
         }
     }
 
-    var currentTrack: iTunesPlayerInfo.Track?
-
-    var isRunningiTunes: Bool {
-        let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.iTunes")
-
-        return !runningApps.isEmpty
+    @available(macOS 10.14, *)
+    private var itunesState: OSStatus {
+        print("requite permission")
+        let targetAppEventDescriptor: NSAppleEventDescriptor = NSAppleEventDescriptor(bundleIdentifier: "com.apple.iTunes")
+        let status = AEDeterminePermissionToAutomateTarget(targetAppEventDescriptor.aeDesc, typeWildCard, typeWildCard, true)
+        return status
     }
 
-    var existTrack: Bool {
+    var hasPermission: Bool {
+        if #available(macOS 10.14, *) {
+            return self.itunesState != OSStatus(errAEEventNotPermitted)
+        } else {
+            return true
+        }
+    }
+
+    var isRunning: Bool {
+        if #available(macOS 10.14, *) {
+            return self.itunesState != OSStatus(procNotFound)
+        } else {
+            let runningApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.iTunes")
+
+            return !runningApps.isEmpty
+        }
+    }
+
+    var existsTrack: Bool {
         return self.currentTrack != nil
     }
 
-    init() {
-        self.updateTrack()
-    }
-
-    func updateTrack() {
-        if self.itunes == nil {
-            self.currentTrack = nil
-            return
-        }
-
-        guard let currentTrack = self.itunes!.currentTrack else {
-            self.currentTrack = nil
-            return
-        }
-
-        self.currentTrack = self.convert(from: currentTrack)
-    }
-
     private func convert(from itunesTrack: iTunesTrack) -> Track {
-        let trackArtworks: [iTunesArtwork] = itunesTrack.artworks!() as! [iTunesArtwork]
+        let trackArtworks: [iTunesArtwork] = itunesTrack.artworks?() ?? []
 
         return Track(title: itunesTrack.name,
                      artist: itunesTrack.artist,

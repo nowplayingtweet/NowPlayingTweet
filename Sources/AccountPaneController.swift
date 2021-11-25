@@ -6,72 +6,91 @@
 **/
 
 import Cocoa
-import SwifterMac
 
 class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    static let shared: AccountPaneController = {
+        let windowController = NSStoryboard.main!.instantiateController(withIdentifier: .accountPaneController)
+        return windowController as! AccountPaneController
+    }()
+
+    private let appDelegate = NSApplication.shared.delegate as! AppDelegate
+
+    private let accounts = Accounts.shared
+
+    @IBOutlet weak var accountList: NSTableView!
+    @IBOutlet weak var accountControl: NSSegmentedControl!
+    @IBOutlet weak var accountBox: NSBox!
+
+    @IBOutlet var providerView: NSScrollView!
+    // providerView subview
+    @IBOutlet weak var providerList: NSTableView!
+
+    @IBOutlet var accountView: NSView!
+    // accountView subviews
+    @IBOutlet weak var providerIcon: NSImageView!
+    @IBOutlet weak var provider: NSTextField!
     @IBOutlet weak var avater: NSImageView!
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var screenName: NSTextField!
     @IBOutlet weak var currentButton: NSButton!
     @IBOutlet weak var currentLabel: NSTextField!
-    @IBOutlet weak var accountControl: NSSegmentedControl!
-    @IBOutlet weak var accountList: AccountListView!
 
-    private let appDelegate: AppDelegate = NSApplication.shared.delegate as! AppDelegate
+    private var _selected: Account?
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    var selected: Account? {
+        get {
+            return self._selected
+        }
+        set {
+            guard let account = newValue else {
+                self.accountBox.contentView = self.providerView
+                self._selected = nil
+                self.accountControl.setEnabled(false, forSegment: 0)
+                self.accountControl.setEnabled(false, forSegment: 1)
+                self.accountList.deselectAll(nil)
+                return
+            }
 
-    static let shared: AccountPaneController = {
-        let storyboard = NSStoryboard(name: .main, bundle: .main)
-        let windowController = storyboard.instantiateController(withIdentifier: .accountPaneController)
-        return windowController as! AccountPaneController
-    }()
+            self.accountBox.contentView = self.accountView
+            self.accountControl.setEnabled(true, forSegment: 0)
+            self.accountControl.setEnabled(true, forSegment: 1)
 
-    let twitterClient: TwitterClient = TwitterClient.shared
+            self.providerIcon.image = type(of: account).provider.logo
+            self.provider.stringValue = String(describing: type(of: account).provider)
 
-    var selected: TwitterClient.Account?
+            self.name.stringValue = account.name
+            self.screenName.stringValue = "@\(account.username)"
+            self.avater.fetchImage(url: account.avaterUrl, rounded: true)
+
+            let isCurrent = account.isEqual(self.accounts.current)
+            self.currentLabel.isHidden = !isCurrent
+            self.currentButton.isHidden = isCurrent
+
+            self._selected = account
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do view setup here.
-        if !self.twitterClient.existAccount {
-            self.set(name: nil)
-            self.set(screenName: nil)
-            self.set(avaterUrl: nil)
-            return
-        }
-
-        self.selected = self.twitterClient.current
-        self.accountControl.setEnabled(true, forSegment: 1)
-
-        let userID = self.selected?.userID
-        let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
-        let index = IndexSet(integer: numberOfAccounts)
-        self.accountList.selectRowIndexes(index, byExtendingSelection: false)
-
-        let isCurrent = self.twitterClient.currentID == userID
-        self.currentLabel.isHidden = !isCurrent
-        self.currentButton.isHidden = isCurrent
-
-        self.set(name: self.selected?.name)
-        self.set(screenName: self.selected?.screenName)
-        self.set(avaterUrl: self.selected?.avaterUrl)
+        self.accountBox.contentView = self.providerView
     }
 
     @IBAction private func setToCurrent(_ sender: NSButton) {
-        let userID = self.selected?.userID
-        self.twitterClient.changeCurrent(userID: userID!)
-        self.appDelegate.updateTwitterAccount()
-        self.currentLabel.isHidden = false
-        self.currentButton.isHidden = true
+        guard let selected = self.selected else {
+            return
+        }
+
+        self.accounts.current = selected
+        self.appDelegate.updateSocialAccount()
     }
 
     @IBAction func manageAccount(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
           case 0:
-            self.addAccount()
+            self.selected = nil
           case 1:
             self.removeAccount()
           default: // 2
@@ -79,134 +98,93 @@ class AccountPaneController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
 
-    private func addAccount() {
+    private func addAccount(_ provider: Provider) {
         let notificationCenter: NotificationCenter = NotificationCenter.default
         var observer: NSObjectProtocol!
         observer = notificationCenter.addObserver(forName: .login, object: nil, queue: nil, using: { notification in
-            self.selected = notification.userInfo!["account"] as? TwitterClient.Account
+            notificationCenter.removeObserver(observer!)
 
-            self.accountList.reloadData()
-
-            let userID = self.selected?.userID
-            let name = self.selected?.name
-
-            let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
-            let index = IndexSet(integer: numberOfAccounts)
-            self.accountList.selectRowIndexes(index, byExtendingSelection: false)
-
-            self.appDelegate.updateTwitterAccount()
-
-            if self.twitterClient.numberOfAccounts == 1 {
-                self.accountControl.setEnabled(true, forSegment: 1)
-                self.currentLabel.isHidden = false
-                self.currentButton.isHidden = true
-            } else {
-                self.currentLabel.isHidden = true
-                self.currentButton.isHidden = false
+            guard let selected = notification.userInfo!["account"] as? Account else {
+                return
             }
 
-            self.set(name: name)
-            self.set(screenName: self.selected?.screenName)
-            self.set(avaterUrl: self.selected?.avaterUrl)
-
-            notificationCenter.removeObserver(observer)
+            self.selected = selected
+            self.appDelegate.updateSocialAccount()
         })
 
-        self.twitterClient.login()
+        self.accounts.login(provider: provider)
     }
 
     private func removeAccount() {
-        self.twitterClient.logout(account: self.selected!)
+        guard let selected = self.selected else {
+            return
+        }
 
+        let notificationCenter: NotificationCenter = NotificationCenter.default
+        var observer: NSObjectProtocol!
+        observer = notificationCenter.addObserver(forName: .logout, object: nil, queue: nil, using: { _ in
+            notificationCenter.removeObserver(observer!)
+
+            self.selected = nil
+            self.appDelegate.updateSocialAccount()
+        })
+
+        self.accounts.logout(account: selected)
+    }
+
+    func accountReload() {
         self.accountList.reloadData()
 
-        if self.twitterClient.existAccount {
-            self.selected = self.twitterClient.current
-
-            let userID = self.selected?.userID
-            let numberOfAccounts = self.twitterClient.accountIDs.index(of: userID!)!
-            let index = IndexSet(integer: numberOfAccounts)
+        if let selected = self.selected {
+            let index = IndexSet(integer: self.accounts.sortedAccounts.firstIndex { selected.isEqual($0) }!)
             self.accountList.selectRowIndexes(index, byExtendingSelection: false)
-
-            let isCurrent = self.twitterClient.currentID == userID
-            self.currentLabel.isHidden = !isCurrent
-            self.currentButton.isHidden = isCurrent
-
-            self.set(name: self.selected?.name)
-            self.set(screenName: self.selected?.screenName)
-            self.set(avaterUrl: self.selected?.avaterUrl)
-
-            self.appDelegate.updateTwitterAccount()
-        } else {
-            self.accountControl.setEnabled(false, forSegment: 1)
-            self.selected = nil
-            self.set(name: nil)
-            self.set(avaterUrl: nil)
-            self.set(screenName: nil)
-
-            self.currentLabel.isHidden = true
-            self.currentButton.isHidden = true
-
-            self.appDelegate.updateTwitterAccount()
-        }
-    }
-
-    @IBAction private func selectAccount(_ sender: AccountListView) {
-        let row = sender.selectedRow
-        let userID = self.twitterClient.accountIDs[row]
-        self.selected = self.twitterClient.account(userID: userID)
-
-        let isCurrent = self.twitterClient.currentID == self.selected?.userID
-        self.currentLabel.isHidden = !isCurrent
-        self.currentButton.isHidden = isCurrent
-        self.set(name: self.selected?.name)
-        self.set(screenName: self.selected?.screenName)
-        self.set(avaterUrl: self.selected?.avaterUrl)
-    }
-
-    private func set(name: String?) {
-        self.name.stringValue = name ?? "Not logged in..."
-        self.name.textColor = name != nil ? .labelColor : .disabledControlTextColor
-    }
-
-    private func set(screenName id: String?) {
-        self.screenName.stringValue = "@\(id ?? "null")"
-        self.screenName.textColor = id != nil ? .secondaryLabelColor : .disabledControlTextColor
-    }
-
-    private func set(avaterUrl url: URL?) {
-        if url != nil {
-            self.avater.fetchImage(url: url!, rounded: true)
-            self.avater.enable()
-        } else {
-            self.avater.image = NSImage(named: "NSUserGuest", templated: true)
-            self.avater.disable()
         }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        if !self.twitterClient.existAccount {
-            return 0
+        switch tableView {
+        case self.accountList:
+            return self.accounts.sortedAccounts.count
+        case self.providerList:
+            return Provider.allCases.count
+        default: return 0
         }
-        let accountCount = self.twitterClient.numberOfAccounts
-        return accountCount
     }
 
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! AccountCellView
-
-        let userID = self.twitterClient.accountIDs[row]
-        let twitterAccount: TwitterClient.Account = self.twitterClient.account(userID: userID)!
-
-        cellView.textField?.stringValue = twitterAccount.name
-        cellView.screenName.stringValue = "@\(twitterAccount.screenName)"
-        cellView.imageView?.fetchImage(url: twitterAccount.avaterUrl, rounded: true)
-
-        return cellView
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        switch tableView {
+        case self.accountList:
+            return self.accounts.sortedAccounts[row]
+        case self.providerList:
+            return Provider.allCases[row]
+        default: return nil
+        }
     }
 
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return CGFloat(50)
+    func selectionShouldChange(in tableView: NSTableView) -> Bool {
+        switch tableView {
+        case self.accountList: return tableView.clickedRow >= 0 || self.selected == nil
+        default: return true
+        }
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView else {
+            return
+        }
+
+        switch tableView {
+        case self.accountList:
+            if tableView.selectedRow >= 0 {
+                self.selected = self.accounts.sortedAccounts[tableView.selectedRow]
+            }
+        case self.providerList:
+            if tableView.selectedRow >= 0 {
+                self.addAccount(Provider.allCases[tableView.selectedRow])
+                tableView.reloadData()
+            }
+        default: break
+        }
     }
 
 }

@@ -5,15 +5,18 @@
  *  © 2018 kPherox.
 **/
 
-import Cocoa
-import Carbon
+import Foundation
 import Magnet
 
 class GlobalKeyEquivalents: NSObject {
 
-    static let shared: GlobalKeyEquivalents = GlobalKeyEquivalents()
+    static let shared = GlobalKeyEquivalents()
 
-    private let userDefaults: UserDefaults = UserDefaults.standard
+    private let userDefaults = UserDefaults.standard
+
+    private let hotKeyCenter = HotKeyCenter.shared
+
+    private weak var delegate: KeyEquivalentsDelegate?
 
     var isEnabled: Bool {
         get {
@@ -27,10 +30,6 @@ class GlobalKeyEquivalents: NSObject {
             }
         }
     }
-
-    private let hotKeyCenter: HotKeyCenter = HotKeyCenter.shared
-
-    private weak var delegate: KeyEquivalentsDelegate?
 
     private override init() {
         super.init()
@@ -56,7 +55,6 @@ class GlobalKeyEquivalents: NSObject {
 
     func register(_ identifier: String, keyCombo: KeyCombo) {
         self.userDefaults.set(keyCombo, forKey: identifier)
-        self.userDefaults.synchronize()
 
         if !self.isEnabled  {
             return
@@ -68,20 +66,28 @@ class GlobalKeyEquivalents: NSObject {
 
     func unregister(_ identifier: String) {
         self.userDefaults.removeKeyCombo(forKey: identifier)
-        self.userDefaults.synchronize()
 
         self.hotKeyCenter.unregisterHotKey(with: identifier)
     }
 
     private func handleHotKeyEvent(_ hotKey: HotKey) {
-        let userID = hotKey.identifier
+        let identifier = hotKey.identifier
 
-        if userID == "Current" {
-            self.delegate?.tweetWithCurrent()
+        if identifier == "Current" {
+            self.delegate?.postWithCurrent()
             return
         }
 
-        self.delegate?.tweet(with: userID)
+        let pattern = "^(\(Provider.allCases.map({ String(describing: $0) }).joined(separator: "|")))_(.*)"
+        guard let regexp = try? NSRegularExpression(pattern: pattern, options: [])
+            , let match = regexp.firstMatch(in: identifier, range: NSRange(identifier.startIndex..., in: identifier))
+            , let providerNameRange = Range(match.range(at: 1), in: identifier)
+            , let idRange = Range(match.range(at: 2), in: identifier)
+            , let provider = Provider(rawValue: String(identifier[providerNameRange])) else {
+                return
+        }
+
+        self.delegate?.post(with: String(identifier[idRange]), of: provider)
     }
 
 }

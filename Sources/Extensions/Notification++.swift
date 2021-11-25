@@ -12,8 +12,8 @@ extension Notification.Name {
     static let login = Notification.Name("com.kr-kp.NowPlayingTweet.login")
     static let logout = Notification.Name("com.kr-kp.NowPlayingTweet.logout")
 
-    static let disableAutoTweet = Notification.Name("com.kr-kp.NowPlayingTweet.disableAutoTweet")
-    static let initializeAccounts = Notification.Name("com.kr-kp.NowPlayingTweet.initializeAccounts")
+    static let disableAutoPost = Notification.Name("com.kr-kp.NowPlayingTweet.disableAutoPost")
+
     static let alreadyAccounts = Notification.Name("com.kr-kp.NowPlayingTweet.alreadyAccounts")
 
     static let iTunesPlayerInfo = Notification.Name("com.apple.iTunes.playerInfo")
